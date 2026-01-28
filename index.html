@@ -208,13 +208,13 @@
       return url;
     }
 
-    // Convert markdown-style links [text](url) or pipe format {text|url} to HTML
+    // Convert markdown-style links [text](url) or brace format {text>>>url} to HTML
     function parseLinks(text) {
       if (!text) return '';
       // First try markdown style [text](url) with optional space
       let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-      // Also support {text|url} format as fallback
-      result = result.replace(/\{([^|]+)\|([^}]+)\}/g, '<a href="$2" target="_blank">$1</a>');
+      // Also support {text>>>url} format as fallback
+      result = result.replace(/\{([^>]+)>>>([^}]+)\}/g, '<a href="$2" target="_blank">$1</a>');
       return result;
     }
 
