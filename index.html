@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Pytlik</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100'/><text y='70' x='50' text-anchor='middle' font-size='60' font-family='Georgia' fill='%23e8e8e8'>M</text></svg>">
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHJRBXJ5ZV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VHJRBXJ5ZV');
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      background: #0a0a0a;
+      color: #e8e8e8;
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+    }
+    ::selection { background: #e8e8e8; color: #0a0a0a; }
+    a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(232, 232, 232, 0.4);
+      transition: border-color 0.2s;
+    }
+    a:hover { border-color: #e8e8e8; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1400px;
+      width: 100%;
+    }
+    .intro { margin-bottom: 4rem; }
+    .intro h1 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 400;
+      line-height: 1.35;
+      max-width: 720px;
+    }
+    .intro h1 strong { font-weight: 500; }
+    .bio {
+      font-size: 1.125rem;
+      line-height: 1.55;
+      max-width: 100%;
+      margin-bottom: 3rem;
+      opacity: 0.85;
+    }
+    .bio a {
+      border-bottom: 1px solid rgba(232, 232, 232, 0.4);
+    }
+    .bio a:hover { border-color: #e8e8e8; }
+    .content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem 3rem;
+      font-size: 0.9375rem;
+    }
+    @media (max-width: 1000px) {
+      .content { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 650px) {
+      .content { grid-template-columns: 1fr; }
+    }
+    .section-title {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1rem;
+      opacity: 0.4;
+    }
+    .section ul { list-style: none; }
+    .section li { margin-bottom: 0.25rem; }
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 160px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .carousel-slide {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .carousel-slide.active { opacity: 1; }
+    .carousel-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.3s ease;
+    }
+    .carousel:hover .carousel-slide img { filter: grayscale(0%); }
+    .role { margin-bottom: 1.25rem; }
+    .role:last-child { margin-bottom: 0; }
+    .role-company { font-style: italic; }
+    .role-title { opacity: 0.6; }
+    .role-location, .role-dates { font-size: 0.8125rem; opacity: 0.4; }
+    .arrow-link::after { content: ' ↗'; font-size: 0.7em; opacity: 0.4; }
+    .facts-carousel {
+      position: relative;
+      min-height: 5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(232, 232, 232, 0.1);
+    }
+    .fact {
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      font-style: normal;
+      max-width: 100%;
+      font-size: 0.875rem;
+    }
+    .fact.active { opacity: 1; transform: translateY(0); color: #e8e8e8; }
+    .footer {
+      margin-top: auto;
+      padding-top: 4rem;
+      font-size: 0.8125rem;
+      opacity: 0.3;
+      font-style: italic;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .intro { animation: fadeIn 0.6s ease both; }
+    .content { animation: fadeIn 0.6s ease 0.15s both; }
+    .footer { animation: fadeIn 0.6s ease 0.3s both; }
+    .loading { opacity: 0.5; }
+    .error { color: #ff6b6b; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="intro">
+      <h1 id="headline"><span class="loading">Loading...</span></h1>
+    </header>
+    <div class="bio" id="bio"></div>
+    <div class="content">
+      <div class="section">
+        <p class="section-title" id="header-contact">Contact</p>
+        <ul id="contact-list"></ul>
+        <div class="carousel" id="photo-carousel"></div>
+      </div>
+      <div class="section">
+        <p class="section-title" id="header-roles">Roles</p>
+        <div id="roles-list"></div>
+      </div>
+      <div class="section">
+        <p class="section-title" id="header-clients">Previous Clients</p>
+        <ul id="clients-list"></ul>
+        <p class="section-title" style="margin-top: 1.5rem;" id="header-recognition">Recognition</p>
+        <ul id="recognition-list"></ul>
+      </div>
+      <div class="section">
+        <p class="section-title" id="header-about">About Me</p>
+        <div class="facts-carousel" id="facts-carousel"></div>
+        <p class="section-title" id="header-writing">Past Lives (Selected Writing)</p>
+        <ul id="writing-list"></ul>
+      </div>
+    </div>
+    <footer class="footer" id="footer"></footer>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script>
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSewhOf4l1C8jkHM68rsfVvADuWdvg-kwLFBQOuDs_sPIm-t7S_EgvbnOW1Bps1Wy-FBjC2DW0RB9QP/pub?output=csv&cachebust=' + Date.now();
+
+    let data = {};
+
+    // Convert Google Drive share links to direct image URLs
+    function convertDriveUrl(url) {
+      if (!url) return '';
+      
+      // Pattern: https://drive.google.com/file/d/XXXXX/view...
+      const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+      if (match) {
+        return 'https://drive.google.com/thumbnail?id=' + match[1] + '&sz=w1000';
+      }
+      
+      // Pattern: https://drive.google.com/open?id=XXXXX
+      const match2 = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
+      if (match2) {
+        return 'https://drive.google.com/thumbnail?id=' + match2[1] + '&sz=w1000';
+      }
+      
+      return url;
+    }
+
+    // Convert markdown-style links [text](url) or pipe format {text|url} to HTML
+    function parseLinks(text) {
+      if (!text) return '';
+      // First try markdown style [text](url) with optional space
+      let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+      // Also support {text|url} format as fallback
+      result = result.replace(/\{([^|]+)\|([^}]+)\}/g, '<a href="$2" target="_blank">$1</a>');
+      return result;
+    }
+
+    Papa.parse(SHEET_URL, {
+      download: true,
+      header: false,
+      complete: function(results) {
+        console.log('Papa Parse results:', results);
+        
+        results.data.forEach(row => {
+          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('—')) {
+            data[row[0]] = row[1] || '';
+          }
+        });
+        
+        console.log('Parsed data:', data);
+        renderSite();
+      },
+      error: function(error) {
+        console.error('Papa Parse error:', error);
+        document.getElementById('headline').innerHTML = 
+          '<span class="error">Error loading content: ' + error.message + '</span>';
+      }
+    });
+
+    function renderSite() {
+      // Headline
+      const headline = data.headline || '';
+      const linkText = data.link_text || '';
+      const linkUrl = data.link_url || '#';
+      document.getElementById('headline').innerHTML = headline.replace(
+        linkText,
+        `<strong><a href="${linkUrl}" target="_blank">${linkText}</a></strong>`
+      );
+
+      // Bio
+      if (data.bio) {
+        console.log('Raw bio:', data.bio);
+        console.log('Parsed bio:', parseLinks(data.bio));
+        document.getElementById('bio').innerHTML = parseLinks(data.bio);
+      }
+
+      // Contact
+      document.getElementById('contact-list').innerHTML = `
+        <li><a href="mailto:${data.email || ''}" class="arrow-link">Email</a></li>
+        <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn</a></li>
+      `;
+
+      // Photos
+      const photos = Object.keys(data)
+        .filter(k => k.startsWith('photo_') && data[k] && !data[k].includes('PASTE'))
+        .sort()
+        .map(k => convertDriveUrl(data[k]));
+      
+      if (photos.length) {
+        document.getElementById('photo-carousel').innerHTML = photos.map((url, i) => 
+          `<div class="carousel-slide ${i === 0 ? 'active' : ''}"><img src="${url}" alt="" referrerpolicy="no-referrer"></div>`
+        ).join('');
+        startPhotoCarousel();
+      }
+
+      // Roles
+      const roles = Object.keys(data)
+        .filter(k => k.startsWith('role_'))
+        .sort()
+        .map(k => data[k].split(' | '));
+      
+      document.getElementById('roles-list').innerHTML = roles.map(([company, title, location, dates]) => `
+        <div class="role">
+          <div class="role-company">${company || ''}</div>
+          <div class="role-title">${title || ''}</div>
+          <div class="role-location">${location || ''}</div>
+          <div class="role-dates">${dates || ''}</div>
+        </div>
+      `).join('');
+
+      // Clients
+      document.getElementById('clients-list').innerHTML = 
+        (data.clients || '').split(',').map(c => `<li>${c.trim()}</li>`).join('');
+
+      // Recognition
+      document.getElementById('recognition-list').innerHTML = 
+        (data.recognition || '').split(',').map(r => `<li>${r.trim()}</li>`).join('');
+
+      // Facts
+      const facts = Object.keys(data)
+        .filter(k => k.startsWith('fact_'))
+        .sort((a, b) => parseInt(a.split('_')[1]) - parseInt(b.split('_')[1]))
+        .map(k => data[k]);
+      
+      document.getElementById('facts-carousel').innerHTML = facts.map((f, i) => 
+        `<p class="fact ${i === 0 ? 'active' : ''}">${parseLinks(f)}</p>`
+      ).join('');
+      startFactsCarousel();
+
+      // Writing
+      const writings = Object.keys(data)
+        .filter(k => k.startsWith('writing_'))
+        .sort()
+        .map(k => data[k].split(' | '));
+      
+      document.getElementById('writing-list').innerHTML = writings.map(([title, url], i) => 
+        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${i === 0 ? '<em>' + title + '</em>' : title}</a></li>`
+      ).join('');
+
+      // Footer
+      document.getElementById('footer').textContent = data.footer || '';
+
+      // Section headers (optional overrides)
+      if (data.header_contact) document.getElementById('header-contact').textContent = data.header_contact;
+      if (data.header_roles) document.getElementById('header-roles').textContent = data.header_roles;
+      if (data.header_clients) document.getElementById('header-clients').textContent = data.header_clients;
+      if (data.header_recognition) document.getElementById('header-recognition').textContent = data.header_recognition;
+      if (data.header_about) document.getElementById('header-about').textContent = data.header_about;
+      if (data.header_writing) document.getElementById('header-writing').textContent = data.header_writing;
+    }
+
+    let photoIndex = 0;
+    function startPhotoCarousel() {
+      const slides = document.querySelectorAll('.carousel-slide');
+      if (slides.length < 2) return;
+      setInterval(() => {
+        slides.forEach(s => s.classList.remove('active'));
+        photoIndex = (photoIndex + 1) % slides.length;
+        slides[photoIndex].classList.add('active');
+      }, 4000);
+    }
+
+    let factIndex = 0, factOrder = [];
+    function startFactsCarousel() {
+      const facts = document.querySelectorAll('.fact');
+      if (facts.length < 2) return;
+      factOrder = [...Array(facts.length).keys()];
+      for (let i = factOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [factOrder[i], factOrder[j]] = [factOrder[j], factOrder[i]];
+      }
+      setInterval(() => {
+        facts.forEach(f => f.classList.remove('active'));
+        factIndex = (factIndex + 1) % facts.length;
+        facts[factOrder[factIndex]].classList.add('active');
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
