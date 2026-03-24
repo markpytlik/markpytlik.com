@@ -112,6 +112,20 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 .valuation-detail .v-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
 .valuation-detail .v-value { font-size: 18px; font-weight: 800; color: var(--navy); margin-top: 3px; }
 
+/* MCM Toggle */
+.mcm-toggle { display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; }
+.mcm-toggle input { display:none; }
+.mcm-slider {
+  width:36px; height:20px; background:#cbd5e1; border-radius:10px; position:relative; transition:background 0.25s;
+}
+.mcm-slider::after {
+  content:''; position:absolute; top:2px; left:2px; width:16px; height:16px;
+  background:white; border-radius:50%; transition:transform 0.25s; box-shadow:0 1px 3px rgba(0,0,0,0.2);
+}
+.mcm-toggle input:checked + .mcm-slider { background:var(--teal); }
+.mcm-toggle input:checked + .mcm-slider::after { transform:translateX(16px); }
+.mcm-label { font-size:14px; font-weight:800; color:var(--navy); }
+
 /* Market momentum banner */
 .momentum-banner {
   background: linear-gradient(135deg, #065f46, #047857);
@@ -289,7 +303,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
         <div><div class="v-label">Avg 3BD Sale</div><div class="v-value" id="avg3bd">—</div></div>
         <div><div class="v-label">Avg $/SqFt</div><div class="v-value" id="avgPpsf">—</div></div>
         <div><div class="v-label">Your $/SqFt</div><div class="v-value" id="yourPpsf">—</div></div>
-        <div><div class="v-label">MCM Premium</div><div class="v-value" id="mcmPrem">+15%</div></div>
+        <div><div class="v-label">MCM Premium</div><div class="v-value" id="mcmPrem"><label class="mcm-toggle" title="Toggle 15% mid-century modern architectural premium"><input type="checkbox" id="mcmToggle" checked onchange="mcmPremiumEnabled=this.checked;renderAll();"><span class="mcm-slider"></span><span class="mcm-label" id="mcmLabel">+15%</span></label></div></div>
         <div><div class="v-label">2026 Momentum</div><div class="v-value trend-up" id="momentum">—</div></div>
       </div>
     </div>
@@ -300,7 +314,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
     <div class="icon">&#x1F4C8;</div>
     <div>
       <strong>2026 Market Acceleration Detected</strong><br>
-      The 4 sales closed in 2026 averaged <strong id="avg2026Ratio">—</strong> of list price vs <strong id="avg2025Ratio">—</strong> for 2025 sales.
+      The 3 SFH sales closed in 2026 averaged <strong id="avg2026Ratio">—</strong> of list price vs <strong id="avg2025Ratio">—</strong> for 2025 sales.
       SFH demand in Diamond Heights is intensifying — pricing strategy matters more than ever.
     </div>
   </div>
@@ -324,12 +338,10 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
           <div style="font-size:11px;color:var(--text-muted);font-weight:500;">Click to include/exclude</div>
         </div>
         <div class="preset-bar" id="presetBar">
-          <div class="preset-btn active" data-preset="all" onclick="applyPreset('all')">All (18)</div>
+          <div class="preset-btn" data-preset="all" onclick="applyPreset('all')">All (14)</div>
           <div class="preset-btn" data-preset="3bd" onclick="applyPreset('3bd')">3-Bed</div>
           <div class="preset-btn" data-preset="4bd" onclick="applyPreset('4bd')">4-Bed</div>
-          <div class="preset-btn" data-preset="2bd" onclick="applyPreset('2bd')">2-Bed</div>
-          <div class="preset-btn" data-preset="sfh" onclick="applyPreset('sfh')">SFH Only</div>
-          <div class="preset-btn" data-preset="2026" onclick="applyPreset('2026')">2026 Sales</div>
+          <div class="preset-btn active" data-preset="2026" onclick="applyPreset('2026')">2026 Sales</div>
           <div class="preset-btn" data-preset="last5" onclick="applyPreset('last5')">Last 5</div>
           <div class="preset-btn" data-preset="eichler" onclick="applyPreset('eichler')">Eichlers/MCM</div>
           <div class="preset-btn" data-preset="nearby" onclick="applyPreset('nearby')">Near Amber Dr</div>
@@ -409,7 +421,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
 <script>
 // ── DATA ──
 const YOUR_HOME = { addr:"35 Amber Drive", beds:3, baths:"2.5", sqft:1785, lot:3184, year:1964, lastSale:2625000, lat:37.7453, lng:-122.4378 };
-const MCM_PREMIUM = 0.15;
+let mcmPremiumEnabled = true;
+function getMCMPremium() { return mcmPremiumEnabled ? 0.15 : 0; }
 
 const sales = [
   { id:0,  addr:"249 Topaz Way",         beds:3, baths:"2.5", sqft:2487, list:1475000, sale:1600000, date:"Feb 10, 2025", dom:8,  lat:37.7438, lng:-122.4405, note:"Renovated Eichler-style", type:"SFH", isMCM:true, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/249-Topaz-Way-94131/home/843554" },
@@ -426,10 +439,6 @@ const sales = [
   { id:11, addr:"70 Laidley St",         beds:4, baths:"2",   sqft:1913, list:1295000, sale:1250000, date:"Jun 13, 2025", dom:45, lat:37.7432, lng:-122.4330, note:"Sold with adjoining lot", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/70-Laidley-St-94131/home/1681507" },
   { id:12, addr:"636 28th St",           beds:4, baths:"4",   sqft:2815, list:3885000, sale:4425000, date:"Dec 15, 2025", dom:42, lat:37.7470, lng:-122.4318, note:"Noe Valley border", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/636-28th-St-94131/home/1214862" },
   { id:13, addr:"277 Monterey Blvd",     beds:4, baths:"3",   sqft:2280, list:1895000, sale:1780000, date:"Mar 25, 2025", dom:89, lat:37.7410, lng:-122.4368, note:"Longer time on market", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/277-Monterey-Blvd-94131/home/1195381" },
-  { id:14, addr:"5040 Diamond Hts Blvd", beds:2, baths:"2",   sqft:1150, list:689000,  sale:670000,  date:"Feb 19, 2025", dom:55, lat:37.7446, lng:-122.4400, note:"Condo/townhome", type:"Condo", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/5040-Diamond-Heights-Blvd-94131/home/987124" },
-  { id:15, addr:"5177 Diamond Hts #214", beds:2, baths:"2",   sqft:1175, list:950000,  sale:1000000, date:"Apr 25, 2025", dom:18, lat:37.7449, lng:-122.4408, note:"Updated unit", type:"Condo", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/5177-Diamond-Heights-Blvd-94131/unit-214/home/1967064" },
-  { id:16, addr:"950 Duncan St #201E",   beds:2, baths:"1",   sqft:990,  list:748000,  sale:725000,  date:"May 2025",     dom:62, lat:37.7458, lng:-122.4350, note:"Condo unit", type:"Condo", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/950-Duncan-St-94131/unit-201E/home/1793800" },
-  { id:17, addr:"215 Red Rock #204J",    beds:2, baths:"2",   sqft:1100, list:849000,  sale:875000,  date:"Feb 11, 2026", dom:30, lat:37.7443, lng:-122.4415, note:"2026 sale", type:"Condo", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/215-Red-Rock-Way-94131/unit-204J/home/838809" },
 ];
 
 // Parse dates for sorting
@@ -444,7 +453,7 @@ sales.forEach(s => {
   s.ppsf = s.sale / s.sqft;
 });
 
-const bedColors = { 2:'#ef4444', 3:'#0d9488', 4:'#d97706' };
+const bedColors = { 3:'#0d9488', 4:'#d97706' };
 let sortCol = 'dateSort', sortDir = -1;
 let mapObj, markers = {};
 
@@ -463,8 +472,6 @@ function applyPreset(preset) {
     case 'all': sales.forEach(s => s.enabled = true); break;
     case '3bd': sales.forEach(s => s.enabled = s.beds === 3); break;
     case '4bd': sales.forEach(s => s.enabled = s.beds === 4); break;
-    case '2bd': sales.forEach(s => s.enabled = s.beds === 2); break;
-    case 'sfh': sales.forEach(s => s.enabled = s.type === 'SFH'); break;
     case '2026': sales.forEach(s => s.enabled = s.year === 2026); break;
     case 'last5':
       const sorted = [...sales].sort((a,b) => b.dateSort - a.dateSort);
@@ -510,7 +517,7 @@ function computeValuation() {
   const ppsfValue = avgPpsf * YOUR_HOME.sqft;
   const directValue = avgSale;
   let blended = (ppsfValue * 0.5 + directValue * 0.5);
-  blended *= (1 + MCM_PREMIUM);
+  blended *= (1 + getMCMPremium());
   const mom = compute2026Momentum();
   if (mom.delta > 0) {
     const momentumBoost = Math.min(mom.delta / 100 * 0.5, 0.05);
@@ -583,6 +590,7 @@ function renderStats() {
   document.getElementById('momentum').textContent = mom.delta > 0 ? '+' + mom.delta.toFixed(1) + '%' : mom.delta.toFixed(1) + '%';
   document.getElementById('avg2026Ratio').textContent = mom.avg26.toFixed(1) + '%';
   document.getElementById('avg2025Ratio').textContent = mom.avg25.toFixed(1) + '%';
+  document.getElementById('mcmLabel').textContent = mcmPremiumEnabled ? '+15%' : 'Off';
 }
 
 function renderBarChart() {
@@ -602,7 +610,7 @@ function renderBarChart() {
 
 function renderBedroomBars() {
   const container = document.getElementById('bedroomBars');
-  const beds = [2, 3, 4];
+  const beds = [3, 4];
   const data = beds.map(b => {
     const props = getActiveByBed(b);
     if (!props.length) return { beds:b, avgList:0, avgSale:0, count:0 };
@@ -643,7 +651,7 @@ function renderTable() {
   let rows = active.map(s => {
     const isOver = s.sale >= s.list;
     const yearPill = s.year === 2026 ? ' <span class="pill pill-year">2026</span>' : '';
-    const typePill = s.type === 'Condo' ? '<span class="pill pill-blue">Condo</span>' : '<span class="pill" style="background:#ecfdf5;color:#065f46;">SFH</span>';
+    const typePill = '<span class="pill" style="background:#ecfdf5;color:#065f46;">SFH</span>';
     return '<tr>' +
       '<td><a href="' + s.url + '" target="_blank" rel="noopener">' + s.addr + '</a>' + yearPill + '<br><span style="font-size:10px;color:var(--text-muted);">' + s.note + '</span></td>' +
       '<td><span class="bed-dot" style="background:' + bedColors[s.beds] + '"></span>' + s.beds + '</td>' +
@@ -730,7 +738,7 @@ function renderAll() {
   renderCompList(); renderStats(); renderBarChart(); renderBedroomBars(); renderTable(); updateMapMarkers();
 }
 
-window.addEventListener('DOMContentLoaded', () => { initMap(); renderAll(); });
+window.addEventListener('DOMContentLoaded', () => { initMap(); applyPreset('2026'); });
 </script>
 </body>
 </html>
