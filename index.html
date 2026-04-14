@@ -131,6 +131,12 @@
     .intro { animation: fadeIn 0.6s ease both; }
     .content { animation: fadeIn 0.6s ease 0.15s both; }
     .footer { animation: fadeIn 0.6s ease 0.3s both; }
+    .subheadline {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-weight: 400;
+      opacity: 0.45;
+      margin-top: 0.5rem;
+    }
     .loading { opacity: 0.5; }
     .error { color: #ff6b6b; font-size: 1rem; }
   </style>
@@ -139,6 +145,7 @@
   <main>
     <header class="intro">
       <h1 id="headline"><span class="loading">Loading...</span></h1>
+      <p class="subheadline">Brand &amp; Creative Executive</p>
     </header>
     <div class="bio" id="bio"></div>
     <div class="content">
