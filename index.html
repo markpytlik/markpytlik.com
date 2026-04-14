@@ -82,6 +82,12 @@
     }
     .section ul { list-style: none; }
     .section li { margin-bottom: 0.25rem; }
+    .section-blurb {
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      opacity: 0.65;
+      margin-bottom: 1.25rem;
+    }
     .carousel {
       position: relative;
       width: 100%;
@@ -111,24 +117,6 @@
     .role-title { opacity: 0.6; }
     .role-location, .role-dates { font-size: 0.8125rem; opacity: 0.4; }
     .arrow-link::after { content: ' ↗'; font-size: 0.7em; opacity: 0.4; }
-    .facts-carousel {
-      position: relative;
-      min-height: 5rem;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(232, 232, 232, 0.1);
-    }
-    .fact {
-      position: absolute;
-      top: 0; left: 0;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      font-style: normal;
-      max-width: 100%;
-      font-size: 0.875rem;
-    }
-    .fact.active { opacity: 1; transform: translateY(0); color: #e8e8e8; }
     .footer {
       margin-top: auto;
       padding-top: 4rem;
@@ -164,15 +152,12 @@
         <div id="roles-list"></div>
       </div>
       <div class="section">
-        <p class="section-title" id="header-clients">Previous Clients</p>
-        <ul id="clients-list"></ul>
-        <p class="section-title" style="margin-top: 1.5rem;" id="header-recognition">Recognition</p>
+        <p class="section-title" id="header-recognition">Recognition</p>
         <ul id="recognition-list"></ul>
       </div>
       <div class="section">
-        <p class="section-title" id="header-about">About Me</p>
-        <div class="facts-carousel" id="facts-carousel"></div>
-        <p class="section-title" id="header-writing">Past Lives (Selected Writing)</p>
+        <p class="section-title" id="header-writing">Journalist &amp; Author</p>
+        <p class="section-blurb">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine Boards, and the author of a Bj&ouml;rk biography called Wow &amp; Flutter. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
         <ul id="writing-list"></ul>
       </div>
     </div>
@@ -203,17 +188,14 @@
       download: true,
       header: false,
       complete: function(results) {
-        console.log('Papa Parse results:', results);
         results.data.forEach(row => {
           if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('—')) {
             data[row[0]] = row[1] || '';
           }
         });
-        console.log('Parsed data:', data);
         renderSite();
       },
       error: function(error) {
-        console.error('Papa Parse error:', error);
         document.getElementById('headline').innerHTML = '<span class="error">Error loading content: ' + error.message + '</span>';
       }
     });
@@ -260,17 +242,7 @@
         </div>
       `).join('');
 
-      document.getElementById('clients-list').innerHTML = (data.clients || '').split(',').map(c => `<li>${c.trim()}</li>`).join('');
       document.getElementById('recognition-list').innerHTML = (data.recognition || '').split(',').map(r => `<li>${r.trim()}</li>`).join('');
-
-      const facts = Object.keys(data)
-        .filter(k => k.startsWith('fact_'))
-        .sort((a, b) => parseInt(a.split('_')[1]) - parseInt(b.split('_')[1]))
-        .map(k => data[k]);
-      document.getElementById('facts-carousel').innerHTML = facts.map((f, i) =>
-        `<p class="fact ${i === 0 ? 'active' : ''}">${parseLinks(f)}</p>`
-      ).join('');
-      startFactsCarousel();
 
       const writings = Object.keys(data)
         .filter(k => k.startsWith('writing_'))
@@ -280,14 +252,11 @@
         `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${i === 0 ? '<em>' + title + '</em>' : title}</a></li>`
       ).join('');
 
-      document.getElementById('footer').textContent = data.footer || '';
+      document.getElementById('footer').textContent = (data.footer || '').replace(' and work', '');
 
       if (data.header_contact) document.getElementById('header-contact').textContent = data.header_contact;
       if (data.header_roles) document.getElementById('header-roles').textContent = data.header_roles;
-      if (data.header_clients) document.getElementById('header-clients').textContent = data.header_clients;
       if (data.header_recognition) document.getElementById('header-recognition').textContent = data.header_recognition;
-      if (data.header_about) document.getElementById('header-about').textContent = data.header_about;
-      if (data.header_writing) document.getElementById('header-writing').textContent = data.header_writing;
     }
 
     let photoIndex = 0;
@@ -299,22 +268,6 @@
         photoIndex = (photoIndex + 1) % slides.length;
         slides[photoIndex].classList.add('active');
       }, 4000);
-    }
-
-    let factIndex = 0, factOrder = [];
-    function startFactsCarousel() {
-      const facts = document.querySelectorAll('.fact');
-      if (facts.length < 2) return;
-      factOrder = [...Array(facts.length).keys()];
-      for (let i = factOrder.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [factOrder[i], factOrder[j]] = [factOrder[j], factOrder[i]];
-      }
-      setInterval(() => {
-        facts.forEach(f => f.classList.remove('active'));
-        factIndex = (factIndex + 1) % facts.length;
-        facts[factOrder[factIndex]].classList.add('active');
-      }, 5000);
     }
   </script>
 </body>
