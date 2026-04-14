@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -67,6 +67,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 2rem 3rem;
       font-size: 0.9375rem;
+      align-items: start;
     }
     @media (max-width: 1000px) {
       .content { grid-template-columns: repeat(2, 1fr); }
@@ -121,27 +122,9 @@
       opacity: 0.65;
       margin-top: 0.85rem;
     }
-    .job-slide { display: none; }
-    .job-slide.active { display: block; }
-    .job-nav {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      align-items: center;
-    }
-    .job-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: rgba(232, 232, 232, 0.2);
-      cursor: pointer;
-      border: none;
-      padding: 0;
-      transition: background 0.2s;
-    }
-    .job-dot.active { background: rgba(232, 232, 232, 0.65); }
-    .job-dot:hover { background: rgba(232, 232, 232, 0.45); }
-    .arrow-link::after { content: ' â'; font-size: 0.7em; opacity: 0.4; }
+    .role-item { margin-bottom: 2rem; }
+    .role-item:last-child { margin-bottom: 0; }
+    .arrow-link::after { content: ' ↗'; font-size: 0.7em; opacity: 0.4; }
     .footer {
       margin-top: auto;
       padding-top: 4rem;
@@ -173,23 +156,22 @@
       <h1 id="headline"><span class="loading">Loading...</span></h1>
       <p class="subheadline" id="subheadline"></p>
     </header>
-    <p class="section-title" style="margin-bottom: 0.75rem;">About Me</p>
     <div class="bio" id="bio"></div>
     <div class="content">
+      <div class="section">
+        <p class="section-title" id="header-roles">Career</p>
+        <div id="roles-list"></div>
+      </div>
+      <div class="section">
+        <p class="section-title" id="header-writing">Journalist &amp; Author</p>
+        <p class="section-blurb">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine Boards, and the author of a Björk biography called Wow &amp; Flutter. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
+        <p class="section-title" style="margin-top: 1.25rem;">Selected Writing</p>
+        <ul id="writing-list"></ul>
+      </div>
       <div class="section">
         <p class="section-title" id="header-contact">Contact</p>
         <ul id="contact-list"></ul>
         <div class="carousel" id="photo-carousel"></div>
-      </div>
-      <div class="section">
-        <p class="section-title" id="header-roles">Career</p>
-        <div id="job-carousel"></div>
-      </div>
-      <div class="section">
-        <p class="section-title" id="header-writing">Journalist &amp; Author</p>
-        <p class="section-blurb">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine Boards, and the author of a BjÃ¶rk biography called Wow &amp; Flutter. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
-        <p class="section-title" style="margin-top: 1.25rem;">Selected Writing</p>
-        <ul id="writing-list"></ul>
       </div>
     </div>
     <footer class="footer" id="footer"></footer>
@@ -201,8 +183,8 @@
 
     const roleBlurbs = {
       role_1: "I lead creative direction and editorial voice for the Steve Jobs Archive, managing a team of ten freelancers across design, development, content creation, writing, and research. Our work spans archival programming, fellowships, and original series with creative luminaries.",
-      role_2: "I founded Stink Studios as a small interactive production company for Stink Films in London in 2007, and grew it into a full-service creative studio with 125 people, six global offices, and $40M in annual revenue. In our second year we won a Cannes Grand Prix for Philips\u2019 Carousel \u2014 the first interactive work ever to receive the honour \u2014 and went on to accumulate 50+ Cannes Lions, 25+ D&AD Pencils, and 25+ Webby Awards over the studio\u2019s lifetime. In 2020\u20132021, I led a full rebrand of the company, including a new visual identity, values framework, and our first annual impact report.",
-      role_3: "After a long relationship with Spotify as a client, they brought me onboard to lead creative across Artist Marketing and Creator Marketing. I worked across New York and Los Angeles, running teams across 15\u201320 concurrent workstreams for artists including Cardi B, Ariana Grande, Twenty One Pilots, Kendrick Lamar, and David Bowie. The work ranged from interactive, branding, and experiential to television commercials, content, and social."
+      role_2: "I founded Stink Studios as a small interactive production company for Stink Films in London in 2007, and grew it into a full-service creative studio with 125 people, six global offices, and $40M in annual revenue. In our second year we won a Cannes Grand Prix for Philips’ Carousel — the first interactive work ever to receive the honour — and went on to accumulate 50+ Cannes Lions, 25+ D&AD Pencils, and 25+ Webby Awards over the studio’s lifetime. In 2020–2021, I led a full rebrand of the company, including a new visual identity, values framework, and our first annual impact report.",
+      role_3: "After a long relationship with Spotify as a client, they brought me onboard to lead creative across Artist Marketing and Creator Marketing. I worked across New York and Los Angeles, running teams across 15–20 concurrent workstreams for artists including Cardi B, Ariana Grande, Twenty One Pilots, Kendrick Lamar, and David Bowie. The work ranged from interactive, branding, and experiential to television commercials, content, and social."
     };
 
     function convertDriveUrl(url) {
@@ -216,8 +198,8 @@
 
     function parseLinks(text) {
       if (!text) return '';
-      let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-      result = result.replace(/\{([^>]+)>>>([^}]+)\}/g, '<a href="$2" target="_blank">$1</a>');
+      let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1<\/a>');
+      result = result.replace(/\{([^>]+)>>>([^}]+)\}/g, '<a href="$2" target="_blank">$1<\/a>');
       return result;
     }
 
@@ -226,14 +208,14 @@
       header: false,
       complete: function(results) {
         results.data.forEach(row => {
-          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('\u2014')) {
+          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('—')) {
             data[row[0]] = row[1] || '';
           }
         });
         renderSite();
       },
       error: function(error) {
-        document.getElementById('headline').innerHTML = '<span class="error">Error loading content: ' + error.message + '</span>';
+        document.getElementById('headline').innerHTML = '<span class="error">Error loading content: ' + error.message + '<\/span>';
       }
     });
 
@@ -243,7 +225,7 @@
       const linkUrl = data.link_url || '#';
       document.getElementById('headline').innerHTML = headline.replace(
         linkText,
-        `<strong><a href="${linkUrl}" target="_blank">${linkText}</a></strong>`
+        `<strong><a href="${linkUrl}" target="_blank">${linkText}<\/a><\/strong>`
       );
 
       if (data.subheadline) {
@@ -255,8 +237,8 @@
       }
 
       document.getElementById('contact-list').innerHTML = `
-        <li><a href="mailto:${data.email || ''}" class="arrow-link">Email</a></li>
-        <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn</a></li>
+        <li><a href="mailto:${data.email || ''}" class="arrow-link">Email<\/a><\/li>
+        <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn<\/a><\/li>
       `;
 
       const photos = Object.keys(data)
@@ -265,34 +247,22 @@
         .map(k => convertDriveUrl(data[k]));
       if (photos.length) {
         document.getElementById('photo-carousel').innerHTML = photos.map((url, i) =>
-          `<div class="carousel-slide ${i === 0 ? 'active' : ''}"><img src="${url}" alt="" referrerpolicy="no-referrer"></div>`
+          `<div class="carousel-slide ${i === 0 ? 'active' : ''}"><img src="${url}" alt="" referrerpolicy="no-referrer"><\/div>`
         ).join('');
         startPhotoCarousel();
       }
 
       const roleKeys = Object.keys(data).filter(k => k.startsWith('role_')).sort();
       const roles = roleKeys.map(k => ({ key: k, parts: data[k].split(' | ') }));
-      document.getElementById('job-carousel').innerHTML = roles.map(({ key, parts: [company, title, location, dates] }, i) => `
-        <div class="job-slide ${i === 0 ? 'active' : ''}">
-          <div class="role-company">${company || ''}</div>
-          <div class="role-title">${title || ''}</div>
-          <div class="role-location">${location || ''}</div>
-          <div class="role-dates">${dates || ''}</div>
-          <p class="role-blurb">${roleBlurbs[key] || ''}</p>
-        </div>
-      `).join('') + `
-        <div class="job-nav">
-          ${roles.map((_, i) => `<button class="job-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`).join('')}
-        </div>
-      `;
-
-      document.querySelectorAll('.job-dot').forEach(dot => {
-        dot.addEventListener('click', () => {
-          const idx = parseInt(dot.dataset.index);
-          document.querySelectorAll('.job-slide').forEach((s, i) => s.classList.toggle('active', i === idx));
-          document.querySelectorAll('.job-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-        });
-      });
+      document.getElementById('roles-list').innerHTML = roles.map(({ key, parts: [company, title, location, dates] }) => `
+        <div class="role-item">
+          <div class="role-company">${company || ''}<\/div>
+          <div class="role-title">${title || ''}<\/div>
+          <div class="role-location">${location || ''}<\/div>
+          <div class="role-dates">${dates || ''}<\/div>
+          <p class="role-blurb">${roleBlurbs[key] || ''}<\/p>
+        <\/div>
+      `).join('');
 
       const writings = Object.keys(data)
         .filter(k => k.startsWith('writing_'))
@@ -300,7 +270,7 @@
         .map(k => data[k].split(' | '))
         .filter(([title]) => !title.includes('Bj') && !title.includes('rupture'));
       document.getElementById('writing-list').innerHTML = writings.map(([title, url]) =>
-        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}</a></li>`
+        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}<\/a><\/li>`
       ).join('');
 
       document.getElementById('footer').textContent = (data.footer || '').replace(' and work', '');
