@@ -64,7 +64,7 @@
     .bio a:hover { border-color: #e8e8e8; }
     .content {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem 3rem;
       font-size: 0.9375rem;
     }
@@ -112,12 +112,36 @@
       transition: filter 0.3s ease;
     }
     .carousel:hover .carousel-slide img { filter: grayscale(0%); }
-    .role { margin-bottom: 1.25rem; }
-    .role:last-child { margin-bottom: 0; }
     .role-company { font-style: italic; }
     .role-title { opacity: 0.6; }
     .role-location, .role-dates { font-size: 0.8125rem; opacity: 0.4; }
-    .arrow-link::after { content: ' ↗'; font-size: 0.7em; opacity: 0.4; }
+    .role-blurb {
+      font-size: 0.8125rem;
+      line-height: 1.55;
+      opacity: 0.65;
+      margin-top: 0.85rem;
+    }
+    .job-slide { display: none; }
+    .job-slide.active { display: block; }
+    .job-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      align-items: center;
+    }
+    .job-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(232, 232, 232, 0.2);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: background 0.2s;
+    }
+    .job-dot.active { background: rgba(232, 232, 232, 0.65); }
+    .job-dot:hover { background: rgba(232, 232, 232, 0.45); }
+    .arrow-link::after { content: ' â'; font-size: 0.7em; opacity: 0.4; }
     .footer {
       margin-top: auto;
       padding-top: 4rem;
@@ -149,6 +173,7 @@
       <h1 id="headline"><span class="loading">Loading...</span></h1>
       <p class="subheadline" id="subheadline"></p>
     </header>
+    <p class="section-title" style="margin-bottom: 0.75rem;">About Me</p>
     <div class="bio" id="bio"></div>
     <div class="content">
       <div class="section">
@@ -157,16 +182,12 @@
         <div class="carousel" id="photo-carousel"></div>
       </div>
       <div class="section">
-        <p class="section-title" id="header-roles">Roles</p>
-        <div id="roles-list"></div>
-      </div>
-      <div class="section">
-        <p class="section-title" id="header-recognition">Recognition</p>
-        <ul id="recognition-list"></ul>
+        <p class="section-title" id="header-roles">Career</p>
+        <div id="job-carousel"></div>
       </div>
       <div class="section">
         <p class="section-title" id="header-writing">Journalist &amp; Author</p>
-        <p class="section-blurb">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine Boards, and the author of a Bj&ouml;rk biography called Wow &amp; Flutter. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
+        <p class="section-blurb">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine Boards, and the author of a BjÃ¶rk biography called Wow &amp; Flutter. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
         <p class="section-title" style="margin-top: 1.25rem;">Selected Writing</p>
         <ul id="writing-list"></ul>
       </div>
@@ -177,6 +198,12 @@
   <script>
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSewhOf4l1C8jkHM68rsfVvADuWdvg-kwLFBQOuDs_sPIm-t7S_EgvbnOW1Bps1Wy-FBjC2DW0RB9QP/pub?output=csv&cachebust=' + Date.now();
     let data = {};
+
+    const roleBlurbs = {
+      role_1: "I lead creative direction and editorial voice for the Steve Jobs Archive, managing a team of ten freelancers across design, development, content creation, writing, and research. Our work spans archival programming, fellowships, and original series with creative luminaries.",
+      role_2: "I founded Stink Studios as a small interactive production company for Stink Films in London in 2007, and grew it into a full-service creative studio with 125 people, six global offices, and $40M in annual revenue. In our second year we won a Cannes Grand Prix for Philips\u2019 Carousel \u2014 the first interactive work ever to receive the honour \u2014 and went on to accumulate 50+ Cannes Lions, 25+ D&AD Pencils, and 25+ Webby Awards over the studio\u2019s lifetime. In 2020\u20132021, I led a full rebrand of the company, including a new visual identity, values framework, and our first annual impact report.",
+      role_3: "After a long relationship with Spotify as a client, they brought me onboard to lead creative across Artist Marketing and Creator Marketing. I worked across New York and Los Angeles, running teams across 15\u201320 concurrent workstreams for artists including Cardi B, Ariana Grande, Twenty One Pilots, Kendrick Lamar, and David Bowie. The work ranged from interactive, branding, and experiential to television commercials, content, and social."
+    };
 
     function convertDriveUrl(url) {
       if (!url) return '';
@@ -199,7 +226,7 @@
       header: false,
       complete: function(results) {
         results.data.forEach(row => {
-          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('—')) {
+          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('\u2014')) {
             data[row[0]] = row[1] || '';
           }
         });
@@ -243,27 +270,36 @@
         startPhotoCarousel();
       }
 
-      const roles = Object.keys(data)
-        .filter(k => k.startsWith('role_'))
-        .sort()
-        .map(k => data[k].split(' | '));
-      document.getElementById('roles-list').innerHTML = roles.map(([company, title, location, dates]) => `
-        <div class="role">
+      const roleKeys = Object.keys(data).filter(k => k.startsWith('role_')).sort();
+      const roles = roleKeys.map(k => ({ key: k, parts: data[k].split(' | ') }));
+      document.getElementById('job-carousel').innerHTML = roles.map(({ key, parts: [company, title, location, dates] }, i) => `
+        <div class="job-slide ${i === 0 ? 'active' : ''}">
           <div class="role-company">${company || ''}</div>
           <div class="role-title">${title || ''}</div>
           <div class="role-location">${location || ''}</div>
           <div class="role-dates">${dates || ''}</div>
+          <p class="role-blurb">${roleBlurbs[key] || ''}</p>
         </div>
-      `).join('');
+      `).join('') + `
+        <div class="job-nav">
+          ${roles.map((_, i) => `<button class="job-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`).join('')}
+        </div>
+      `;
 
-      document.getElementById('recognition-list').innerHTML = (data.recognition || '').split(',').map(r => `<li>${r.trim()}</li>`).join('');
+      document.querySelectorAll('.job-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.dataset.index);
+          document.querySelectorAll('.job-slide').forEach((s, i) => s.classList.toggle('active', i === idx));
+          document.querySelectorAll('.job-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+        });
+      });
 
       const writings = Object.keys(data)
         .filter(k => k.startsWith('writing_'))
         .sort()
         .map(k => data[k].split(' | '))
         .filter(([title]) => !title.includes('Bj') && !title.includes('rupture'));
-      document.getElementById('writing-list').innerHTML = writings.map(([title, url], i) =>
+      document.getElementById('writing-list').innerHTML = writings.map(([title, url]) =>
         `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}</a></li>`
       ).join('');
 
@@ -271,7 +307,6 @@
 
       if (data.header_contact) document.getElementById('header-contact').textContent = data.header_contact;
       if (data.header_roles) document.getElementById('header-roles').textContent = data.header_roles;
-      if (data.header_recognition) document.getElementById('header-recognition').textContent = data.header_recognition;
     }
 
     let photoIndex = 0;
