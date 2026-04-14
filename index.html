@@ -136,7 +136,7 @@
       font-size: clamp(1.25rem, 3vw, 1.875rem);
       font-weight: 400;
       opacity: 0.45;
-      margin-top: 0;
+      margin-top: -0.4rem;
     }
     #writing-list { font-size: 0.8125rem; }
     .loading { opacity: 0.5; }
@@ -264,7 +264,7 @@
         .map(k => data[k].split(' | '))
         .filter(([title]) => !title.includes('Bj') && !title.includes('rupture'));
       document.getElementById('writing-list').innerHTML = writings.map(([title, url], i) =>
-        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${i === 0 ? '<em>' + title + '</em>' : title}</a></li>`
+        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}</a></li>`
       ).join('');
 
       document.getElementById('footer').textContent = (data.footer || '').replace(' and work', '');
