@@ -132,7 +132,7 @@
     .content { animation: fadeIn 0.6s ease 0.15s both; }
     .footer { animation: fadeIn 0.6s ease 0.3s both; }
     .subheadline {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-size: clamp(1.25rem, 3vw, 1.875rem);
       font-weight: 400;
       opacity: 0.45;
       margin-top: 0.5rem;
@@ -153,7 +153,7 @@
   <main>
     <header class="intro">
       <h1 id="headline"><span class="loading">Loading...</span></h1>
-      <p class="subheadline">Brand &amp; Creative Executive</p>
+      <p class="subheadline" id="subheadline"></p>
     </header>
     <div class="bio" id="bio"></div>
     <div class="content">
@@ -224,6 +224,10 @@
         linkText,
         `<strong><a href="${linkUrl}" target="_blank">${linkText}</a></strong>`
       );
+
+      if (data.subheadline) {
+        document.getElementById('subheadline').textContent = data.subheadline;
+      }
 
       if (data.bio) {
         document.getElementById('bio').innerHTML = parseLinks(data.bio);
