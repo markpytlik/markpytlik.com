@@ -91,7 +91,8 @@
       .bio-section .carousel {
         width: 100%;
         max-width: 100%;
-        height: 220px;
+        aspect-ratio: 1;
+        height: auto;
       }
     }
     .section-title {
@@ -239,10 +240,7 @@
       const headline = data.headline || '';
       const linkText = data.link_text || '';
       const linkUrl = data.link_url || '#';
-      document.getElementById('headline').innerHTML = headline.replace(
-        linkText,
-        `<strong>${linkText}</strong>`
-      );
+      document.getElementById('headline').innerHTML = "I\u2019m <strong>Mark Pytlik</strong>, a brand and creative leader based in San Francisco.";
 
       if (data.subheadline) {
         document.getElementById('subheadline').textContent = data.subheadline;
