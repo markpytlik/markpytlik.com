@@ -89,9 +89,9 @@
         gap: 1.25rem;
       }
       .bio-section .carousel {
-        width: 100px;
-        max-width: 100px;
-        height: 100px;
+        width: 100%;
+        max-width: 100%;
+        height: 220px;
       }
     }
     .section-title {
@@ -241,7 +241,7 @@
       const linkUrl = data.link_url || '#';
       document.getElementById('headline').innerHTML = headline.replace(
         linkText,
-        `<strong><a href="${linkUrl}" target="_blank">${linkText}</a></strong>`
+        `<strong>${linkText}</strong>`
       );
 
       if (data.subheadline) {
