@@ -164,6 +164,8 @@
     #writing-list { font-size: 0.8125rem; }
     .loading { opacity: 0.5; }
     .error { color: #ff6b6b; font-size: 1rem; }
+    .mobile-br { display: none; }
+    @media (max-width: 650px) { .mobile-br { display: inline; } }
   </style>
 </head>
 <body>
@@ -220,7 +222,7 @@
       header: false,
       complete: function(results) {
         results.data.forEach(row => {
-          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('—')) {
+          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('\u2014')) {
             data[row[0]] = row[1] || '';
           }
         });
@@ -232,21 +234,27 @@
     });
 
     function renderSite() {
+      // Headline — bold link_text within headline
       const headline = data.headline || '';
       const linkText = data.link_text || '';
       document.getElementById('headline').innerHTML = linkText
         ? headline.replace(linkText, `<strong>${linkText}</strong>`)
         : headline;
 
+      // Bio
       if (data.bio) {
-        document.getElementById('bio').innerHTML = parseLinks(data.bio);
+        let bioHtml = parseLinks(data.bio);
+        bioHtml = bioHtml.replace(/I\u2019m a T-shaped|I'm a T-shaped/, '<br class="mobile-br"><br class="mobile-br">$&');
+        document.getElementById('bio').innerHTML = bioHtml;
       }
 
+      // Contact
       document.getElementById('contact-list').innerHTML = `
         <li><a href="mailto:${data.email || ''}" class="arrow-link">Email</a></li>
         <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn</a></li>
       `;
 
+      // Photos
       const photos = Object.keys(data)
         .filter(k => k.startsWith('photo_') && data[k] && !data[k].includes('PASTE'))
         .sort()
@@ -258,6 +266,7 @@
         startPhotoCarousel();
       }
 
+      // Roles — blurbs come from sheet as role_1_blurb, role_2_blurb, etc.
       const roleKeys = Object.keys(data).filter(k => /^role_\d+$/.test(k)).sort();
       document.getElementById('roles-list').innerHTML = roleKeys.map(key => {
         const [company, title, location, dates] = data[key].split(' | ');
@@ -266,15 +275,17 @@
         <div class="role-item">
           <div class="role-company">${company || ''}</div>
           <div class="role-title">${title || ''}</div>
-          <div class="role-dates">${dates || ''}${location ? ' (' + location.replace(/ \/ /g, ' · ') + ')' : ''}</div>
+          <div class="role-dates">${dates || ''}${location ? ' (' + location.replace(/ \/ /g, ' \u00b7 ') + ')' : ''}</div>
           ${blurb ? `<p class="role-blurb">${blurb}</p>` : ''}
         </div>`;
       }).join('');
 
+      // Writing blurb
       if (data.writing_blurb) {
         document.getElementById('writing-blurb').textContent = data.writing_blurb;
       }
 
+      // Writing links
       const writings = Object.keys(data)
         .filter(k => /^writing_\d+$/.test(k))
         .sort()
@@ -284,8 +295,10 @@
         `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}</a></li>`
       ).join('');
 
+      // Footer
       document.getElementById('footer').textContent = (data.footer || '').replace(' and work', '').replace(/^—\s*/, '');
 
+      // Section headers
       if (data.header_roles) document.getElementById('header-roles').textContent = data.header_roles;
       if (data.header_contact) document.getElementById('header-contact').textContent = data.header_contact;
       if (data.header_about) document.getElementById('header-about').textContent = data.header_about;
