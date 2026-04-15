@@ -237,9 +237,11 @@
       // Headline — bold link_text within headline
       const headline = data.headline || '';
       const linkText = data.link_text || '';
-      document.getElementById('headline').innerHTML = linkText
+      let headlineHtml = linkText
         ? headline.replace(linkText, `<strong>${linkText}</strong>`)
         : headline;
+      headlineHtml = headlineHtml.replace('creative leader', 'creative leader<br class="mobile-br">');
+      document.getElementById('headline').innerHTML = headlineHtml;
 
       // Bio
       if (data.bio) {
