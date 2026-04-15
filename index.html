@@ -13,14 +13,11 @@
     gtag('js', new Date());
     gtag('config', 'G-VHJRBXJ5ZV');
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { font-size: 16px; }
     body {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       background: #0a0a0a;
       color: #e8e8e8;
       line-height: 1.5;
@@ -46,11 +43,12 @@
     }
     .intro { margin-bottom: 4rem; }
     .intro h1 {
-      font-size: clamp(1.5rem, 4vw, 2.25rem);
-      font-weight: 400;
-      line-height: 1.35;
+      font-size: clamp(1.25rem, 3.5vw, 2rem);
+      font-weight: 300;
+      line-height: 1.3;
       max-width: 720px;
       margin-bottom: 0;
+      letter-spacing: -0.01em;
     }
     .intro h1 strong { font-weight: 500; }
     .bio-section {
@@ -68,10 +66,11 @@
     }
     .bio-wrapper { flex: 1; }
     .bio {
-      font-size: 1.125rem;
-      line-height: 1.35;
+      font-size: 1rem;
+      line-height: 1.5;
       max-width: 100%;
       opacity: 0.85;
+      font-weight: 300;
     }
     .bio a { border-bottom: 1px solid rgba(232, 232, 232, 0.4); }
     .bio a:hover { border-color: #e8e8e8; }
@@ -79,7 +78,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem 6rem;
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       align-items: start;
     }
     @media (max-width: 650px) {
@@ -96,19 +95,21 @@
       }
     }
     .section-title {
-      font-size: 0.6875rem;
+      font-size: 0.625rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       margin-bottom: 1rem;
       opacity: 0.4;
+      font-weight: 500;
     }
     .section ul { list-style: none; }
     .section li { margin-bottom: 0.25rem; }
     .section-blurb {
       font-size: 0.8125rem;
-      line-height: 1.55;
+      line-height: 1.6;
       opacity: 0.65;
       margin-bottom: 1.25rem;
+      font-weight: 300;
     }
     .carousel {
       position: relative;
@@ -130,14 +131,15 @@
       width: 100%; height: 100%;
       object-fit: cover;
     }
-    .role-company { font-style: italic; }
-    .role-title { opacity: 0.6; }
-    .role-location, .role-dates { font-size: 0.8125rem; opacity: 0.4; }
+    .role-company { font-weight: 500; }
+    .role-title { opacity: 0.6; font-weight: 300; }
+    .role-location, .role-dates { font-size: 0.75rem; opacity: 0.4; font-weight: 300; }
     .role-blurb {
       font-size: 0.8125rem;
-      line-height: 1.55;
+      line-height: 1.6;
       opacity: 0.65;
       margin-top: 0.85rem;
+      font-weight: 300;
     }
     .role-item { margin-bottom: 2rem; }
     .role-item:last-child { margin-bottom: 0; }
@@ -147,6 +149,7 @@
       padding-top: 4rem;
       font-size: 0.8125rem;
       color: rgba(232, 232, 232, 0.65);
+      font-weight: 300;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px); }
@@ -154,12 +157,7 @@
     }
     .intro { animation: fadeIn 0.6s ease both; }
     .content { animation: fadeIn 0.6s ease 0.15s both; }
-    .subheadline {
-      font-size: clamp(1.25rem, 3vw, 1.875rem);
-      font-weight: 400;
-      opacity: 0.45;
-      margin-top: -0.4rem;
-    }
+    .subheadline { display: none; }
     #writing-list { font-size: 0.8125rem; }
     .loading { opacity: 0.5; }
     .error { color: #ff6b6b; font-size: 1rem; }
@@ -216,8 +214,8 @@
 
     function parseLinks(text) {
       if (!text) return '';
-      let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1<\/a>');
-      result = result.replace(/\{([^>]+)>>>([^}]+)\}/g, '<a href="$2" target="_blank">$1<\/a>');
+      let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+      result = result.replace(/\{([^>]+)>>>([^}]+)\}/g, '<a href="$2" target="_blank">$1</a>');
       return result;
     }
 
@@ -233,7 +231,7 @@
         renderSite();
       },
       error: function(error) {
-        document.getElementById('headline').innerHTML = '<span class="error">Error loading content: ' + error.message + '<\/span>';
+        document.getElementById('headline').innerHTML = '<span class="error">Error loading content: ' + error.message + '</span>';
       }
     });
 
@@ -243,7 +241,7 @@
       const linkUrl = data.link_url || '#';
       document.getElementById('headline').innerHTML = headline.replace(
         linkText,
-        `<strong><a href="${linkUrl}" target="_blank">${linkText}<\/a><\/strong>`
+        `<strong><a href="${linkUrl}" target="_blank">${linkText}</a></strong>`
       );
 
       if (data.subheadline) {
@@ -255,8 +253,8 @@
       }
 
       document.getElementById('contact-list').innerHTML = `
-        <li><a href="mailto:${data.email || ''}" class="arrow-link">Email<\/a><\/li>
-        <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn<\/a><\/li>
+        <li><a href="mailto:${data.email || ''}" class="arrow-link">Email</a></li>
+        <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn</a></li>
       `;
 
       const photos = Object.keys(data)
@@ -265,20 +263,20 @@
         .map(k => convertDriveUrl(data[k]));
       if (photos.length) {
         document.getElementById('photo-carousel').innerHTML = photos.map((url, i) =>
-          `<div class="carousel-slide ${i === 0 ? 'active' : ''}"><img src="${url}" alt="" referrerpolicy="no-referrer"><\/div>`
+          `<div class="carousel-slide ${i === 0 ? 'active' : ''}"><img src="${url}" alt="" referrerpolicy="no-referrer"></div>`
         ).join('');
         startPhotoCarousel();
       }
 
       const roleKeys = Object.keys(data).filter(k => k.startsWith('role_')).sort();
       const roles = roleKeys.map(k => ({ key: k, parts: data[k].split(' | ') }));
-      document.getElementById('roles-list').innerHTML = roles.map(({ key, parts: [company, title, location, dates] }) => `
+      document.getElementById('roles-list').innerHTML = roles.map(({ key, parts: [company, title, location, dates] }, i) => `
         <div class="role-item">
-          <div class="role-company">${company || ''}<\/div>
-          <div class="role-title">${title || ''}<\/div>
-          <div class="role-dates">${dates || ''}${location ? ' (' + location.replace(/ \/ /g, ' · ') + ')' : ''}<\/div>
-          <p class="role-blurb">${roleBlurbs[key] || ''}<\/p>
-        <\/div>
+          <div class="role-company">${company || ''}</div>
+          <div class="role-title">${title || ''}</div>
+          <div class="role-dates">${dates || ''}${location ? ' (' + location.replace(/ \/ /g, ' · ') + ')' : ''}</div>
+          <p class="role-blurb">${roleBlurbs[key] || ''}</p>
+        </div>
       `).join('');
 
       const writings = Object.keys(data)
@@ -287,7 +285,7 @@
         .map(k => data[k].split(' | '))
         .filter(([title]) => !title.includes('Bj') && !title.includes('rupture'));
       document.getElementById('writing-list').innerHTML = writings.map(([title, url]) =>
-        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}<\/a><\/li>`
+        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}</a></li>`
       ).join('');
 
       document.getElementById('footer').textContent = (data.footer || '').replace(' and work', '').replace(/^—\s*/, '');
