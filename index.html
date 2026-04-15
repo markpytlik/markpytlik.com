@@ -166,6 +166,8 @@
     .error { color: #ff6b6b; font-size: 1rem; }
     .mobile-br { display: none; }
     @media (max-width: 650px) { .mobile-br { display: inline; } }
+    .desktop-br { display: inline; }
+    @media (max-width: 650px) { .desktop-br { display: none; } }
   </style>
 </head>
 <body>
@@ -240,7 +242,7 @@
       let headlineHtml = linkText
         ? headline.replace(linkText, `<strong>${linkText}</strong>`)
         : headline;
-      headlineHtml = headlineHtml.replace('creative leader', 'creative leader<br class="mobile-br">');
+      headlineHtml = headlineHtml.replace('creative leader', 'creative leader<br class="desktop-br">');
       document.getElementById('headline').innerHTML = headlineHtml;
 
       // Bio
