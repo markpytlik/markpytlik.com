@@ -83,7 +83,17 @@
       align-items: start;
     }
     @media (max-width: 650px) {
+      body { padding: 1.5rem; }
       .content { grid-template-columns: 1fr; }
+      .bio-section {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .bio-section .carousel {
+        width: 100px;
+        max-width: 100px;
+        height: 100px;
+      }
     }
     .section-title {
       font-size: 0.6875rem;
