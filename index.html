@@ -255,7 +255,7 @@
       // Bio
       if (data.bio) {
         let bioHtml = parseLinks(data.bio);
-        bioHtml = bioHtml.replace(/I\u2019m a T-shaped|I'm a T-shaped/, '<br class="mobile-br"><br class="mobile-br">$&');
+        bioHtml = bioHtml.replace(/I[\u2019']m a T-shaped|I am a T-shaped/, '<br class="mobile-br"><br class="mobile-br">$&');
         document.getElementById('bio').innerHTML = bioHtml;
       }
 
