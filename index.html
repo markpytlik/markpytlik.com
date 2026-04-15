@@ -89,11 +89,12 @@
         gap: 1.25rem;
       }
       .bio-section .carousel {
-        width: 100%;
-        max-width: 100%;
+        width: 75%;
+        max-width: 75%;
         aspect-ratio: 1;
         height: auto;
       }
+      .intro h1 { font-size: 1.625rem; }
     }
     .section-title {
       font-size: 0.625rem;
@@ -240,7 +241,7 @@
       const headline = data.headline || '';
       const linkText = data.link_text || '';
       const linkUrl = data.link_url || '#';
-      document.getElementById('headline').innerHTML = "I\u2019m <strong>Mark Pytlik</strong>, a brand and creative leader based in San Francisco";
+      document.getElementById('headline').innerHTML = "I\u2019m <strong>Mark Pytlik</strong>, a brand and creative leader based in San Francisco.";
 
       if (data.subheadline) {
         document.getElementById('subheadline').textContent = data.subheadline;
