@@ -53,11 +53,21 @@
       margin-bottom: 0;
     }
     .intro h1 strong { font-weight: 500; }
+    .bio-section {
+      display: flex;
+      gap: 2.5rem;
+      align-items: flex-start;
+      margin-bottom: 3rem;
+    }
+    .bio-section .carousel {
+      flex-shrink: 0;
+      margin-top: 0;
+    }
+    .bio-wrapper { flex: 1; }
     .bio {
       font-size: 1.125rem;
       line-height: 1.55;
       max-width: 100%;
-      margin-bottom: 3rem;
       opacity: 0.85;
     }
     .bio a { border-bottom: 1px solid rgba(232, 232, 232, 0.4); }
@@ -153,7 +163,13 @@
       <h1 id="headline"><span class="loading">Loading...</span></h1>
       <p class="subheadline" id="subheadline"></p>
     </header>
-    <div class="bio" id="bio"></div>
+    <div class="bio-section">
+      <div class="carousel" id="photo-carousel"></div>
+      <div class="bio-wrapper">
+        <p class="section-title" style="margin-bottom: 0.75rem;">About Me</p>
+        <div class="bio" id="bio"></div>
+      </div>
+    </div>
     <div class="content">
       <div class="section">
         <p class="section-title" id="header-roles">Career</p>
@@ -166,7 +182,6 @@
         <ul id="writing-list"></ul>
         <p class="section-title" id="header-contact" style="margin-top: 2rem;">Contact</p>
         <ul id="contact-list"></ul>
-        <div class="carousel" id="photo-carousel"></div>
         <p class="footer" id="footer" style="margin-top: 1.5rem; padding-top: 0;"></p>
       </div>
     </div>
