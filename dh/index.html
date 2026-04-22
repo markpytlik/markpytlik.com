@@ -338,7 +338,7 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; back
           <div style="font-size:11px;color:var(--text-muted);font-weight:500;">Click to include/exclude</div>
         </div>
         <div class="preset-bar" id="presetBar">
-          <div class="preset-btn" data-preset="all" onclick="applyPreset('all')">All (14)</div>
+          <div class="preset-btn" data-preset="all" onclick="applyPreset('all')">All (16)</div>
           <div class="preset-btn" data-preset="3bd" onclick="applyPreset('3bd')">3-Bed</div>
           <div class="preset-btn" data-preset="4bd" onclick="applyPreset('4bd')">4-Bed</div>
           <div class="preset-btn active" data-preset="2026" onclick="applyPreset('2026')">2026 Sales</div>
@@ -439,6 +439,8 @@ const sales = [
   { id:11, addr:"70 Laidley St",         beds:4, baths:"2",   sqft:1913, list:1295000, sale:1250000, date:"Jun 13, 2025", dom:45, lat:37.7432, lng:-122.4330, note:"Sold with adjoining lot", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/70-Laidley-St-94131/home/1681507" },
   { id:12, addr:"636 28th St",           beds:4, baths:"4",   sqft:2815, list:3885000, sale:4425000, date:"Dec 15, 2025", dom:42, lat:37.7470, lng:-122.4318, note:"Noe Valley border", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/636-28th-St-94131/home/1214862" },
   { id:13, addr:"277 Monterey Blvd",     beds:4, baths:"3",   sqft:2280, list:1895000, sale:1780000, date:"Mar 25, 2025", dom:89, lat:37.7410, lng:-122.4368, note:"Longer time on market", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/277-Monterey-Blvd-94131/home/1195381" },
+  { id:14, addr:"657 28th St",          beds:3, baths:"3",   sqft:2020, list:2300000, sale:2600000, date:"Mar 12, 2026", dom:7,  lat:37.7472, lng:-122.4320, note:"Noe Valley border — 113% ratio", type:"SFH", isMCM:false, enabled:true, url:"https://www.redfin.com/CA/San-Francisco/657-28th-St-94131/home/1008078" },
+  { id:15, addr:"260 Amber Dr",          beds:4, baths:"3.5", sqft:2285, list:2200000, sale:2400000, date:"Feb 12, 2026", dom:13, lat:37.7447, lng:-122.4393, note:"On Amber Dr — MCM updated", type:"SFH", isMCM:true, enabled:true, nearAmber:true, url:"https://www.redfin.com/CA/San-Francisco/260-Amber-Dr-94131/home/1134436" },
 ];
 
 // Parse dates for sorting
