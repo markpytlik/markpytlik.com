@@ -342,8 +342,9 @@ a { color: inherit; text-decoration: none; }
 .shot-frame {
   position: relative;
   width: 100%;
-  max-width: 148px;
-  aspect-ratio: 4 / 5;
+  /* Square so the frame accepts both landscape and portrait headshots. */
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--line);
