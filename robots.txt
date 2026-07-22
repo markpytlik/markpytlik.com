@@ -1,15 +1,42 @@
-# The live site is fully crawlable — no rules apply to it.
-
+# The live site is fully crawlable. Every rule below is scoped to /new/.
+#
 # /new/ is a staging copy and must stay out of search results.
 #
-# Its HTML pages each carry <meta name="robots" content="noindex, nofollow">,
-# and they are deliberately left crawlable here: a Disallow would stop crawlers
-# reading that tag, which is what actually guarantees de-indexing.
+# Its HTML pages each carry <meta name="robots" content="noindex, nofollow">
+# and are deliberately left crawlable: a Disallow would stop crawlers reading
+# that tag, which is what actually guarantees de-indexing.
 #
-# Everything else under /new/ is a file that cannot carry a meta tag —
-# imagery, video, the case-study copy in js/cases.js — so it is blocked
-# from crawling instead. Without this, the case-study images could still
-# surface in Google Images.
+# Everything else under /new/ — imagery, video, the case-study copy in
+# js/cases.js — cannot carry a meta tag, so it is blocked from crawling here.
+# Without this the case-study images could still surface in image search.
+#
+# NOTE ON STRUCTURE: Cloudflare injects its own "User-agent: *" group (content
+# signals + AI-crawler blocks) ahead of this file. That leaves two "*" groups
+# in the served result. Google merges same-agent groups, but not every parser
+# does — several take only the first match, which would silently drop these
+# rules. So the major indexers are named explicitly below: a crawler always
+# prefers the group matching its own token over "*", making these rules
+# independent of how duplicate "*" groups get handled.
+#
+# Each named group repeats the same rules. Keep them in sync.
+
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Googlebot-News
+User-agent: Googlebot-Video
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: DuckDuckBot
+User-agent: YandexBot
+User-agent: Baiduspider
+User-agent: Slurp
+Disallow: /new/assets/
+Disallow: /new/css/
+Disallow: /new/js/
+Disallow: /new/README.md
+Disallow: /new/serve.py
+
+# Fallback for anything not named above.
 User-agent: *
 Disallow: /new/assets/
 Disallow: /new/css/
