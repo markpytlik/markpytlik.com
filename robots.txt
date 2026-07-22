@@ -1,0 +1,18 @@
+# The live site is fully crawlable — no rules apply to it.
+
+# /new/ is a staging copy and must stay out of search results.
+#
+# Its HTML pages each carry <meta name="robots" content="noindex, nofollow">,
+# and they are deliberately left crawlable here: a Disallow would stop crawlers
+# reading that tag, which is what actually guarantees de-indexing.
+#
+# Everything else under /new/ is a file that cannot carry a meta tag —
+# imagery, video, the case-study copy in js/cases.js — so it is blocked
+# from crawling instead. Without this, the case-study images could still
+# surface in Google Images.
+User-agent: *
+Disallow: /new/assets/
+Disallow: /new/css/
+Disallow: /new/js/
+Disallow: /new/README.md
+Disallow: /new/serve.py
