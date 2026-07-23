@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Builder — markpytlik.com</title>
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   Case Builder — a self-contained WYSIWYG authoring tool for
+   js/cases.js. Left: editor. Right: faithful live preview of the
+   .ink case card. All tokens/fonts mirror css/site.css.
+   ============================================================ */
+
+:root{
+  --font-display:'Space Grotesk', sans-serif;
+  --font-body:'Hanken Grotesk', sans-serif;
+  --font-mono:'Space Mono', monospace;
+
+  /* editor chrome (dark, like the site) */
+  --bg:#0B0B0A;
+  --panel:#121210;
+  --panel-2:#161512;
+  --raise:#1C1B17;
+  --line:#26251F;
+  --line-2:#302E27;
+  --text:#F1EFEA;
+  --body:#C9C7C0;
+  --muted:#7C7A73;
+  --accent:#E9B87C;
+  --accent-dim:#8a6d43;
+  --danger:#D9695E;
+  --ok:#7FB98A;
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{ background:var(--text); color:var(--bg); }
+button{ font-family:inherit; }
+
+.mono{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* ---------- App shell ---------- */
+.app{
+  display:grid;
+  grid-template-rows:auto auto 1fr;
+  height:100vh;
+}
+
+/* cases picker bar */
+.casesbar{
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:9px 20px;
+  border-bottom:1px solid var(--line);
+  background:var(--panel);
+}
+.casesbar .cb-label{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted);
+}
+.casesbar select{ width:auto; min-width:230px; font-family:var(--font-mono); font-size:12px; padding:8px 12px; }
+.casesbar .count{ font-family:var(--font-mono); font-size:10px; color:var(--muted); letter-spacing:.06em; margin-left:auto; }
+
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:12px 20px;
+  border-bottom:1px solid var(--line);
+  background:color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter:blur(10px);
+  position:sticky; top:0; z-index:20;
+  flex-wrap:wrap;
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--font-mono);
+  font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  font-weight:700; color:var(--text);
+}
+.brand .glyph{
+  width:22px;height:22px;border-radius:6px;
+  background:linear-gradient(135deg,var(--accent),#b98a4e);
+  display:grid;place-items:center;color:#161206;font-size:12px;font-weight:700;
+}
+.spacer{ flex:1; }
+.status{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
+  color:var(--muted); white-space:nowrap;
+}
+.status b{ color:var(--ok); font-weight:400; }
+
+/* buttons */
+.btn{
+  border:1px solid var(--line-2);
+  background:var(--raise);
+  color:var(--text);
+  font-family:var(--font-mono);
+  font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  padding:9px 13px; border-radius:9px; cursor:pointer;
+  transition:border-color .2s ease, background .2s ease, color .2s ease;
+  white-space:nowrap;
+}
+.btn:hover{ border-color:var(--accent-dim); color:#fff; }
+.btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.btn.primary{ background:var(--text); color:var(--bg); border-color:var(--text); }
+.btn.primary:hover{ opacity:.9; color:var(--bg); }
+.btn.ghost{ background:transparent; }
+.btn.tiny{ padding:5px 8px; font-size:10px; letter-spacing:.05em; border-radius:7px; }
+.btn.danger:hover{ border-color:var(--danger); color:var(--danger); }
+.btn[disabled]{ opacity:.4; cursor:not-allowed; }
+
+/* ---------- Panes ---------- */
+.panes{
+  display:grid;
+  grid-template-columns: minmax(420px, 1fr) minmax(460px, 1.15fr);
+  overflow:hidden;
+  min-height:0;
+}
+.pane{ overflow:auto; min-height:0; }
+.pane.editor{ border-right:1px solid var(--line); }
+.pane-inner{ padding:22px 22px 120px; max-width:760px; margin:0 auto; }
+
+.pane.preview{ background:#0f0f0e; }
+
+/* resizer hint on small screens: stack */
+@media (max-width:1000px){
+  .panes{ grid-template-columns:1fr; grid-template-rows:1fr 1fr; }
+  .pane.editor{ border-right:0; border-bottom:1px solid var(--line); }
+}
+
+/* ---------- Sections & fields ---------- */
+.sec{
+  border:1px solid var(--line);
+  background:var(--panel);
+  border-radius:14px;
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.sec > .sec-head{
+  display:flex; align-items:center; gap:10px;
+  padding:13px 16px;
+  border-bottom:1px solid var(--line);
+  background:var(--panel-2);
+}
+.sec-head h2{
+  margin:0;
+  font-family:var(--font-display); font-weight:600; font-size:14px;
+  letter-spacing:-.01em;
+}
+.sec-head .hint{ font-family:var(--font-mono); font-size:10px; color:var(--muted); letter-spacing:.06em; }
+.sec-body{ padding:16px; display:flex; flex-direction:column; gap:14px; }
+
+.field{ display:flex; flex-direction:column; gap:6px; }
+.field > label{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted);
+  display:flex; align-items:center; gap:8px;
+}
+.field .sub{ color:var(--line-2); text-transform:none; letter-spacing:.02em; font-size:10px; }
+.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:520px){ .grid2{ grid-template-columns:1fr; } }
+
+input[type=text], textarea, select{
+  width:100%;
+  background:var(--panel-2);
+  border:1px solid var(--line-2);
+  color:var(--text);
+  border-radius:9px;
+  padding:10px 12px;
+  font-family:var(--font-body);
+  font-size:14px;
+  line-height:1.4;
+  outline:none;
+  transition:border-color .2s ease;
+  resize:vertical;
+}
+input.mono-in{ font-family:var(--font-mono); font-size:12px; letter-spacing:.02em; }
+textarea{ min-height:70px; }
+input:focus, textarea:focus, select:focus{ border-color:var(--accent-dim); }
+input::placeholder, textarea::placeholder{ color:#524f47; }
+select{ appearance:none; cursor:pointer; }
+
+.row-inline{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.check{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--body); }
+.check input{ width:16px; height:16px; accent-color:var(--accent); }
+
+.help{ font-family:var(--font-mono); font-size:10px; color:var(--muted); line-height:1.5; letter-spacing:.02em; }
+.help code{ color:var(--body); }
+.counter{ font-family:var(--font-mono); font-size:10px; color:var(--muted); letter-spacing:.03em; }
+.counter.over{ color:var(--accent); }
+.note{
+  display:flex; gap:8px; align-items:flex-start;
+  font-family:var(--font-mono); font-size:10px; line-height:1.55; letter-spacing:.02em;
+  color:var(--body);
+  background:#17140d; border:1px solid #33280f; border-radius:9px; padding:9px 11px;
+}
+.note .k{ color:var(--accent); flex:none; }
+
+/* ---------- Media slot ---------- */
+.media{
+  border:1px dashed var(--line-2);
+  border-radius:11px;
+  background:var(--panel-2);
+  padding:12px;
+  display:flex; flex-direction:column; gap:10px;
+  transition:border-color .2s ease, background .2s ease;
+}
+.media.drag{ border-color:var(--accent); background:#191712; }
+.media-top{ display:flex; gap:12px; align-items:flex-start; }
+.thumb{
+  width:104px; height:64px; flex:none;
+  border-radius:8px; overflow:hidden;
+  background:#0c0c0b; border:1px solid var(--line-2);
+  display:grid; place-items:center; position:relative;
+}
+.thumb img, .thumb video{ width:100%; height:100%; object-fit:cover; display:block; }
+.thumb .ph{ font-family:var(--font-mono); font-size:9px; color:#4d4a42; letter-spacing:.08em; text-align:center; padding:4px; }
+.media-meta{ flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; }
+.media-actions{ display:flex; gap:6px; flex-wrap:wrap; }
+.media-info{ font-family:var(--font-mono); font-size:10px; color:var(--muted); letter-spacing:.02em; line-height:1.5; word-break:break-all; }
+.media-info .ok{ color:var(--ok); }
+.media-info .warn{ color:var(--accent); }
+.ffmpeg{
+  font-family:var(--font-mono); font-size:10px; color:var(--body);
+  background:#0c0c0b; border:1px solid var(--line); border-radius:8px;
+  padding:9px 10px; line-height:1.55; white-space:pre-wrap; word-break:break-all;
+  position:relative;
+}
+
+/* ---------- Block list ---------- */
+.blocks-toolbar{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
+.add-menu{ display:flex; gap:6px; flex-wrap:wrap; }
+
+.block{
+  border:1px solid var(--line);
+  background:var(--panel);
+  border-radius:13px;
+  margin-bottom:12px;
+  overflow:hidden;
+}
+.block.dragging{ opacity:.4; }
+.block.drop-before{ box-shadow:0 -3px 0 var(--accent); }
+.block.drop-after{ box-shadow:0 3px 0 var(--accent); }
+.block-head{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px;
+  background:var(--panel-2);
+  border-bottom:1px solid var(--line);
+}
+.drag-handle{
+  cursor:grab; color:var(--muted); font-size:15px; line-height:1;
+  padding:2px 4px; border-radius:5px; user-select:none;
+}
+.drag-handle:hover{ color:var(--text); background:var(--raise); }
+.block-kind{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--accent);
+  padding:3px 8px; border:1px solid var(--accent-dim); border-radius:999px;
+}
+.block-idx{ font-family:var(--font-mono); font-size:10px; color:var(--muted); }
+.block-head .sp{ flex:1; }
+.block-body{ padding:14px; display:flex; flex-direction:column; gap:12px; }
+.icon-btn{
+  border:1px solid transparent; background:transparent; color:var(--muted);
+  cursor:pointer; font-size:13px; padding:4px 7px; border-radius:7px;
+  font-family:var(--font-mono); letter-spacing:.04em;
+  transition:color .15s ease, background .15s ease, border-color .15s ease;
+}
+.icon-btn:hover{ color:var(--text); background:var(--raise); border-color:var(--line-2); }
+.icon-btn.danger:hover{ color:var(--danger); border-color:var(--danger); }
+.icon-btn[disabled]{ opacity:.3; cursor:not-allowed; }
+
+.empty{
+  border:1px dashed var(--line-2); border-radius:13px;
+  padding:34px 20px; text-align:center; color:var(--muted);
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.04em;
+}
+
+/* pair split */
+.pair-cols{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:600px){ .pair-cols{ grid-template-columns:1fr; } }
+.pair-side{ border:1px solid var(--line); border-radius:10px; padding:10px; background:var(--panel-2); display:flex; flex-direction:column; gap:10px; }
+.pair-side > .lbl{ font-family:var(--font-mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+
+/* ---------- Validation ---------- */
+.issues{ display:flex; flex-direction:column; gap:6px; }
+.issue{ display:flex; gap:8px; align-items:flex-start; font-size:12px; line-height:1.4; }
+.issue .tag{ font-family:var(--font-mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; padding:2px 6px; border-radius:5px; flex:none; margin-top:1px; }
+.issue.err .tag{ background:#3a1d1a; color:var(--danger); }
+.issue.warn .tag{ background:#33280f; color:var(--accent); }
+.issue .txt{ color:var(--body); }
+.issue.ok{ color:var(--ok); font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; }
+
+/* ---------- Modal ---------- */
+.modal-back{
+  position:fixed; inset:0; background:rgba(0,0,0,.6);
+  display:none; align-items:center; justify-content:center; z-index:60; padding:24px;
+}
+.modal-back.open{ display:flex; }
+.modal{
+  width:min(860px, 96vw); max-height:88vh; overflow:auto;
+  background:var(--panel); border:1px solid var(--line-2); border-radius:16px;
+  display:flex; flex-direction:column;
+}
+.modal-head{
+  display:flex; align-items:center; gap:12px; padding:14px 18px;
+  border-bottom:1px solid var(--line); background:var(--panel-2);
+  position:sticky; top:0;
+}
+.modal-head h3{ margin:0; font-family:var(--font-display); font-weight:600; font-size:15px; }
+.modal-body{ padding:18px; display:flex; flex-direction:column; gap:16px; }
+.export-block{ display:flex; flex-direction:column; gap:8px; }
+.export-block .eb-head{ display:flex; align-items:center; gap:10px; }
+.export-block h4{ margin:0; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+pre.code{
+  margin:0; background:#080807; border:1px solid var(--line); border-radius:10px;
+  padding:14px; overflow:auto; max-height:340px;
+  font-family:var(--font-mono); font-size:12px; line-height:1.55; color:#d8d6cf;
+  white-space:pre; tab-size:2;
+}
+.toast{
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px);
+  background:var(--text); color:var(--bg);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+  padding:11px 18px; border-radius:999px; z-index:100;
+  opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ============================================================
+   PREVIEW — faithful reproduction of the case page.
+   Rules mirror css/site.css, scoped under #pv.
+   ============================================================ */
+#pvHost{ padding:26px; }
+.pv-toolbar{ display:flex; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+.pv-toolbar .mono{ margin-right:auto; }
+
+#pv{
+  --page:#FFFFFF;
+  --fx:rgba(233,184,124,0.42);
+  border-radius:22px;
+  padding:30px;
+  background:
+    radial-gradient(460px circle at 50% 32%, var(--fx), rgba(255,255,255,0) 60%),
+    var(--page);
+}
+#pv .ink{
+  --bg:#FFFFFF; --surface:#F6F6F6; --text:#0A0A0A;
+  --muted:#6E6E6E; --line:#E8E8E8; --radius:18px;
+  background:var(--bg); color:var(--text);
+  border:1px solid var(--line); border-radius:26px;
+  padding:44px; display:flex; flex-direction:column; gap:48px;
+  overflow:hidden;
+  box-shadow:0 30px 80px -50px rgba(0,0,0,.45);
+}
+#pv[data-theme="dark"] .ink{
+  --bg:#090909; --surface:#141414; --text:#F5F5F5;
+  --muted:#8C8C8C; --line:#242424;
+}
+#pv .ink *::selection{ background:var(--text); color:var(--bg); }
+
+#pv .case-title{ display:flex; flex-direction:column; gap:18px; }
+#pv .case-title .eyebrow{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--muted);
+}
+#pv .case-title h1{
+  margin:0; font-family:var(--font-display); font-weight:600;
+  letter-spacing:-.035em; line-height:.9;
+  font-size:clamp(40px, 6.5vw, 92px); color:var(--text);
+}
+#pv .case-index{ font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+#pv .case-hero{
+  width:calc(100% + 88px); margin-left:-44px; margin-right:-44px;
+  height:clamp(260px, 34vw, 460px); object-fit:cover; display:block; background:var(--surface);
+}
+#pv .case-hero.ph{ display:grid; place-items:center; }
+#pv .case-hero.ph span{ font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+#pv .case-intro{
+  margin:0; font-family:var(--font-display); font-weight:500;
+  font-size:clamp(20px, 2.4vw, 30px); line-height:1.3; letter-spacing:-.02em;
+  max-width:760px; color:var(--text);
+}
+#pv .case-blocks{ display:flex; flex-direction:column; gap:48px; }
+#pv .case-blocks figure{ margin:0; display:flex; flex-direction:column; gap:12px; }
+#pv .case-blocks figcaption{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--muted);
+}
+#pv .case-blocks figcaption.missing{ color:#c88; }
+#pv .case-blocks img, #pv .case-blocks video{
+  width:100%; height:auto; border-radius:var(--radius); display:block;
+}
+#pv .case-blocks video{ background:var(--surface); }
+#pv .media-ph{
+  width:100%; border-radius:var(--radius); background:var(--surface);
+  border:1px dashed var(--line); aspect-ratio:16/9; display:grid; place-items:center;
+  color:var(--muted); font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; text-align:center; padding:16px; word-break:break-all;
+}
+#pv .case-pair{ display:grid; gap:20px; }
+#pv .case-pair img, #pv .case-pair .media-ph{ height:300px; aspect-ratio:auto; object-fit:cover; }
+#pv .case-text-block{
+  margin:0; font-family:var(--font-body); font-size:clamp(16px, 1.5vw, 19px);
+  line-height:1.3; max-width:780px; color:var(--text);
+}
+#pv .case-text-block.is-lead{
+  font-family:var(--font-display); font-size:clamp(20px, 2.5vw, 30px);
+  font-weight:600; line-height:1.3; letter-spacing:-.02em;
+}
+#pv .embed{
+  position:relative; width:100%; padding-top:56.25%; border-radius:var(--radius);
+  overflow:hidden; background:var(--surface); border:1px solid var(--line);
+}
+#pv .embed .embed-lbl{
+  position:absolute; inset:0; display:flex; flex-direction:column; gap:8px;
+  align-items:center; justify-content:center; text-align:center; padding:16px;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--muted); word-break:break-all;
+}
+#pv .embed .play{ font-size:26px; color:var(--text); opacity:.8; }
+#pv .embed-placeholder{
+  width:100%; padding-top:56.25%; position:relative;
+  border:1px dashed var(--line); border-radius:var(--radius);
+}
+#pv .embed-placeholder span{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted);
+}
+#pv .case-empty{ color:var(--muted); font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; }
+
+.sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="brand"><span class="glyph">◆</span> Case Builder</div>
+    <button class="btn ghost tiny" id="btnTidyAll" title="Apply typographic tidy to every text field">Tidy all text</button>
+    <div class="spacer"></div>
+    <span class="status" id="saveStatus"></span>
+    <button class="btn ghost" id="btnImport">Import JSON</button>
+    <button class="btn ghost" id="btnExportJson">Save JSON</button>
+    <button class="btn primary" id="btnExport">Export for cases.js</button>
+    <input type="file" id="fileImport" accept="application/json,.json" class="sr">
+  </header>
+
+  <!-- ============ CASES BAR ============ -->
+  <div class="casesbar">
+    <span class="cb-label">Case</span>
+    <select id="caseSelect" title="Switch which case you're editing"></select>
+    <button class="btn tiny" id="btnNewCase">+ New</button>
+    <button class="btn tiny ghost" id="btnDupCase">Duplicate</button>
+    <button class="btn tiny ghost danger" id="btnDelCase">Delete</button>
+    <button class="btn tiny ghost" id="btnPaste">Paste a case…</button>
+    <button class="btn tiny ghost" id="btnResetAll" title="Restore the 5 bundled cases">Reset to defaults</button>
+    <span class="count" id="caseCount"></span>
+  </div>
+
+  <div class="panes">
+    <!-- ============ EDITOR ============ -->
+    <section class="pane editor">
+      <div class="pane-inner">
+
+        <!-- Meta -->
+        <div class="sec">
+          <div class="sec-head"><h2>Case meta</h2><span class="hint">identity &amp; index card</span></div>
+          <div class="sec-body">
+            <div class="note"><span class="k">Note</span><span>Formatting is automated — the tidy pass fixes curly quotes, em dashes, ellipses and spacing on blur. This offline tool does <b>not</b> rewrite prose; deep copy edits happen elsewhere. Paste rough copy, clean it manually, let tidy handle typography.</span></div>
+            <div class="grid2">
+              <div class="field">
+                <label>Slug <span class="sub">(url + folder key, e.g. casper)</span></label>
+                <input type="text" class="mono-in" id="m_slug" placeholder="casper">
+              </div>
+              <div class="field">
+                <label>Href <span class="sub">(auto from slug)</span></label>
+                <input type="text" class="mono-in" id="m_href" placeholder="casper.html">
+              </div>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label>Client</label>
+                <input type="text" id="m_client" placeholder="Casper">
+              </div>
+              <div class="field">
+                <label>Title</label>
+                <input type="text" id="m_title" placeholder="The Sleep Channel">
+              </div>
+            </div>
+            <div class="field">
+              <label>Eyebrow <span class="sub">(preview shows Category · Year only)</span></label>
+              <div class="grid2">
+                <input type="text" id="m_cat" placeholder="Category — e.g. Social">
+                <input type="text" id="m_year" placeholder="Year — e.g. 2019">
+              </div>
+              <input type="text" id="m_eyetail" placeholder="Eyebrow tail (optional) — e.g. Casper, The Sleep Company">
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label>Index <span class="sub">(e.g. Case 06 / 06)</span></label>
+                <input type="text" class="mono-in" id="m_index" placeholder="Case 06 / 06">
+              </div>
+              <div class="field">
+                <label>List meta <span class="sub">(index card)</span></label>
+                <input type="text" class="mono-in" id="m_listMeta" placeholder="Social · 2019">
+              </div>
+            </div>
+            <div class="field">
+              <label>Intro <span class="sub">(display lead under the title)</span></label>
+              <textarea id="m_intro" data-tidy placeholder="One or two sentences that frame the work…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Index card -->
+        <div class="sec">
+          <div class="sec-head"><h2>Work index card</h2><span class="hint">how it lists on work.html</span></div>
+          <div class="sec-body">
+            <div class="grid2">
+              <div class="field">
+                <label>List title</label>
+                <input type="text" id="m_listTitle" placeholder="Casper">
+              </div>
+              <div class="field">
+                <label>Thumb path</label>
+                <input type="text" class="mono-in" id="m_thumb" placeholder="assets/work/casper.webp">
+              </div>
+            </div>
+            <div class="field">
+              <label>List blurb</label>
+              <input type="text" id="m_listBlurb" data-tidy placeholder="A social campaign moving a mattress brand toward being a sleep company.">
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero -->
+        <div class="sec">
+          <div class="sec-head"><h2>Hero image</h2><span class="hint">full-bleed at the top of the card</span></div>
+          <div class="sec-body">
+            <div class="field" id="heroSlot"></div>
+            <div class="field">
+              <label>Hero alt text</label>
+              <input type="text" id="m_heroAlt" placeholder="Casper — bedroom">
+            </div>
+          </div>
+        </div>
+
+        <!-- Blocks -->
+        <div class="sec">
+          <div class="sec-head"><h2>Body blocks</h2><span class="hint">drag ⠿ to reorder</span></div>
+          <div class="sec-body">
+            <div class="blocks-toolbar">
+              <span class="mono">Add block:</span>
+              <div class="add-menu">
+                <button class="btn tiny" data-add="text">Text</button>
+                <button class="btn tiny" data-add="lead">Lead text</button>
+                <button class="btn tiny" data-add="image">Image</button>
+                <button class="btn tiny" data-add="video">Video</button>
+                <button class="btn tiny" data-add="pair">Pair</button>
+                <button class="btn tiny" data-add="embed">Embed</button>
+              </div>
+            </div>
+            <div id="blockList"></div>
+          </div>
+        </div>
+
+        <!-- Validation -->
+        <div class="sec">
+          <div class="sec-head"><h2>Checks</h2><span class="hint">non-blocking</span></div>
+          <div class="sec-body"><div class="issues" id="issues"></div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ PREVIEW ============ -->
+    <section class="pane preview">
+      <div id="pvHost">
+        <div class="pv-toolbar">
+          <span class="mono">Live preview</span>
+          <button class="btn ghost tiny" id="pvTheme">Dark card</button>
+        </div>
+        <div id="pv" data-theme="dark">
+          <article class="ink" id="pvInk"></article>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ EXPORT MODAL ============ -->
+<div class="modal-back" id="exportModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Export</h3>
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn ghost tiny" id="btnDownloadImages">Download all images</button>
+      <button class="btn ghost tiny" id="closeExport">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="export-block">
+        <div class="eb-head">
+          <h4>Full js/cases.js  <span style="color:var(--accent)">(replace whole file)</span></h4>
+          <div class="spacer" style="flex:1"></div>
+          <button class="btn tiny" id="btnDownloadCases">Download cases.js</button>
+          <button class="btn tiny" data-copy="#codeFull">Copy</button>
+        </div>
+        <div class="help">Regenerates <code>window.MP_CASES</code> for <b>all</b> cases (existing + edited), index auto-numbered by order. Paste over the whole of <code>js/cases.js</code>.</div>
+        <pre class="code" id="codeFull"></pre>
+      </div>
+      <div class="export-block">
+        <div class="eb-head">
+          <h4>Single case entry</h4>
+          <div class="spacer" style="flex:1"></div>
+          <button class="btn tiny" data-copy="#codeCases">Copy</button>
+        </div>
+        <div class="help">Just the active case as a keyed entry, to paste inside an existing <code>window.MP_CASES = { … }</code>.</div>
+        <pre class="code" id="codeCases"></pre>
+      </div>
+      <div class="export-block">
+        <div class="eb-head">
+          <h4>Media manifest</h4>
+          <div class="spacer" style="flex:1"></div>
+          <button class="btn tiny" data-copy="#codeManifest">Copy</button>
+        </div>
+        <div class="help">Every file the active case references, with its target path. Download images here; run the ffmpeg lines locally for videos.</div>
+        <pre class="code" id="codeManifest"></pre>
+      </div>
+      <div class="export-block">
+        <div class="eb-head">
+          <h4>ffmpeg batch script <span style="color:var(--muted)">(videos)</span></h4>
+          <div class="spacer" style="flex:1"></div>
+          <button class="btn tiny" id="btnDownloadFfmpeg">Download .sh</button>
+          <button class="btn tiny" data-copy="#codeFfmpeg">Copy</button>
+        </div>
+        <div class="help">Runnable shell script transcoding every video in the active case to spec. Browsers can’t transcode — run this locally with ffmpeg installed.</div>
+        <pre class="code" id="codeFfmpeg"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PASTE-IMPORT MODAL ============ -->
+<div class="modal-back" id="pasteModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3>Paste a case</h3>
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn ghost tiny" id="closePaste">Close</button>
+    </div>
+    <div class="modal-body">
+      <div class="help">
+        Paste any of: the whole <code>window.MP_CASES = { … }</code> from <code>js/cases.js</code>,
+        a bare cases map <code>{ casper: {…}, nike: {…} }</code>, a single case object
+        <code>{ href:…, blocks:[…] }</code>, or a keyed entry <code>slug: { … }</code>.
+        A map replaces matching slugs and adds new ones; a single object is added as a new case.
+      </div>
+      <textarea id="pasteBox" style="min-height:280px; font-family:var(--font-mono); font-size:12px;" placeholder="Paste case JS/JSON here…"></textarea>
+      <div class="row-inline">
+        <button class="btn primary" id="btnParsePaste">Parse &amp; load</button>
+        <span class="help" id="pasteMsg"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+(function(){
+
+/* ============================================================
+   State
+   ============================================================ */
+var STORE_KEY = 'mp_case_builder_v1';
+var uid = 0;
+function genId(){ return 'b' + (Date.now().toString(36)) + (uid++).toString(36); }
+
+function emptyMedia(){ return null; } // { kind, preview, name, path, w, h, bytes, dur }
+
+function blankState(){
+  return {
+    _cid: genId(),
+    slug:'', href:'', client:'', title:'',
+    cat:'', year:'', eyetail:'',
+    index:'', intro:'',
+    listTitle:'', listBlurb:'', listMeta:'', thumb:'',
+    hero:{ src:'', alt:'', media:null },
+    blocks:[]
+  };
+}
+
+/* ---- Seed: the 5 real cases, verbatim from js/cases.js ---- */
+var SEED_CASES = {
+  casper: {
+    href: 'casper.html', thumb: 'assets/work/casper.webp',
+    listTitle: 'Casper', listBlurb: 'A social campaign moving a mattress brand toward being a sleep company.', listMeta: 'Social · 2019',
+    index: 'Case 01 / 05', eyebrow: 'Social · 2019 · Casper, The Sleep Company',
+    client: 'Casper', title: 'The Sleep Channel',
+    hero: { src: 'assets/work/casper.webp', alt: 'Casper — bedroom' },
+    intro: 'By 2019, over 100 mattress-in-a-box brands had turned “mattresses” into a commodity, so Casper set out to become a lifestyle company built around sleep — and we answered with the Casper Sleep Channel, a library of gently absurd long-form sleep content that lived on YouTube and Spotify.',
+    blocks: [
+      { kind: 'image', src: 'assets/work/casper-phones.webp', caption: 'The Casper Sleep Channel — published across Spotify & YouTube' },
+      { kind: 'embed', url: 'VIMEO_ID', caption: 'Campaign film — add your Vimeo link' },
+      { kind: 'video', src: 'assets/work/casper-film1.mp4', caption: 'Sleep-content spot — one of the channel’s long-form films' },
+      { kind: 'pair', cols: '1.5fr 1fr',
+        left:  { src: 'assets/work/casper-grid.webp',     caption: 'Original episodes — Patent Yawns, Oceans of the World, Body Scan' },
+        right: { src: 'assets/work/casper-bodyscan.webp', caption: 'Vertical cutdowns for social' } },
+      { kind: 'pair', cols: '1fr 1fr',
+        left:  { src: 'assets/work/casper-patent.webp', caption: 'Patent Yawns — episode artwork' },
+        right: { src: 'assets/work/casper-oceans.webp', caption: 'Oceans of the World — vertical key art' } },
+      { kind: 'video', src: 'assets/work/casper-film2.mp4', caption: 'Social cutdown from the campaign' }
+    ]
+  },
+  nike: {
+    href: 'nike.html', thumb: 'assets/work/nike.webp',
+    listTitle: 'Nike — Air Max Day', listBlurb: 'A global Air Max Day moment engineered for feeds and culture.', listMeta: 'Campaign · 2021',
+    index: 'Case 02 / 05', eyebrow: 'Campaign · 2021 · Nike, Air Max Day Worldwide',
+    client: 'Nike', title: 'Air Max Day',
+    hero: { src: 'assets/work/nike/hero.webp', alt: 'Nike — Air Max Day Worldwide' },
+    intro: 'Air Max Day is Nike’s annual celebration of the Air Max — usually a global, on-the-ground affair of events, installations and drops. In 2021 none of that was possible, so we built AMD Worldwide: a mobile-first, members-only 24-hour virtual event that met a diehard fanbase and a new Gen-Z audience where they already were.',
+    blocks: [
+      { kind: 'text', lead: true, text: 'The background: Air Max Day is Nike’s annual holiday for the Air Max — typically an on-the-ground initiative of geo-supported community events, installations, celebrity appearances and drops. In 2021, none of that was possible.' },
+      { kind: 'text', text: 'The brief: what’s the best way to celebrate Air Max Day virtually — in a way that speaks to Nike’s diehard fanbase and Gen-Z women, while honoring the unique sensibilities and needs of each geo? We knew we had to meet our audience where they were, make it feel like a can’t-miss event, and build an extensible platform.' },
+      { kind: 'video', src: 'assets/work/loops/nike-006.mp4', caption: 'AMD Worldwide — a 24-hour, Nike.com members-only experience' },
+      { kind: 'text', text: 'Live for only 24 hours and open to Nike.com members, the experience housed a ton of exclusive content. Because so many geos were involved, we played on the idea of travel — Air Max is about the collective: everybody coming together to bring the future to light and give everyone a voice.' },
+      { kind: 'embed', url: 'VIMEO_ID', caption: 'Launch film — add your Vimeo link' },
+      { kind: 'image', src: 'assets/work/nike/geo.webp', caption: 'An extensible platform built to honor the sensibilities of 15 geos' },
+      { kind: 'text', text: 'The content ranged from geo-specific stories and streetscapes to “34 years of Air Max in 60 seconds,” The Pair product storytelling, a mobile-first experience, a Travis Scott live stream, and a LiDAR scan.' },
+      { kind: 'pair', cols: '1fr 1fr',
+        left:  { src: 'assets/work/nike/pair-1.webp', caption: 'The Pair — product storytelling' },
+        right: { src: 'assets/work/nike/pair-2.webp', caption: '34 years of Air Max in 60 seconds' } },
+      { kind: 'text', text: 'My role: casting creatives and leading concepting, writing and vetting content ideas, developing the structure and content strategy for the site, and daily check-ins with Nike CDs. Eight weeks, soup to nuts — I barely slept, but it was a trip.' },
+      { kind: 'image', src: 'assets/work/nike/role.webp', caption: 'My role — casting creatives, leading concepting, site structure & content strategy, daily check-ins with Nike CDs. Eight weeks, soup to nuts.' },
+      { kind: 'text', text: 'The results: 515k total visits, 4.7M total impressions, 15.9k social shares, and 5.7B total miles travelled — 100% original content across 15 geos, delivered by a 35-person team.' }
+    ]
+  },
+  sja: {
+    href: 'steve-jobs-archive.html', thumb: 'assets/work/sja.webp',
+    listTitle: 'Steve Jobs Archive', listBlurb: 'Editorial and creative direction for a new kind of archive.', listMeta: 'Editorial · 2023',
+    index: 'Case 03 / 05', eyebrow: 'Editorial · 2023 · Steve Jobs Archive',
+    client: 'Steve Jobs Archive', title: 'Letters to a Young Creator',
+    hero: { src: 'assets/work/sja/a.webp', alt: 'Steve Jobs Archive' },
+    intro: 'The Steve Jobs Archive is the authoritative home for Steve’s story and a resource for new generations eager to make their own mark. “Letters to a Young Creator” is part of that work — editorial and creative direction for a new kind of institution.',
+    blocks: [
+      { kind: 'text', lead: true, text: 'The Steve Jobs Archive is the authoritative home for Steve’s story and a resource for new generations eager to make their own mark.' },
+      { kind: 'video', src: 'assets/work/loops/sja-004.mp4', caption: 'A resource for new generations eager to make their own mark' },
+      { kind: 'text', text: '“Letters to a Young Creator” is part of that work — an original series developed in the Archive’s editorial voice, pairing archival material with new writing for people at the start of their own creative lives.' },
+      { kind: 'pair', cols: '1fr 1fr',
+        left:  { src: 'assets/work/sja/b.webp', caption: 'Editorial system' },
+        right: { src: 'assets/work/sja/c.webp', caption: 'Story-first layouts' } },
+      { kind: 'embed', url: 'VIMEO_ID', caption: 'Film — add your Vimeo link' },
+      { kind: 'pair', cols: '1fr 1fr',
+        left:  { src: 'assets/work/sja/d.webp', caption: 'Typography & tone' },
+        right: { src: 'assets/work/sja/e.webp', caption: 'The authoritative home for Steve’s story' } }
+    ]
+  },
+  stink: {
+    href: 'stink-studios-rebrand.html', thumb: 'assets/work/stink.webp',
+    listTitle: 'Stink Studios Rebrand', listBlurb: 'Rebuilding the identity of a global creative studio from the inside.', listMeta: 'Brand · 2022',
+    index: 'Case 04 / 05', eyebrow: 'Brand · 2022 · Stink Studios',
+    client: 'Stink Studios', title: 'Rebrand',
+    hero: { src: 'assets/work/stink/b.webp', alt: 'Stink Studios rebrand' },
+    intro: 'Eight years on from our last rebrand, Stink had grown to hundreds of people across six offices — lots of strangers who needed a cohesive sense of what Stink was for. The rebrand gave everyone something to rally around: a system built on craft, digital fluency and humanity, running from the values to the type to a custom icon font.',
+    blocks: [
+      { kind: 'text', lead: true, text: 'Eight years on from our last rebrand, and in that time Stink had ballooned to a huge staff across six offices — lots of strangers who needed a cohesive sense of what Stink was for, something to rally around.' },
+      { kind: 'text', text: 'The story of Stink begins in 1998 with Stink Films in London. In 2007 Mark moved to London to set up an interactive arm, and Stink Digital was born. Our first project, Philips “Carousel,” won the Film Grand Prix at Cannes — the first ever non-linear piece to receive the honor, and the project that put Stink Digital on the map.' },
+      { kind: 'image', src: 'assets/work/stink/a.webp', caption: 'From Carousel onward — world-class work underpinned with digital thinking' },
+      { kind: 'text', text: 'The rebrand ran from the values out: Craft, Digital Fluency, Positivity, Honesty, Adaptability, Humanity, Equity. On positivity — “You are here for a glorious window of time. Be the person whose presence generates serotonin instead of stress. Leave your ego at the door.”' },
+      { kind: 'text', text: 'Typography connects us to craft. Helvetica, Times New Roman and Courier New are openly accessible, basic, default raw materials — and the way we shape them exposes the way we think and make, while nodding to the early-web aesthetics in our DNA.' },
+      { kind: 'image', src: 'assets/work/stink/c.webp', caption: 'Typography — Helvetica, Times New Roman and Courier New, default raw materials shaped with craft' },
+      { kind: 'embed', url: 'VIMEO_ID', caption: 'Brand film — add your Vimeo link' },
+      { kind: 'text', text: 'Stink Dings — our own custom icon font, a nod to our digital roots and full of references to studio culture. There’s a story behind every Ding; they’re one way we bring our humanity into the visual toolkit.' },
+      { kind: 'pair', cols: '1fr 1fr',
+        left:  { src: 'assets/work/stink/d.webp', caption: 'Stink Dings — a custom icon font full of studio-culture references' },
+        right: { src: 'assets/work/stink/e.webp', caption: 'Dings in use — treated like emoji, never building blocks' } },
+      { kind: 'text', text: 'My role: writing the brief, leading the design and motion teams, and lots of writing for the brand book — ultimate stakeholder. This whole thing was very much my baby.' },
+      { kind: 'image', src: 'assets/work/stink/f.webp', caption: 'A permanent minimum 18% uptick in site traffic from launch — and better vibes' },
+      { kind: 'text', text: 'The impact: a permanent minimum 18% uptick in site traffic from launch onward — and the vibes were better. I heard from a lot of people about how clarifying it was to have the brand expressed like this.' }
+    ]
+  },
+  hinge: {
+    href: 'hinge.html', thumb: 'assets/work/hinge.webp',
+    listTitle: 'Hinge — NFAQ', listBlurb: 'A brand answer to the questions dating apps never address.', listMeta: 'Brand · 2022',
+    index: 'Case 05 / 05', eyebrow: 'Brand · 2022 · Hinge',
+    client: 'Hinge', title: 'NFAQ',
+    hero: { src: 'assets/work/hinge/a.webp', alt: 'Hinge — NFAQ' },
+    intro: 'Hinge is the dating app designed to be deleted. NFAQ — the Not-So-Frequently Asked Questions — is a brand answer to the questions dating apps never address, turning real dating anxieties into a warm, disarming campaign.',
+    blocks: [
+      { kind: 'video', src: 'assets/work/loops/hinge-006.mp4', caption: 'NFAQ — the Not-So-Frequently Asked Questions' },
+      { kind: 'pair', cols: '1fr 1fr',
+        left:  { src: 'assets/work/hinge/b.webp', caption: 'Questions dating apps never address' },
+        right: { src: 'assets/work/hinge/c.webp', caption: 'Warm, disarming, honest' } },
+      { kind: 'embed', url: 'VIMEO_ID', caption: 'Campaign film — add your Vimeo link' },
+      { kind: 'image', src: 'assets/work/hinge/d.webp', caption: 'Designed to be deleted' }
+    ]
+  }
+};
+
+/* The banner comment reproduced from js/cases.js, for the full-file export. */
+var CASES_BANNER =
+'/* ============================================================\n' +
+'   Case study content.\n' +
+'   Edit copy, media and captions here — both work.html (the index)\n' +
+'   and the individual case pages read from this file.\n' +
+'\n' +
+'   Block kinds:\n' +
+'     text  { text, lead? }        lead:true = large display lead\n' +
+'     image { src, caption }\n' +
+'     video { src, caption }       autoplay, muted, loop\n' +
+'     pair  { cols, left, right }  two images side by side\n' +
+'     embed { url, caption }       Vimeo/YouTube link, or \'VIMEO_ID\' placeholder\n' +
+'   ============================================================ */';
+
+/* Turn a raw cases.js block into the tool's internal (media-aware) shape. */
+function internalizeBlock(b){
+  var o = { _id: genId(), kind: b.kind };
+  if(b.kind === 'text'){ o.lead = !!b.lead; o.text = b.text || ''; }
+  else if(b.kind === 'image' || b.kind === 'video'){ o.src = b.src || ''; o.caption = b.caption || ''; o.media = null; }
+  else if(b.kind === 'embed'){ o.url = b.url || ''; o.caption = b.caption || ''; }
+  else if(b.kind === 'pair'){
+    o.cols = b.cols || '1fr 1fr';
+    o.left  = { src: (b.left||{}).src || '',  caption: (b.left||{}).caption || '',  media:null };
+    o.right = { src: (b.right||{}).src || '', caption: (b.right||{}).caption || '', media:null };
+  }
+  return o;
+}
+
+/* Turn a raw cases.js case object (+ its slug) into internal state. */
+function internalizeCase(slug, raw){
+  raw = raw || {};
+  var eye = String(raw.eyebrow || '').split(' · ');
+  var s = blankState();
+  s.slug = slug || '';
+  s.href = raw.href || (slug ? slug + '.html' : '');
+  s.client = raw.client || '';
+  s.title = raw.title || '';
+  s.cat = eye[0] || '';
+  s.year = eye[1] || '';
+  s.eyetail = eye.slice(2).join(' · ') || '';
+  s.index = raw.index || '';
+  s.intro = raw.intro || '';
+  s.listTitle = raw.listTitle || '';
+  s.listBlurb = raw.listBlurb || '';
+  s.listMeta = raw.listMeta || '';
+  s.thumb = raw.thumb || '';
+  s.hero = { src: (raw.hero||{}).src || '', alt: (raw.hero||{}).alt || '', media:null };
+  s.blocks = (raw.blocks || []).map(internalizeBlock);
+  return s;
+}
+
+/* ---- Multi-case library ---- */
+var library = [];       // ordered array of internal case objects
+var state = blankState(); // reference to the active case within `library`
+
+function pad2(n){ n = String(n); return n.length < 2 ? '0'+n : n; }
+
+/* Auto-manage each case's index ("Case 0X / 0N") from its position. */
+function renumber(){
+  var n = library.length;
+  library.forEach(function(c, i){ c.index = 'Case ' + pad2(i+1) + ' / ' + pad2(n); });
+}
+
+function seedLibrary(){
+  library = Object.keys(SEED_CASES).map(function(slug){ return internalizeCase(slug, SEED_CASES[slug]); });
+  renumber();
+  state = library[0] || blankState();
+}
+
+function activeIndex(){ for(var i=0;i<library.length;i++){ if(library[i]._cid === state._cid) return i; } return -1; }
+
+function newBlock(kind){
+  var lead = false;
+  if(kind === 'lead'){ kind = 'text'; lead = true; }
+  var b = { _id:genId(), kind:kind };
+  if(kind === 'text'){ b.lead = lead; b.text = ''; }
+  else if(kind === 'image'){ b.src=''; b.caption=''; b.media=null; }
+  else if(kind === 'video'){ b.src=''; b.caption=''; b.media=null; }
+  else if(kind === 'embed'){ b.url=''; b.caption=''; }
+  else if(kind === 'pair'){
+    b.cols = '1fr 1fr';
+    b.left  = { src:'', caption:'', media:null };
+    b.right = { src:'', caption:'', media:null };
+  }
+  return b;
+}
+
+/* ============================================================
+   Typographic tidy
+   ============================================================ */
+function tidy(s){
+  if(s == null) return s;
+  var t = String(s).replace(/\r\n?/g,'\n');
+  // em dashes:  --  and  spaced hyphen  ->  —
+  t = t.replace(/\s*--\s*/g, '—');
+  t = t.replace(/(\S)\s+-\s+(\S)/g, '$1 — $2');
+  // ellipsis
+  t = t.replace(/\.\.\./g, '…');
+  // curly double quotes (opening after start / whitespace / opener)
+  t = t.replace(/(^|[\s([{<—–\-])"/g, '$1“').replace(/"/g, '”');
+  // curly single quotes / apostrophes
+  t = t.replace(/(^|[\s([{<—–\-])'/g, '$1‘').replace(/'/g, '’');
+  // collapse runs of spaces/tabs
+  t = t.replace(/[ \t]{2,}/g, ' ');
+  // trim each line + overall
+  t = t.split('\n').map(function(l){ return l.replace(/\s+$/,'').replace(/^[ \t]+/,''); }).join('\n');
+  return t.trim();
+}
+
+// Live word/char counter with a gentle over-length hint. Stores its updater
+// on the element as ._updateCounter so callers can refresh after programmatic
+// value changes (e.g. switching cases).
+function attachCounter(el, soft, hostEl){
+  var c = document.createElement('div'); c.className = 'counter';
+  (hostEl || el.parentNode).appendChild(c);
+  function upd(){
+    var v = el.value || '';
+    var chars = v.length;
+    var words = v.trim() ? v.trim().split(/\s+/).length : 0;
+    var over = soft && chars > soft;
+    c.textContent = words + ' words · ' + chars + ' chars' + (over ? '  · runs long for this field' : '');
+    c.classList.toggle('over', !!over);
+  }
+  el.addEventListener('input', upd);
+  el._updateCounter = upd;
+  upd();
+  return upd;
+}
+
+/* ============================================================
+   Image processing — canvas resize -> WebP
+   ============================================================ */
+var MAX_EDGE = 2400, WEBP_Q = 0.82;
+
+function sanitizeName(name){
+  var base = String(name).replace(/\.[^.]+$/,'');
+  return base.toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/-{2,}/g,'-')
+    .replace(/^-|-$/g,'') || 'image';
+}
+
+function targetPath(slug, filename){
+  var s = sanitizeName(slug || '');
+  return s ? ('assets/work/' + s + '/' + filename) : ('assets/work/' + filename);
+}
+
+function processImageFile(file){
+  return new Promise(function(resolve, reject){
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function(){
+      var w = img.naturalWidth, h = img.naturalHeight;
+      var scale = Math.min(1, MAX_EDGE / Math.max(w, h));
+      var ow = Math.max(1, Math.round(w * scale));
+      var oh = Math.max(1, Math.round(h * scale));
+      var cv = document.createElement('canvas');
+      cv.width = ow; cv.height = oh;
+      var ctx = cv.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, ow, oh);
+      URL.revokeObjectURL(url);
+      cv.toBlob(function(blob){
+        if(!blob){ reject(new Error('WebP encode failed (browser may not support toBlob webp).')); return; }
+        var fr = new FileReader();
+        fr.onload = function(){
+          resolve({
+            kind:'image',
+            preview: fr.result,        // data:image/webp;base64,…
+            name: sanitizeName(file.name) + '.webp',
+            origName: file.name,
+            w: ow, h: oh,
+            bytes: blob.size
+          });
+        };
+        fr.onerror = function(){ reject(new Error('read blob failed')); };
+        fr.readAsDataURL(blob);
+      }, 'image/webp', WEBP_Q);
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); reject(new Error('not a readable image')); };
+    img.src = url;
+  });
+}
+
+function acceptVideoFile(file){
+  // No in-browser transcode. Keep an object URL for live preview only.
+  var url = URL.createObjectURL(file);
+  return {
+    kind:'video',
+    preview: url,            // object URL (session only, not persisted)
+    isObjectUrl: true,
+    name: sanitizeName(file.name) + '.mp4',
+    origName: file.name,
+    bytes: file.size,
+    w:0, h:0
+  };
+}
+
+function humanBytes(n){
+  if(!n && n !== 0) return '?';
+  if(n < 1024) return n + ' B';
+  if(n < 1048576) return (n/1024).toFixed(0) + ' KB';
+  return (n/1048576).toFixed(1) + ' MB';
+}
+
+/* ============================================================
+   Persistence (localStorage autosave)
+   ============================================================ */
+var saveTimer = null;
+function scheduleSave(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(doSave, 500);
+  setStatus('Editing…');
+}
+
+// Deep-clone one case, stripping object-URL previews (never persistable) and,
+// when includeMedia is false, image data URLs too (to fit under quota).
+function serializableCase(c, includeMedia){
+  var clone = JSON.parse(JSON.stringify(c));
+  function scrub(m){
+    if(!m) return;
+    if(m.isObjectUrl) m.preview = null;
+    if(!includeMedia) m.preview = null;
+  }
+  if(clone.hero && clone.hero.media) scrub(clone.hero.media);
+  (clone.blocks||[]).forEach(function(b){
+    if(b.media) scrub(b.media);
+    if(b.left && b.left.media) scrub(b.left.media);
+    if(b.right && b.right.media) scrub(b.right.media);
+  });
+  return clone;
+}
+
+function serializableLibrary(includeMedia){
+  return {
+    library: library.map(function(c){ return serializableCase(c, includeMedia); }),
+    activeId: state._cid
+  };
+}
+
+function doSave(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify(serializableLibrary(true)));
+    setStatus('Saved ✓', true);
+  }catch(e){
+    // Likely quota — retry without image data URLs.
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify(serializableLibrary(false)));
+      setStatus('Saved (text only — media too large) ✓', true);
+    }catch(e2){
+      setStatus('Autosave failed (storage full)');
+    }
+  }
+}
+
+function reviveCase(data){
+  var c = Object.assign(blankState(), data);
+  if(!c._cid) c._cid = genId();
+  c.hero = Object.assign({src:'',alt:'',media:null}, data.hero || {});
+  c.blocks = (data.blocks || []).map(function(b){ if(!b._id) b._id = genId(); return b; });
+  return c;
+}
+
+function loadSaved(){
+  try{
+    var raw = localStorage.getItem(STORE_KEY);
+    if(!raw){ seedLibrary(); return true; }
+    var data = JSON.parse(raw);
+    if(!data || !Array.isArray(data.library) || !data.library.length){ seedLibrary(); return true; }
+    library = data.library.map(reviveCase);
+    var found = library.filter(function(c){ return c._cid === data.activeId; })[0];
+    state = found || library[0];
+    renumber();
+    return true;
+  }catch(e){ seedLibrary(); return true; }
+}
+
+var statusTimer = null;
+function setStatus(msg, sticky){
+  var el = document.getElementById('saveStatus');
+  el.innerHTML = sticky ? '<b>' + msg + '</b>' : msg;
+  if(statusTimer) clearTimeout(statusTimer);
+  if(sticky){
+    statusTimer = setTimeout(function(){ el.textContent = ''; }, 1800);
+  }
+}
+
+/* ============================================================
+   Toast
+   ============================================================ */
+var toastTimer = null;
+function toast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+}
+
+/* ============================================================
+   Meta field binding
+   ============================================================ */
+var metaMap = {
+  m_slug:'slug', m_client:'client', m_title:'title',
+  m_cat:'cat', m_year:'year', m_eyetail:'eyetail',
+  m_index:'index', m_intro:'intro',
+  m_listTitle:'listTitle', m_listBlurb:'listBlurb', m_listMeta:'listMeta', m_thumb:'thumb'
+};
+
+function bindMeta(){
+  Object.keys(metaMap).forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('input', function(){
+      state[metaMap[id]] = el.value;
+      if(id === 'm_slug'){
+        // auto href if it still tracks the slug
+        var hrefEl = document.getElementById('m_href');
+        var expected = state.slug ? sanitizeName(state.slug) + '.html' : '';
+        if(!hrefEl.value || hrefEl.dataset.auto === '1'){
+          hrefEl.value = expected;
+          hrefEl.dataset.auto = '1';
+          state.href = expected;
+        }
+        refreshCasePicker();
+      }
+      renderPreview(); scheduleSave();
+    });
+    if(el.hasAttribute('data-tidy')){
+      el.addEventListener('blur', function(){
+        var v = tidy(el.value);
+        if(v !== el.value){ el.value = v; state[metaMap[id]] = v; renderPreview(); scheduleSave(); }
+      });
+    }
+  });
+
+  var hrefEl = document.getElementById('m_href');
+  hrefEl.addEventListener('input', function(){ hrefEl.dataset.auto = '0'; state.href = hrefEl.value; renderPreview(); scheduleSave(); });
+
+  document.getElementById('m_heroAlt').addEventListener('input', function(e){
+    state.hero.alt = e.target.value; renderPreview(); scheduleSave();
+  });
+
+  // live counters + gentle over-length hints
+  attachCounter(document.getElementById('m_intro'), 340);
+  attachCounter(document.getElementById('m_listBlurb'), 110);
+}
+
+function refreshMetaCounters(){
+  ['m_intro','m_listBlurb'].forEach(function(id){
+    var e = document.getElementById(id);
+    if(e && e._updateCounter) e._updateCounter();
+  });
+}
+
+function fillMeta(){
+  Object.keys(metaMap).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.value = state[metaMap[id]] || '';
+  });
+  var hrefEl = document.getElementById('m_href');
+  var derived = state.slug ? (sanitizeName(state.slug) + '.html') : '';
+  hrefEl.value = state.href || derived;
+  hrefEl.dataset.auto = (!state.href || state.href === derived) ? '1' : '0';
+  document.getElementById('m_heroAlt').value = state.hero.alt || '';
+}
+
+function heroHref(){ return state.href || document.getElementById('m_href').value || (state.slug ? sanitizeName(state.slug)+'.html' : ''); }
+
+/* ============================================================
+   Media slot component
+   ============================================================ */
+// owner: object holding .src/.url + .media ; field: 'src' or 'url'
+function mediaSlot(owner, opts){
+  opts = opts || {};
+  var kind = opts.kind || 'image';        // 'image' | 'video'
+  var srcField = opts.srcField || 'src';
+  var wrap = document.createElement('div');
+  wrap.className = 'media';
+
+  var top = document.createElement('div'); top.className = 'media-top';
+  var thumb = document.createElement('div'); thumb.className = 'thumb';
+  var meta = document.createElement('div'); meta.className = 'media-meta';
+  top.appendChild(thumb); top.appendChild(meta);
+
+  // path input
+  var pathInput = document.createElement('input');
+  pathInput.type = 'text'; pathInput.className = 'mono-in';
+  pathInput.placeholder = kind === 'video' ? 'assets/work/…/clip.mp4' : 'assets/work/…/image.webp';
+  pathInput.value = owner[srcField] || '';
+  pathInput.addEventListener('input', function(){ owner[srcField] = pathInput.value; renderPreview(); scheduleSave(); });
+  meta.appendChild(pathInput);
+
+  var info = document.createElement('div'); info.className = 'media-info';
+  meta.appendChild(info);
+
+  var actions = document.createElement('div'); actions.className = 'media-actions';
+  var pick = document.createElement('button'); pick.className = 'btn tiny ghost';
+  pick.textContent = kind === 'video' ? 'Choose video…' : 'Choose image…';
+  var dlBtn = document.createElement('button'); dlBtn.className = 'btn tiny'; dlBtn.textContent = 'Download';
+  var clr = document.createElement('button'); clr.className = 'btn tiny ghost'; clr.textContent = 'Clear';
+  actions.appendChild(pick); actions.appendChild(dlBtn); actions.appendChild(clr);
+  meta.appendChild(actions);
+
+  var fileIn = document.createElement('input');
+  fileIn.type = 'file'; fileIn.className = 'sr';
+  fileIn.accept = kind === 'video' ? 'video/*' : 'image/*';
+
+  var ffWrap = document.createElement('div'); // ffmpeg command for video
+  wrap.appendChild(top); wrap.appendChild(fileIn); wrap.appendChild(ffWrap);
+
+  function renderThumb(){
+    thumb.innerHTML = '';
+    var m = owner.media;
+    if(m && m.preview){
+      if(m.kind === 'video'){
+        var v = document.createElement('video');
+        v.src = m.preview; v.muted = true; v.loop = true; v.autoplay = true;
+        v.setAttribute('playsinline',''); v.play().catch(function(){});
+        thumb.appendChild(v);
+      }else{
+        var im = document.createElement('img');
+        im.src = m.preview; thumb.appendChild(im);
+      }
+    }else{
+      var ph = document.createElement('div'); ph.className = 'ph';
+      ph.textContent = owner[srcField] ? 'path set\n(no local file)' : 'drop / choose';
+      thumb.appendChild(ph);
+    }
+  }
+
+  function renderInfo(){
+    var m = owner.media;
+    ffWrap.innerHTML = '';
+    dlBtn.disabled = !(m && m.kind === 'image' && m.preview);
+    if(!m){ info.textContent = ''; return; }
+    if(m.kind === 'image'){
+      info.innerHTML = '<span class="ok">WebP</span> ' + m.w + '×' + m.h + ' · ' + humanBytes(m.bytes) +
+        ' · from ' + escapeHtml(m.origName || '');
+    }else{
+      info.innerHTML = '<span class="warn">Video</span> ' + humanBytes(m.bytes) +
+        ' · ' + escapeHtml(m.origName || '') + ' · <span class="warn">needs ffmpeg (not transcoded in-browser)</span>';
+      var pathVal = owner[srcField] || targetPath(state.slug, m.name);
+      var pre = document.createElement('div'); pre.className = 'ffmpeg';
+      pre.textContent = ffmpegCmd(m.origName || 'input.mov', pathVal);
+      var copyFf = document.createElement('button'); copyFf.className = 'btn tiny'; copyFf.textContent = 'Copy ffmpeg';
+      copyFf.style.marginTop = '8px';
+      copyFf.addEventListener('click', function(){ copyText(pre.textContent); });
+      ffWrap.appendChild(pre); ffWrap.appendChild(copyFf);
+    }
+  }
+
+  function onFile(file){
+    if(!file) return;
+    if(kind === 'image'){
+      info.textContent = 'Optimizing…';
+      processImageFile(file).then(function(m){
+        owner.media = m;
+        var suggested = targetPath(state.slug, m.name);
+        owner[srcField] = suggested;
+        pathInput.value = suggested;
+        renderThumb(); renderInfo(); renderPreview(); scheduleSave();
+        toast('Image optimized → ' + humanBytes(m.bytes));
+      }).catch(function(err){ info.textContent = 'Error: ' + err.message; });
+    }else{
+      var m = acceptVideoFile(file);
+      owner.media = m;
+      var suggested = targetPath(state.slug, m.name);
+      owner[srcField] = suggested;
+      pathInput.value = suggested;
+      renderThumb(); renderInfo(); renderPreview(); scheduleSave();
+      toast('Video added (transcode locally with ffmpeg)');
+    }
+  }
+
+  pick.addEventListener('click', function(){ fileIn.click(); });
+  fileIn.addEventListener('change', function(){ if(fileIn.files[0]) onFile(fileIn.files[0]); fileIn.value=''; });
+  clr.addEventListener('click', function(){
+    if(owner.media && owner.media.isObjectUrl && owner.media.preview){ try{ URL.revokeObjectURL(owner.media.preview);}catch(e){} }
+    owner.media = null; owner[srcField] = '';
+    pathInput.value = ''; renderThumb(); renderInfo(); renderPreview(); scheduleSave();
+  });
+  dlBtn.addEventListener('click', function(){
+    var m = owner.media;
+    if(!m || m.kind !== 'image' || !m.preview) return;
+    var fname = (owner[srcField] || '').split('/').pop() || m.name;
+    downloadDataUrl(m.preview, fname);
+  });
+
+  // drag & drop
+  ['dragenter','dragover'].forEach(function(ev){
+    wrap.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); wrap.classList.add('drag'); });
+  });
+  ['dragleave','dragend'].forEach(function(ev){
+    wrap.addEventListener(ev, function(e){ e.preventDefault(); wrap.classList.remove('drag'); });
+  });
+  wrap.addEventListener('drop', function(e){
+    e.preventDefault(); e.stopPropagation(); wrap.classList.remove('drag');
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if(f) onFile(f);
+  });
+
+  renderThumb(); renderInfo();
+  return wrap;
+}
+
+function ffmpegCmd(input, outPath){
+  return 'ffmpeg -y -i "' + input + '" \\\n' +
+    '  -vf "scale=\'min(1280,iw)\':-2:flags=lanczos" \\\n' +
+    '  -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p \\\n' +
+    '  -an -movflags +faststart \\\n' +
+    '  "' + outPath + '"';
+}
+
+/* ============================================================
+   Block editor rendering
+   ============================================================ */
+var dragId = null;
+
+function renderBlocks(){
+  var list = document.getElementById('blockList');
+  list.innerHTML = '';
+  if(!state.blocks.length){
+    var e = document.createElement('div'); e.className = 'empty';
+    e.textContent = 'No blocks yet — add one above.';
+    list.appendChild(e);
+    return;
+  }
+  state.blocks.forEach(function(b, i){ list.appendChild(blockCard(b, i)); });
+}
+
+function labelFor(b){
+  if(b.kind === 'text') return b.lead ? 'Lead text' : 'Text';
+  return b.kind.charAt(0).toUpperCase() + b.kind.slice(1);
+}
+
+function blockCard(b, i){
+  var card = document.createElement('div');
+  card.className = 'block';
+  card.dataset.id = b._id;
+  card.setAttribute('draggable','false');
+
+  // head
+  var head = document.createElement('div'); head.className = 'block-head';
+  var handle = document.createElement('span'); handle.className = 'drag-handle';
+  handle.textContent = '⠿'; handle.title = 'Drag to reorder';
+  handle.setAttribute('draggable','true');
+  var kindTag = document.createElement('span'); kindTag.className = 'block-kind'; kindTag.textContent = labelFor(b);
+  var idx = document.createElement('span'); idx.className = 'block-idx'; idx.textContent = '#' + (i+1);
+  var sp = document.createElement('span'); sp.className = 'sp';
+
+  var up = iconBtn('↑', 'Move up', function(){ move(i, -1); });
+  var down = iconBtn('↓', 'Move down', function(){ move(i, 1); });
+  up.disabled = i === 0; down.disabled = i === state.blocks.length - 1;
+  var dup = iconBtn('⧉', 'Duplicate', function(){ duplicate(i); });
+  var del = iconBtn('✕', 'Delete', function(){ remove(i); }); del.classList.add('danger');
+
+  head.appendChild(handle); head.appendChild(kindTag); head.appendChild(idx);
+  head.appendChild(sp); head.appendChild(up); head.appendChild(down); head.appendChild(dup); head.appendChild(del);
+  card.appendChild(head);
+
+  // body
+  var body = document.createElement('div'); body.className = 'block-body';
+  if(b.kind === 'text') body.appendChild(textEditor(b));
+  else if(b.kind === 'image') body.appendChild(mediaEditor(b, 'image'));
+  else if(b.kind === 'video') body.appendChild(mediaEditor(b, 'video'));
+  else if(b.kind === 'embed') body.appendChild(embedEditor(b));
+  else if(b.kind === 'pair') body.appendChild(pairEditor(b));
+  card.appendChild(body);
+
+  // drag handlers (handle initiates, card is the drop target)
+  handle.addEventListener('dragstart', function(e){
+    dragId = b._id; card.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    try{ e.dataTransfer.setData('text/plain', b._id); }catch(err){}
+    try{ e.dataTransfer.setDragImage(card, 20, 20); }catch(err){}
+  });
+  handle.addEventListener('dragend', function(){ dragId = null; clearDropMarks(); card.classList.remove('dragging'); });
+
+  card.addEventListener('dragover', function(e){
+    if(dragId === null || dragId === b._id) return;
+    e.preventDefault(); e.dataTransfer.dropEffect = 'move';
+    var r = card.getBoundingClientRect();
+    var after = (e.clientY - r.top) > r.height/2;
+    clearDropMarks();
+    card.classList.add(after ? 'drop-after' : 'drop-before');
+  });
+  card.addEventListener('dragleave', function(){ card.classList.remove('drop-before','drop-after'); });
+  card.addEventListener('drop', function(e){
+    if(dragId === null || dragId === b._id) return;
+    e.preventDefault();
+    var r = card.getBoundingClientRect();
+    var after = (e.clientY - r.top) > r.height/2;
+    reorder(dragId, b._id, after);
+    dragId = null; clearDropMarks();
+  });
+
+  return card;
+}
+
+function clearDropMarks(){
+  document.querySelectorAll('.block.drop-before,.block.drop-after').forEach(function(el){
+    el.classList.remove('drop-before','drop-after');
+  });
+}
+
+function iconBtn(sym, title, fn){
+  var b = document.createElement('button');
+  b.className = 'icon-btn'; b.textContent = sym; b.title = title;
+  b.setAttribute('aria-label', title);
+  b.addEventListener('click', fn);
+  return b;
+}
+
+function textEditor(b){
+  var f = document.createElement('div'); f.className = 'field';
+  var lbl = document.createElement('label');
+  var leadWrap = document.createElement('label'); leadWrap.className = 'check';
+  var cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!b.lead;
+  leadWrap.appendChild(cb); leadWrap.appendChild(document.createTextNode('Display lead'));
+  cb.addEventListener('change', function(){ b.lead = cb.checked; updateKindTag(b); renderPreview(); scheduleSave(); });
+
+  var ta = document.createElement('textarea');
+  ta.value = b.text || ''; ta.placeholder = 'Paragraph copy…';
+  ta.addEventListener('input', function(){ b.text = ta.value; renderPreview(); scheduleSave(); });
+  ta.addEventListener('blur', function(){ var v = tidy(ta.value); if(v !== ta.value){ ta.value = v; b.text = v; renderPreview(); scheduleSave(); } });
+
+  var top = document.createElement('div'); top.className = 'row-inline';
+  top.appendChild(leadWrap);
+  var tidyBtn = document.createElement('button'); tidyBtn.className = 'btn tiny ghost'; tidyBtn.textContent = 'Tidy';
+  tidyBtn.addEventListener('click', function(){ ta.value = tidy(ta.value); b.text = ta.value; renderPreview(); scheduleSave(); });
+  top.appendChild(tidyBtn);
+
+  f.appendChild(top); f.appendChild(ta);
+  attachCounter(ta, b.lead ? 320 : 720, f);
+  return f;
+}
+
+function updateKindTag(b){
+  var card = document.querySelector('.block[data-id="'+b._id+'"]');
+  if(card){ var t = card.querySelector('.block-kind'); if(t) t.textContent = labelFor(b); }
+}
+
+function captionField(owner, label){
+  var f = document.createElement('div'); f.className = 'field';
+  var l = document.createElement('label'); l.textContent = label || 'Caption';
+  var inp = document.createElement('input'); inp.type = 'text'; inp.value = owner.caption || '';
+  inp.placeholder = 'Short caption (mono, uppercase in situ)';
+  inp.addEventListener('input', function(){ owner.caption = inp.value; renderPreview(); scheduleSave(); });
+  inp.addEventListener('blur', function(){ var v = tidy(inp.value); if(v !== inp.value){ inp.value = v; owner.caption = v; renderPreview(); scheduleSave(); } });
+  f.appendChild(l); f.appendChild(inp);
+  return f;
+}
+
+function mediaEditor(b, kind){
+  var box = document.createElement('div');
+  box.style.display = 'flex'; box.style.flexDirection = 'column'; box.style.gap = '12px';
+  box.appendChild(mediaSlot(b, { kind:kind, srcField:'src' }));
+  box.appendChild(captionField(b));
+  return box;
+}
+
+function embedEditor(b){
+  var box = document.createElement('div');
+  box.style.display = 'flex'; box.style.flexDirection = 'column'; box.style.gap = '12px';
+  var f = document.createElement('div'); f.className = 'field';
+  var l = document.createElement('label'); l.textContent = 'Vimeo / YouTube URL or bare Vimeo ID';
+  var inp = document.createElement('input'); inp.type = 'text'; inp.className = 'mono-in';
+  inp.value = b.url || ''; inp.placeholder = 'https://vimeo.com/123456789  or  123456789';
+  inp.addEventListener('input', function(){ b.url = inp.value; renderPreview(); scheduleSave(); });
+  f.appendChild(l); f.appendChild(inp);
+  var help = document.createElement('div'); help.className = 'help';
+  help.textContent = 'Leave blank or “VIMEO_ID” to render the placeholder tile.';
+  box.appendChild(f); box.appendChild(help);
+  box.appendChild(captionField(b));
+  return box;
+}
+
+function pairEditor(b){
+  var box = document.createElement('div');
+  box.style.display = 'flex'; box.style.flexDirection = 'column'; box.style.gap = '12px';
+
+  var colF = document.createElement('div'); colF.className = 'field';
+  var cl = document.createElement('label'); cl.innerHTML = 'Grid columns <span class="sub">(e.g. 1fr 1fr or 1.5fr 1fr)</span>';
+  var ci = document.createElement('input'); ci.type = 'text'; ci.className = 'mono-in'; ci.value = b.cols || '1fr 1fr';
+  ci.addEventListener('input', function(){ b.cols = ci.value; renderPreview(); scheduleSave(); });
+  colF.appendChild(cl); colF.appendChild(ci);
+  box.appendChild(colF);
+
+  var cols = document.createElement('div'); cols.className = 'pair-cols';
+  ['left','right'].forEach(function(side){
+    var s = document.createElement('div'); s.className = 'pair-side';
+    var lbl = document.createElement('div'); lbl.className = 'lbl'; lbl.textContent = side;
+    s.appendChild(lbl);
+    s.appendChild(mediaSlot(b[side], { kind:'image', srcField:'src' }));
+    s.appendChild(captionField(b[side]));
+    cols.appendChild(s);
+  });
+  box.appendChild(cols);
+  return box;
+}
+
+/* ---- structural ops ---- */
+function findIndex(id){ for(var i=0;i<state.blocks.length;i++){ if(state.blocks[i]._id===id) return i; } return -1; }
+
+function move(i, dir){
+  var j = i + dir;
+  if(j < 0 || j >= state.blocks.length) return;
+  var t = state.blocks[i]; state.blocks[i] = state.blocks[j]; state.blocks[j] = t;
+  renderBlocks(); renderPreview(); scheduleSave();
+}
+function reorder(fromId, toId, after){
+  var from = findIndex(fromId); if(from < 0) return;
+  var item = state.blocks.splice(from, 1)[0];
+  var to = findIndex(toId);
+  if(to < 0){ state.blocks.push(item); }
+  else { state.blocks.splice(after ? to+1 : to, 0, item); }
+  renderBlocks(); renderPreview(); scheduleSave();
+}
+function duplicate(i){
+  var copy = JSON.parse(JSON.stringify(state.blocks[i]));
+  copy._id = genId();
+  // object-URL video previews can't be safely shared; drop them on dup
+  function drop(m){ if(m && m.isObjectUrl) m.preview = null; }
+  drop(copy.media); if(copy.left) drop(copy.left.media); if(copy.right) drop(copy.right.media);
+  state.blocks.splice(i+1, 0, copy);
+  renderBlocks(); renderPreview(); scheduleSave();
+}
+function remove(i){
+  var b = state.blocks[i];
+  function rev(m){ if(m && m.isObjectUrl && m.preview){ try{ URL.revokeObjectURL(m.preview);}catch(e){} } }
+  rev(b.media); if(b.left) rev(b.left.media); if(b.right) rev(b.right.media);
+  state.blocks.splice(i,1);
+  renderBlocks(); renderPreview(); scheduleSave();
+}
+function addBlock(kind){
+  state.blocks.push(newBlock(kind));
+  renderBlocks(); renderPreview(); scheduleSave();
+  var list = document.getElementById('blockList');
+  list.lastElementChild.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+/* ============================================================
+   Case library management (picker, new/dup/delete, paste import)
+   ============================================================ */
+function caseLabel(c){
+  var slug = c.slug || '(no slug)';
+  var name = c.client || c.listTitle || c.title || '';
+  return slug + (name ? ' — ' + name : '');
+}
+
+function refreshCasePicker(){
+  var sel = document.getElementById('caseSelect');
+  if(!sel) return;
+  sel.innerHTML = '';
+  library.forEach(function(c){
+    var o = document.createElement('option');
+    o.value = c._cid; o.textContent = caseLabel(c);
+    if(c._cid === state._cid) o.selected = true;
+    sel.appendChild(o);
+  });
+  var cnt = document.getElementById('caseCount');
+  if(cnt) cnt.textContent = library.length + ' case' + (library.length === 1 ? '' : 's');
+}
+
+function rebuildHeroSlot(){
+  var host = document.getElementById('heroSlot');
+  host.innerHTML = '';
+  host.appendChild(mediaSlot(state.hero, { kind:'image', srcField:'src' }));
+}
+
+function loadActiveIntoEditor(){
+  fillMeta();
+  refreshMetaCounters();
+  rebuildHeroSlot();
+  renderBlocks();
+  renderPreview();
+  refreshCasePicker();
+}
+
+function selectByCid(cid){
+  var found = library.filter(function(c){ return c._cid === cid; })[0];
+  if(!found) return;
+  state = found;
+  loadActiveIntoEditor();
+  scheduleSave();
+}
+
+function newCase(){
+  var c = blankState();
+  library.push(c); renumber();
+  state = c; loadActiveIntoEditor();
+  document.getElementById('m_slug').focus();
+  scheduleSave();
+}
+
+function dupCase(){
+  var copy = JSON.parse(JSON.stringify(serializableCase(state, true)));
+  copy._cid = genId();
+  copy.slug = (copy.slug || 'case') + '-copy';
+  copy.href = copy.slug + '.html';
+  (copy.blocks || []).forEach(function(b){ b._id = genId(); });
+  var i = activeIndex();
+  library.splice(i + 1, 0, copy); renumber();
+  state = copy; loadActiveIntoEditor();
+  scheduleSave();
+}
+
+function deleteCase(){
+  if(library.length <= 1){ toast('Keep at least one case'); return; }
+  if(!confirm('Delete case “' + (state.slug || 'untitled') + '”? This cannot be undone.')) return;
+  var i = activeIndex();
+  library.splice(i, 1); renumber();
+  state = library[Math.max(0, i - 1)];
+  loadActiveIntoEditor();
+  scheduleSave();
+}
+
+function resetAll(){
+  if(!confirm('Discard everything and restore the 5 bundled cases?')) return;
+  seedLibrary();
+  loadActiveIntoEditor();
+  doSave();
+  toast('Restored defaults');
+}
+
+/* ---- Paste import ---- */
+function parsePasted(text){
+  var t = String(text).trim();
+  if(!t) throw new Error('nothing pasted');
+  // Drop a leading "window.MP_CASES = " / "const MP_CASES =" etc.
+  if(/\bMP_CASES\b/.test(t)){ t = t.replace(/^[\s\S]*?\bMP_CASES\b[^=]*=/, ''); }
+  t = t.trim().replace(/;+\s*$/, '').trim();
+  // Wrap a bare "slug: { … }" entry into an object.
+  var wrapped = t;
+  if(!/^[\[{]/.test(t) && /^["']?[\w-]+["']?\s*:/.test(t)) wrapped = '{' + t + '}';
+  // Sandboxed evaluation — returns the object literal.
+  var fn = new Function('"use strict"; return (' + wrapped + ');'); // eslint-disable-line
+  return fn();
+}
+
+function looksLikeCase(o){
+  return o && typeof o === 'object' &&
+    (Array.isArray(o.blocks) || o.hero || o.intro || o.eyebrow || (o.title && o.client));
+}
+
+function upsertCase(slug, raw){
+  slug = sanitizeName(slug || raw.slug || raw.client || raw.title || 'case');
+  var c = internalizeCase(slug, raw);
+  var existing = -1;
+  for(var i = 0; i < library.length; i++){ if(sanitizeName(library[i].slug) === slug){ existing = i; break; } }
+  if(existing >= 0){ c._cid = library[existing]._cid; library[existing] = c; }
+  else library.push(c);
+  return c;
+}
+
+function importParsed(obj){
+  if(!obj || typeof obj !== 'object') throw new Error('not an object');
+  if(looksLikeCase(obj)){
+    var c = upsertCase(obj.slug, obj);
+    renumber(); state = c; loadActiveIntoEditor(); doSave();
+    return 1;
+  }
+  var keys = Object.keys(obj), added = 0, firstCid = null;
+  keys.forEach(function(k){
+    var v = obj[k];
+    if(v && typeof v === 'object'){ var c = upsertCase(k, v); if(!firstCid) firstCid = c._cid; added++; }
+  });
+  if(!added) throw new Error('no case objects found');
+  renumber();
+  var target = library.filter(function(c){ return c._cid === firstCid; })[0];
+  if(target) state = target;
+  loadActiveIntoEditor(); doSave();
+  return added;
+}
+
+/* ============================================================
+   PREVIEW rendering — mirrors js/case.js build()
+   ============================================================ */
+function el(tag, cls){ var n = document.createElement(tag); if(cls) n.className = cls; return n; }
+
+function embedSrc(u){
+  if(!u || u === 'VIMEO_ID') return null;
+  var s = String(u), m;
+  if((m = s.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return 'https://player.vimeo.com/video/' + m[1];
+  if(/^\d+$/.test(s)) return 'https://player.vimeo.com/video/' + s;
+  if((m = s.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]+)/))) return 'https://www.youtube.com/embed/' + m[1];
+  return s;
+}
+
+function pvFigure(child, caption){
+  var fig = el('figure');
+  fig.appendChild(child);
+  var cap = el('figcaption');
+  if(caption){ cap.textContent = caption; }
+  else { cap.textContent = 'no caption'; cap.className = 'missing'; }
+  fig.appendChild(cap);
+  return fig;
+}
+
+function pvMedia(owner, kind){
+  var m = owner.media, src = owner.src || owner.url;
+  if(m && m.preview){
+    if(kind === 'video' || m.kind === 'video'){
+      var v = el('video'); v.src = m.preview; v.muted = true; v.loop = true; v.autoplay = true;
+      v.setAttribute('playsinline',''); v.play().catch(function(){});
+      return v;
+    }
+    var img = el('img'); img.src = m.preview; img.alt = owner.caption || ''; return img;
+  }
+  var ph = el('div', 'media-ph');
+  ph.textContent = src ? src : (kind === 'video' ? 'video slot' : 'image slot');
+  return ph;
+}
+
+function pvBuild(b){
+  if(b.kind === 'text'){
+    var p = el('p', 'case-text-block' + (b.lead ? ' is-lead' : ''));
+    p.textContent = b.text || (b.lead ? 'Lead paragraph…' : 'Paragraph…');
+    if(!b.text) p.style.opacity = '.4';
+    return p;
+  }
+  if(b.kind === 'image') return pvFigure(pvMedia(b, 'image'), b.caption);
+  if(b.kind === 'video') return pvFigure(pvMedia(b, 'video'), b.caption);
+  if(b.kind === 'embed'){
+    var src = embedSrc(b.url);
+    var node;
+    if(!src){
+      node = el('div', 'embed-placeholder');
+      var s = el('span'); s.textContent = 'Add a Vimeo URL'; node.appendChild(s);
+    }else{
+      node = el('div', 'embed');
+      var lbl = el('div', 'embed-lbl');
+      var play = el('div', 'play'); play.textContent = '▶';
+      var u = el('div'); u.textContent = src;
+      lbl.appendChild(play); lbl.appendChild(u);
+      node.appendChild(lbl);
+    }
+    return pvFigure(node, b.caption);
+  }
+  if(b.kind === 'pair'){
+    var pair = el('div', 'case-pair');
+    pair.style.gridTemplateColumns = b.cols || '1fr 1fr';
+    pair.appendChild(pvFigure(pvMedia(b.left, 'image'), b.left.caption));
+    pair.appendChild(pvFigure(pvMedia(b.right, 'image'), b.right.caption));
+    return pair;
+  }
+  return null;
+}
+
+function renderPreview(){
+  var ink = document.getElementById('pvInk');
+  ink.innerHTML = '';
+
+  // title block
+  var titleWrap = el('div', 'case-title');
+  if(state.index){ var ix = el('div', 'case-index'); ix.textContent = state.index; titleWrap.appendChild(ix); }
+  var eyebrow = el('div', 'eyebrow');
+  var eyeParts = [state.cat, state.year].filter(Boolean);
+  eyebrow.textContent = eyeParts.length ? eyeParts.join(' · ') : 'Category · Year';
+  if(!eyeParts.length) eyebrow.style.opacity = '.4';
+  titleWrap.appendChild(eyebrow);
+  var h1 = el('h1');
+  var headline = state.client ? (state.client + ' — ' + (state.title || '')) : (state.title || '');
+  h1.textContent = headline || 'Client — Title';
+  if(!headline) h1.style.opacity = '.35';
+  titleWrap.appendChild(h1);
+  ink.appendChild(titleWrap);
+
+  // hero
+  if(state.hero.media && state.hero.media.preview){
+    var hero = el('img', 'case-hero'); hero.src = state.hero.media.preview; hero.alt = state.hero.alt || '';
+    ink.appendChild(hero);
+  }else{
+    var hph = el('div', 'case-hero ph');
+    var hs = el('span'); hs.textContent = state.hero.src ? state.hero.src : 'Hero image';
+    hph.appendChild(hs); ink.appendChild(hph);
+  }
+
+  // intro
+  var intro = el('p', 'case-intro');
+  intro.textContent = state.intro || 'Intro / display lead…';
+  if(!state.intro) intro.style.opacity = '.4';
+  ink.appendChild(intro);
+
+  // blocks
+  var blocks = el('div', 'case-blocks');
+  if(!state.blocks.length){
+    var e = el('div', 'case-empty'); e.textContent = 'No body blocks yet.';
+    blocks.appendChild(e);
+  }else{
+    state.blocks.forEach(function(b){ var n = pvBuild(b); if(n) blocks.appendChild(n); });
+  }
+  ink.appendChild(blocks);
+
+  renderIssues();
+}
+
+/* ============================================================
+   Validation
+   ============================================================ */
+function renderIssues(){
+  var out = document.getElementById('issues');
+  if(!out) return;
+  var issues = [];
+  function err(m){ issues.push({sev:'err', m:m}); }
+  function warn(m){ issues.push({sev:'warn', m:m}); }
+
+  if(!state.slug.trim()) err('Slug is required (keys the case & folder).');
+  else if(!/^[a-z0-9-]+$/.test(sanitizeName(state.slug))) warn('Slug will be normalized to “' + sanitizeName(state.slug) + '”.');
+  if(!state.title.trim()) err('Title is required.');
+  if(!state.intro.trim()) warn('Intro is empty.');
+  if(!state.hero.src.trim()) warn('Hero has no image path.');
+  if(!state.cat.trim() || !state.year.trim()) warn('Eyebrow: category and/or year missing.');
+  if(!state.listTitle.trim()) warn('Work index: list title missing.');
+  if(!state.thumb.trim()) warn('Work index: thumb path missing.');
+  if(!state.index.trim()) warn('Index label (e.g. “Case 06 / 06”) missing.');
+
+  state.blocks.forEach(function(b, i){
+    var n = '#' + (i+1) + ' ' + labelFor(b) + ': ';
+    if(b.kind === 'text'){ if(!b.text.trim()) warn(n + 'empty text.'); }
+    else if(b.kind === 'image' || b.kind === 'video'){
+      if(!b.src.trim()) err(n + 'no ' + b.kind + ' path.');
+      if(!b.caption.trim()) warn(n + 'no caption.');
+    }else if(b.kind === 'embed'){
+      if(!b.url.trim() || b.url === 'VIMEO_ID') warn(n + 'no embed URL (placeholder will render).');
+      if(!b.caption.trim()) warn(n + 'no caption.');
+    }else if(b.kind === 'pair'){
+      if(!b.left.src.trim()) err(n + 'left image path missing.');
+      if(!b.right.src.trim()) err(n + 'right image path missing.');
+      if(!b.left.caption.trim() || !b.right.caption.trim()) warn(n + 'a caption is missing.');
+    }
+  });
+
+  // path sanity
+  allMedia().forEach(function(mm){
+    if(mm.path && !/^assets\/work\//.test(mm.path)) warn('Path “' + mm.path + '” is outside assets/work/.');
+  });
+
+  out.innerHTML = '';
+  if(!issues.length){
+    var ok = document.createElement('div'); ok.className = 'issue ok';
+    ok.textContent = '✓ No issues — ready to export.';
+    out.appendChild(ok);
+    return;
+  }
+  issues.forEach(function(it){
+    var row = document.createElement('div'); row.className = 'issue ' + it.sev;
+    var tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = it.sev === 'err' ? 'fix' : 'warn';
+    var txt = document.createElement('span'); txt.className = 'txt'; txt.textContent = it.m;
+    row.appendChild(tag); row.appendChild(txt); out.appendChild(row);
+  });
+}
+
+/* ============================================================
+   Media collection helpers
+   ============================================================ */
+function allMedia(){
+  // returns [{ path, kind, media, origName, w, h, bytes }]
+  var out = [];
+  function add(owner, field, kind){
+    var path = owner[field];
+    var m = owner.media;
+    if(!path && !m) return;
+    out.push({
+      path: path || (m ? targetPath(state.slug, m.name) : ''),
+      kind: (m && m.kind) || kind,
+      media: m || null,
+      origName: m ? m.origName : '',
+      w: m ? m.w : 0, h: m ? m.h : 0, bytes: m ? m.bytes : 0
+    });
+  }
+  add(state.hero, 'src', 'image');
+  state.blocks.forEach(function(b){
+    if(b.kind === 'image') add(b, 'src', 'image');
+    else if(b.kind === 'video') add(b, 'src', 'video');
+    else if(b.kind === 'pair'){ add(b.left, 'src', 'image'); add(b.right, 'src', 'image'); }
+  });
+  return out;
+}
+
+/* ============================================================
+   Serialization -> cases.js snippet
+   ============================================================ */
+function q(s){
+  return "'" + String(s == null ? '' : s)
+    .replace(/\\/g,'\\\\')
+    .replace(/'/g,"\\'")
+    .replace(/\n/g,'\\n') + "'";
+}
+
+function caseIndexLabel(pos, total){ return 'Case ' + pad2(pos) + ' / ' + pad2(total); }
+
+// Serialize one case entry ("  slug: { … }"). pos/total drive the index label.
+function serializeCase(c, pos, total){
+  c = c || state;
+  var slug = sanitizeName(c.slug) || 'slug';
+  var href = c.href || (slug + '.html');
+  var eyebrow = [c.cat, c.year, c.eyetail].filter(function(x){ return x && x.trim(); }).join(' · ');
+  var indexLabel = (pos && total) ? caseIndexLabel(pos, total) : (c.index || '');
+  var I = '    ';   // property indent (2-space base + case key indent)
+  var lines = [];
+  lines.push('  ' + slug + ': {');
+  lines.push(I + 'href: ' + q(href) + ',');
+  lines.push(I + 'thumb: ' + q(c.thumb) + ',');
+  lines.push(I + 'listTitle: ' + q(c.listTitle) + ',');
+  lines.push(I + 'listBlurb: ' + q(c.listBlurb) + ',');
+  lines.push(I + 'listMeta: ' + q(c.listMeta) + ',');
+  lines.push('');
+  lines.push(I + 'index: ' + q(indexLabel) + ',');
+  lines.push(I + 'eyebrow: ' + q(eyebrow) + ',');
+  lines.push(I + 'client: ' + q(c.client) + ',');
+  lines.push(I + 'title: ' + q(c.title) + ',');
+  lines.push(I + 'hero: { src: ' + q(c.hero.src) + ', alt: ' + q(c.hero.alt) + ' },');
+  lines.push(I + 'intro: ' + q(c.intro) + ',');
+  lines.push(I + 'blocks: [');
+  lines.push(serializeBlocks(c));
+  lines.push(I + ']');
+  lines.push('  }');
+  return lines.join('\n');
+}
+
+// Regenerate the whole js/cases.js file for every case in the library.
+function serializeFull(){
+  var total = library.length;
+  var entries = library.map(function(c, i){ return serializeCase(c, i+1, total); });
+  return CASES_BANNER + '\nwindow.MP_CASES = {\n\n' + entries.join(',\n\n') + '\n\n};\n';
+}
+
+function serializeBlocks(c){
+  c = c || state;
+  var B = '      ';
+  return c.blocks.map(function(b){
+    if(b.kind === 'text'){
+      if(b.lead) return B + '{ kind: ' + q('text') + ', lead: true, text: ' + q(b.text) + ' }';
+      return B + '{ kind: ' + q('text') + ', text: ' + q(b.text) + ' }';
+    }
+    if(b.kind === 'image') return B + '{ kind: ' + q('image') + ', src: ' + q(b.src) + ', caption: ' + q(b.caption) + ' }';
+    if(b.kind === 'video') return B + '{ kind: ' + q('video') + ', src: ' + q(b.src) + ', caption: ' + q(b.caption) + ' }';
+    if(b.kind === 'embed') return B + '{ kind: ' + q('embed') + ', url: ' + q(b.url || 'VIMEO_ID') + ', caption: ' + q(b.caption) + ' }';
+    if(b.kind === 'pair'){
+      return B + '{ kind: ' + q('pair') + ', cols: ' + q(b.cols || '1fr 1fr') + ',\n' +
+        B + '  left:  { src: ' + q(b.left.src) + ', caption: ' + q(b.left.caption) + ' },\n' +
+        B + '  right: { src: ' + q(b.right.src) + ', caption: ' + q(b.right.caption) + ' } }';
+    }
+    return '';
+  }).join(',\n');
+}
+
+function serializeManifest(){
+  var slug = sanitizeName(state.slug) || 'slug';
+  var media = allMedia();
+  var imgs = media.filter(function(m){ return m.kind === 'image'; });
+  var vids = media.filter(function(m){ return m.kind === 'video'; });
+  var out = [];
+  out.push('# Media manifest — ' + slug);
+  out.push('# ' + media.length + ' file(s). Place each at the path shown; then cases.js src values resolve.');
+  out.push('');
+  out.push('IMAGES  (WebP, long-edge ≤ ' + MAX_EDGE + ', q≈' + WEBP_Q + ')');
+  if(!imgs.length) out.push('  (none)');
+  imgs.forEach(function(m){
+    var note = m.media ? ('  ← ' + (m.origName || '?') + ' (' + m.w + '×' + m.h + ', ' + humanBytes(m.bytes) + ') [download from tool]')
+                       : '  (existing asset — no local file loaded)';
+    out.push('  ' + (m.path || '(path unset)') + note);
+  });
+  out.push('');
+  out.push('VIDEOS  (H.264, transcode locally — not done in-browser)');
+  if(!vids.length) out.push('  (none)');
+  vids.forEach(function(m){
+    out.push('  ' + (m.path || '(path unset)') + (m.media ? ('  ← ' + (m.origName || '?') + ' (' + humanBytes(m.bytes) + ')') : '  (existing asset)'));
+    if(m.media){
+      out.push(ffmpegCmd(m.origName || 'input.mov', m.path || targetPath(slug, m.media.name)).split('\n').map(function(l){ return '    ' + l; }).join('\n'));
+    }
+  });
+  return out.join('\n');
+}
+
+// A runnable shell script batching every ffmpeg command for the active case.
+function serializeFfmpegScript(){
+  var slug = sanitizeName(state.slug) || 'slug';
+  var vids = allMedia().filter(function(m){ return m.kind === 'video'; });
+  var out = [];
+  out.push('#!/usr/bin/env bash');
+  out.push('# ffmpeg batch — ' + slug + '  (run from the repo /new directory)');
+  out.push('# Scales to 1280 long-edge, H.264 crf 26, audio stripped, faststart.');
+  out.push('set -euo pipefail');
+  out.push('mkdir -p "assets/work/' + slug + '"');
+  out.push('');
+  if(!vids.length){
+    out.push('# No video blocks in this case.');
+    return out.join('\n');
+  }
+  vids.forEach(function(m){
+    var input = m.media ? (m.origName || 'input.mov') : (m.path.split('/').pop() || 'input.mov');
+    var target = m.path || targetPath(slug, m.media ? m.media.name : 'clip.mp4');
+    out.push('# ← ' + input + (m.media ? ('  (' + humanBytes(m.bytes) + ')') : '  (existing asset)'));
+    out.push(ffmpegCmd(input, target));
+    out.push('');
+  });
+  out.push('echo "done — ' + vids.length + ' clip(s) → assets/work/' + slug + '/"');
+  return out.join('\n');
+}
+
+/* ============================================================
+   Export / import / download
+   ============================================================ */
+function openExport(){
+  var pos = activeIndex() + 1, total = library.length;
+  document.getElementById('codeCases').textContent = serializeCase(state, pos, total);
+  document.getElementById('codeFull').textContent = serializeFull();
+  document.getElementById('codeManifest').textContent = serializeManifest();
+  document.getElementById('codeFfmpeg').textContent = serializeFfmpegScript();
+  document.getElementById('exportModal').classList.add('open');
+}
+function closeExport(){ document.getElementById('exportModal').classList.remove('open'); }
+
+function downloadDataUrl(dataUrl, filename){
+  var a = document.createElement('a');
+  a.href = dataUrl; a.download = filename || 'download';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+function downloadText(text, filename, mime){
+  var blob = new Blob([text], { type: mime || 'text/plain' });
+  var url = URL.createObjectURL(blob);
+  downloadDataUrl(url, filename);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+}
+
+function exportJson(){
+  downloadText(JSON.stringify(serializableLibrary(true), null, 2), 'markpytlik-cases.wip.json', 'application/json');
+  toast('Saved WIP JSON (' + library.length + ' cases)');
+}
+
+function importJson(file){
+  var fr = new FileReader();
+  fr.onload = function(){
+    try{
+      var data = JSON.parse(fr.result);
+      var arr = Array.isArray(data) ? data : (data && Array.isArray(data.library) ? data.library : null);
+      if(arr){
+        if(!arr.length) throw new Error('empty');
+        library = arr.map(reviveCase);
+        var found = library.filter(function(c){ return c._cid === (data.activeId); })[0];
+        state = found || library[0];
+        renumber(); loadActiveIntoEditor(); doSave();
+        toast('Loaded ' + library.length + ' cases');
+      }else if(data && typeof data === 'object'){
+        // single serialized case or a map
+        var n = importParsed(data);
+        toast('Imported ' + n + ' case' + (n === 1 ? '' : 's'));
+      }else throw new Error('unrecognized');
+    }catch(e){ toast('Invalid JSON'); }
+  };
+  fr.readAsText(file);
+}
+
+function downloadAllImages(){
+  var imgs = allMedia().filter(function(m){ return m.kind === 'image' && m.media && m.media.preview; });
+  if(!imgs.length){ toast('No optimized images to download'); return; }
+  var i = 0;
+  (function next(){
+    if(i >= imgs.length){ toast('Downloaded ' + imgs.length + ' image(s)'); return; }
+    var m = imgs[i++];
+    var fname = (m.path || '').split('/').pop() || m.media.name;
+    downloadDataUrl(m.media.preview, fname);
+    setTimeout(next, 350);   // stagger so the browser queues each download
+  })();
+}
+
+/* ============================================================
+   Clipboard + misc
+   ============================================================ */
+function copyText(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ toast('Copied'); }, function(){ fallbackCopy(text); });
+  }else fallbackCopy(text);
+}
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); toast('Copied'); }catch(e){ toast('Copy failed'); }
+  document.body.removeChild(ta);
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+  });
+}
+
+function tidyAll(){
+  ['m_intro','m_listBlurb'].forEach(function(id){
+    var el = document.getElementById(id); if(el){ el.value = tidy(el.value); state[metaMap[id]] = el.value; }
+  });
+  state.blocks.forEach(function(b){
+    if(b.kind === 'text') b.text = tidy(b.text);
+    if('caption' in b) b.caption = tidy(b.caption);
+    if(b.left) b.left.caption = tidy(b.left.caption);
+    if(b.right) b.right.caption = tidy(b.right.caption);
+  });
+  renderBlocks(); renderPreview(); scheduleSave();
+  toast('Tidied all text');
+}
+
+/* ============================================================
+   Wire up
+   ============================================================ */
+function init(){
+  var hadSave = !!localStorage.getItem(STORE_KEY);
+  loadSaved();      // seeds the 5 bundled cases if nothing was saved
+  bindMeta();
+  loadActiveIntoEditor();
+
+  // add-block buttons
+  document.querySelectorAll('[data-add]').forEach(function(btn){
+    btn.addEventListener('click', function(){ addBlock(btn.getAttribute('data-add')); });
+  });
+
+  // case picker
+  document.getElementById('caseSelect').addEventListener('change', function(e){ selectByCid(e.target.value); });
+  document.getElementById('btnNewCase').addEventListener('click', newCase);
+  document.getElementById('btnDupCase').addEventListener('click', dupCase);
+  document.getElementById('btnDelCase').addEventListener('click', deleteCase);
+  document.getElementById('btnResetAll').addEventListener('click', resetAll);
+
+  // paste-import modal
+  document.getElementById('btnPaste').addEventListener('click', function(){
+    document.getElementById('pasteMsg').textContent = '';
+    document.getElementById('pasteModal').classList.add('open');
+    document.getElementById('pasteBox').focus();
+  });
+  document.getElementById('closePaste').addEventListener('click', function(){ document.getElementById('pasteModal').classList.remove('open'); });
+  document.getElementById('pasteModal').addEventListener('click', function(e){ if(e.target.id === 'pasteModal') e.currentTarget.classList.remove('open'); });
+  document.getElementById('btnParsePaste').addEventListener('click', function(){
+    var msg = document.getElementById('pasteMsg');
+    try{
+      var obj = parsePasted(document.getElementById('pasteBox').value);
+      var n = importParsed(obj);
+      msg.style.color = 'var(--ok)';
+      msg.textContent = 'Loaded ' + n + ' case' + (n === 1 ? '' : 's') + '.';
+      setTimeout(function(){ document.getElementById('pasteModal').classList.remove('open'); }, 700);
+      toast('Imported ' + n + ' case' + (n === 1 ? '' : 's'));
+    }catch(err){
+      msg.style.color = 'var(--danger)';
+      msg.textContent = 'Parse failed: ' + err.message;
+    }
+  });
+
+  // export / JSON
+  document.getElementById('btnExport').addEventListener('click', openExport);
+  document.getElementById('closeExport').addEventListener('click', closeExport);
+  document.getElementById('exportModal').addEventListener('click', function(e){ if(e.target.id === 'exportModal') closeExport(); });
+  document.getElementById('btnExportJson').addEventListener('click', exportJson);
+  document.getElementById('btnImport').addEventListener('click', function(){ document.getElementById('fileImport').click(); });
+  document.getElementById('fileImport').addEventListener('change', function(e){ if(e.target.files[0]) importJson(e.target.files[0]); e.target.value=''; });
+  document.getElementById('btnDownloadImages').addEventListener('click', downloadAllImages);
+  document.getElementById('btnDownloadCases').addEventListener('click', function(){ downloadText(serializeFull(), 'cases.js', 'text/javascript'); toast('Downloaded cases.js'); });
+  document.getElementById('btnDownloadFfmpeg').addEventListener('click', function(){ downloadText(serializeFfmpegScript(), 'encode-' + (sanitizeName(state.slug)||'case') + '.sh', 'text/x-shellscript'); toast('Downloaded ffmpeg script'); });
+  document.getElementById('btnTidyAll').addEventListener('click', tidyAll);
+
+  // copy buttons in modals
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = document.querySelector(btn.getAttribute('data-copy'));
+      if(t) copyText(t.textContent);
+    });
+  });
+
+  // preview theme toggle
+  var pv = document.getElementById('pv');
+  document.getElementById('pvTheme').addEventListener('click', function(){
+    var dark = pv.getAttribute('data-theme') === 'dark';
+    pv.setAttribute('data-theme', dark ? 'light' : 'dark');
+    this.textContent = dark ? 'Light card' : 'Dark card';
+  });
+
+  // keyboard: Esc closes any open modal
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeExport(); document.getElementById('pasteModal').classList.remove('open'); }
+  });
+
+  setStatus(hadSave ? 'Draft restored ✓' : '5 cases loaded ✓', true);
+}
+
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+else init();
+
+})();
+</script>
+</body>
+</html>

@@ -1340,3 +1340,26 @@ body { background: transparent; }
 }
 .tx-switch button:hover { color: #fff; }
 .tx-switch button[aria-pressed="true"] { background: #F1EFEA; color: #0B0B0A; }
+
+/* ============================================================
+   Mobile polish (≤720px) — legibility, spacing, no awkward wraps
+   ============================================================ */
+@media (max-width: 720px) {
+  /* Hero: trim dead space up top, balance the wrap (no lone "Francisco") */
+  .hero { padding-top: 40px; }
+  .hero h1 { font-size: clamp(29px, 8.4vw, 40px); text-wrap: balance; }
+
+  /* Case headline: scale down from the huge desktop size so "Client —
+     Project" doesn't wrap into a dangling dash; balance the lines. */
+  .case-title h1 { font-size: clamp(30px, 9vw, 46px); line-height: .98; text-wrap: balance; }
+  .case-title { gap: 16px; }
+  .case-intro { font-size: clamp(19px, 5.4vw, 26px); }
+
+  /* Case foot: keep prev/home/next on one row, readable */
+  .case-foot { font-size: 11px; gap: 12px; }
+  .foot-prev, .foot-next { max-width: 40vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Hide the temporary transition tester on phones (test it on desktop) */
+  .tx-switch { display: none; }
+  .work-head p, .writing-links, .lock-head p { text-wrap: balance; }
+}
