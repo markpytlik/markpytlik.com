@@ -327,7 +327,7 @@ a { color: inherit; text-decoration: none; }
 .para {
   margin: 0;
   font-size: clamp(16px, 1.45vw, 19px);
-  line-height: 1.4;
+  line-height: 1.25;
   color: var(--body);
   text-wrap: pretty;
 }
@@ -505,7 +505,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   padding: 0 44px 26px 76px;
   font-size: clamp(15px, 1.4vw, 18px);
-  line-height: 1.4;
+  line-height: 1.25;
   color: var(--body);
   max-width: 840px;
   text-wrap: pretty;
@@ -678,7 +678,7 @@ a { color: inherit; text-decoration: none; }
 .lock-head p {
   margin: 0;
   font-size: 15.5px;
-  line-height: 1.4;
+  line-height: 1.25;
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -763,7 +763,7 @@ a { color: inherit; text-decoration: none; }
 .work-head p {
   margin: 0;
   font-size: clamp(16px, 1.5vw, 20px);
-  line-height: 1.4;
+  line-height: 1.25;
   max-width: 640px;
   color: var(--muted);
   text-wrap: pretty;
@@ -1020,7 +1020,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   font-family: var(--font-body);
   font-size: clamp(16px, 1.55vw, 20px);
-  line-height: 1.45;
+  line-height: 1.25;
   max-width: 780px;
   color: var(--text);
 }
@@ -1170,7 +1170,7 @@ body { background: transparent; }
 /* About: wider gutter to the headshot, larger headshot, smaller+tighter body */
 #about.split           { grid-template-columns: 230px 1fr; gap: 54px; }
 #about .shot-frame     { max-width: 230px; }
-#about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.4; }
+#about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.25; }
 
 /* Writing: make the Selected-work list much more compact */
 #writing .writing-copy            { gap: 20px; }
