@@ -33,6 +33,7 @@ User-agent: Slurp
 Disallow: /new/assets/
 Disallow: /new/css/
 Disallow: /new/js/
+Disallow: /new/docs/
 Disallow: /new/README.md
 Disallow: /new/serve.py
 
@@ -41,5 +42,6 @@ User-agent: *
 Disallow: /new/assets/
 Disallow: /new/css/
 Disallow: /new/js/
+Disallow: /new/docs/
 Disallow: /new/README.md
 Disallow: /new/serve.py

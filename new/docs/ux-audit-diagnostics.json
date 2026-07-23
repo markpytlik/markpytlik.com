@@ -1,0 +1,1009 @@
+[
+  {
+    "page": "home",
+    "viewport": 320,
+    "docScrollWidth": 320,
+    "clientWidth": 320,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 16,
+    "bleedSample": [
+      "span (right=333)",
+      "div.marquee-text (right=2793)",
+      "span (right=1395)",
+      "div.marquee-track (right=1273)",
+      "div.clip (right=325)",
+      "video (right=325)",
+      "div.clip-meta (right=325)",
+      "span.meta (right=325)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 206x40",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 228x40",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Hayden Pedigo — I 437x17",
+      "Book: London Falling, Pa 334x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 360,
+    "docScrollWidth": 360,
+    "clientWidth": 360,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 11,
+    "bleedSample": [
+      "div.marquee-text (right=2805)",
+      "span (right=1407)",
+      "div.marquee-track (right=1276)",
+      "div.clip (right=644)",
+      "video (right=644)",
+      "div.clip-meta (right=644)",
+      "span.label (right=434)",
+      "div.marquee-track-rev (right=662)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 231x40",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Website: Clipart.Studio 183x17",
+      "Book: Perfection, Vincen 286x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 375,
+    "docScrollWidth": 375,
+    "clientWidth": 375,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 14,
+    "bleedSample": [
+      "div.marquee-text (right=2805)",
+      "span (right=1407)",
+      "div.marquee-track (right=1276)",
+      "div.clip (right=644)",
+      "video (right=644)",
+      "div.clip-meta (right=644)",
+      "span.label (right=434)",
+      "div.marquee-track-rev (right=662)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 231x40",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Boards of Canada  262x17",
+      "Book: London Falling, Pa 334x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 390,
+    "docScrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 15,
+    "bleedSample": [
+      "div.marquee-text (right=2805)",
+      "span (right=1407)",
+      "div.marquee-track (right=1276)",
+      "div.clip (right=644)",
+      "video (right=644)",
+      "div.clip-meta (right=644)",
+      "span.label (right=434)",
+      "div.marquee-track-rev (right=662)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Book: Perfection, Vincen 286x17",
+      "Website: Clipart.Studio 183x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 414,
+    "docScrollWidth": 414,
+    "clientWidth": 414,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 16,
+    "bleedSample": [
+      "div.marquee-text (right=2805)",
+      "span (right=1407)",
+      "div.marquee-track (right=1276)",
+      "div.clip (right=644)",
+      "video (right=644)",
+      "div.clip-meta (right=644)",
+      "span.label (right=434)",
+      "div.marquee-track-rev (right=662)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Boards of Canada  262x17",
+      "Book: Perfection, Vincen 286x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 430,
+    "docScrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 15,
+    "bleedSample": [
+      "div.marquee-text (right=2806)",
+      "span (right=1408)",
+      "div.marquee-track (right=1276)",
+      "div.clip (right=644)",
+      "video (right=644)",
+      "div.clip-meta (right=644)",
+      "span.label (right=434)",
+      "div.marquee-track-rev (right=662)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Hayden Pedigo — I 437x17",
+      "Book: London Falling, Pa 334x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 768,
+    "docScrollWidth": 768,
+    "clientWidth": 768,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 9,
+    "bleedSample": [
+      "div.marquee-text (right=2813)",
+      "span (right=1415)",
+      "div.marquee-track (right=1284)",
+      "div.clip (right=968)",
+      "video (right=968)",
+      "div.clip-meta (right=968)",
+      "div.marquee-text (right=4196)",
+      "span.lately-set (right=2145)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Hayden Pedigo — I 437x17",
+      "Album: Boards of Canada  262x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 1024,
+    "docScrollWidth": 1024,
+    "clientWidth": 1024,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 10,
+    "bleedSample": [
+      "div.marquee-text (right=2814)",
+      "span (right=1416)",
+      "div.marquee-track (right=1284)",
+      "div.clip (right=1284)",
+      "video (right=1284)",
+      "div.clip-meta (right=1284)",
+      "span.label (right=1074)",
+      "div.marquee-text (right=4197)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Boards of Canada  262x17",
+      "Podcast Episode: Ezra Kl 310x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 1280,
+    "docScrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 10,
+    "bleedSample": [
+      "div.marquee-text (right=2853)",
+      "span (right=1455)",
+      "div.marquee-track (right=1323)",
+      "div.clip (right=1323)",
+      "video (right=1323)",
+      "div.clip-meta (right=1323)",
+      "span.meta (right=1323)",
+      "div.marquee-text (right=4236)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Book: London Falling, Pa 334x17",
+      "Album: Boards of Canada  262x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "home",
+    "viewport": 1440,
+    "docScrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 5,
+    "bleedSample": [
+      "div.marquee-text (right=2933)",
+      "span (right=1535)",
+      "div.marquee-text (right=4316)",
+      "span.lately-set (right=2265)",
+      "a.lately-item (right=1652)"
+    ],
+    "smallTapCount": 23,
+    "smallTapSample": [
+      "BUTTON 6x6",
+      "Please email for selecte 220x18",
+      "Radiohead, In Rainbows 138x18",
+      "The Knife, Silent Shout 130x18",
+      "Beach House — s/t 112x18",
+      "LCD Soundsystem, Sound o 199x18",
+      "LinkedIn ↗ 83x17",
+      "Email ↗ 58x17",
+      "Album: Boards of Canada  262x17",
+      "Book: London Falling, Pa 334x17"
+    ],
+    "imgCount": 7,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 320,
+    "docScrollWidth": 320,
+    "clientWidth": 320,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 360,
+    "docScrollWidth": 360,
+    "clientWidth": 360,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 375,
+    "docScrollWidth": 375,
+    "clientWidth": 375,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 390,
+    "docScrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 414,
+    "docScrollWidth": 414,
+    "clientWidth": 414,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 430,
+    "docScrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 768,
+    "docScrollWidth": 768,
+    "clientWidth": 768,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 1024,
+    "docScrollWidth": 1024,
+    "clientWidth": 1024,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 1280,
+    "docScrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-locked",
+    "viewport": 1440,
+    "docScrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 0,
+    "smallTapSample": [],
+    "imgCount": 0,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 320,
+    "docScrollWidth": 320,
+    "clientWidth": 320,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 360,
+    "docScrollWidth": 360,
+    "clientWidth": 360,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 375,
+    "docScrollWidth": 375,
+    "clientWidth": 375,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 390,
+    "docScrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 414,
+    "docScrollWidth": 414,
+    "clientWidth": 414,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 430,
+    "docScrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 768,
+    "docScrollWidth": 768,
+    "clientWidth": 768,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 1024,
+    "docScrollWidth": 1024,
+    "clientWidth": 1024,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 1280,
+    "docScrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "work-unlocked",
+    "viewport": 1440,
+    "docScrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 2,
+    "smallTapSample": [
+      "← Back to home 116x17",
+      "Lock again 83x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 320,
+    "docScrollWidth": 320,
+    "clientWidth": 320,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 103x16",
+      "Home 30x16",
+      "Nike — Air Max Day → 128x16"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 360,
+    "docScrollWidth": 360,
+    "clientWidth": 360,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 103x16",
+      "Home 30x16",
+      "Nike — Air Max Day → 144x16"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 375,
+    "docScrollWidth": 375,
+    "clientWidth": 375,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 103x16",
+      "Home 30x16",
+      "Nike — Air Max Day → 148x16"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 390,
+    "docScrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 103x16",
+      "Home 30x16",
+      "Nike — Air Max Day → 148x16"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 414,
+    "docScrollWidth": 414,
+    "clientWidth": 414,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 103x16",
+      "Home 30x16",
+      "Nike — Air Max Day → 148x16"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 430,
+    "docScrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 103x16",
+      "Home 30x16",
+      "Nike — Air Max Day → 148x16"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 768,
+    "docScrollWidth": 768,
+    "clientWidth": 768,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 113x17",
+      "Home 32x17",
+      "Nike — Air Max Day → 161x17"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 1024,
+    "docScrollWidth": 1024,
+    "clientWidth": 1024,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 113x17",
+      "Home 32x17",
+      "Nike — Air Max Day → 161x17"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 1280,
+    "docScrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 113x17",
+      "Home 32x17",
+      "Nike — Air Max Day → 161x17"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-casper",
+    "viewport": 1440,
+    "docScrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Hinge — NFAQ 113x17",
+      "Home 32x17",
+      "Nike — Air Max Day → 161x17"
+    ],
+    "imgCount": 6,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 320,
+    "docScrollWidth": 320,
+    "clientWidth": 320,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 59x16",
+      "Home 30x16",
+      "Steve Jobs Archive → 128x16"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 360,
+    "docScrollWidth": 360,
+    "clientWidth": 360,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 59x16",
+      "Home 30x16",
+      "Steve Jobs Archive → 144x16"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 375,
+    "docScrollWidth": 375,
+    "clientWidth": 375,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 59x16",
+      "Home 30x16",
+      "Steve Jobs Archive → 148x16"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 390,
+    "docScrollWidth": 390,
+    "clientWidth": 390,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 59x16",
+      "Home 30x16",
+      "Steve Jobs Archive → 148x16"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 414,
+    "docScrollWidth": 414,
+    "clientWidth": 414,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 59x16",
+      "Home 30x16",
+      "Steve Jobs Archive → 148x16"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 430,
+    "docScrollWidth": 430,
+    "clientWidth": 430,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 59x16",
+      "Home 30x16",
+      "Steve Jobs Archive → 148x16"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 768,
+    "docScrollWidth": 768,
+    "clientWidth": 768,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 64x17",
+      "Home 32x17",
+      "Steve Jobs Archive → 161x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 1024,
+    "docScrollWidth": 1024,
+    "clientWidth": 1024,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 64x17",
+      "Home 32x17",
+      "Steve Jobs Archive → 161x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 1280,
+    "docScrollWidth": 1280,
+    "clientWidth": 1280,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 64x17",
+      "Home 32x17",
+      "Steve Jobs Archive → 161x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  },
+  {
+    "page": "case-nike",
+    "viewport": 1440,
+    "docScrollWidth": 1440,
+    "clientWidth": 1440,
+    "horizontalOverflowPx": 0,
+    "bleedCount": 0,
+    "bleedSample": [],
+    "smallTapCount": 3,
+    "smallTapSample": [
+      "← Casper 64x17",
+      "Home 32x17",
+      "Steve Jobs Archive → 161x17"
+    ],
+    "imgCount": 5,
+    "imgsMissingAlt": 0,
+    "consoleErrors": []
+  }
+]
