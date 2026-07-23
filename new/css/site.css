@@ -360,19 +360,29 @@ a { color: inherit; text-decoration: none; }
   background: var(--surface);
 }
 
-.shot-frame img,
+.shot-frame > img,
+.shot-frame > picture,
 .shot-frame .shot-placeholder {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   opacity: 0;
   pointer-events: none;
   transition: opacity .6s ease;
 }
 
-.shot-frame img.is-active,
+/* Visible pixels — bare <img> slides and the <picture> wrapper's own img. */
+.shot-frame > img,
+.shot-frame > picture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.shot-frame > img.is-active,
+.shot-frame > picture.is-active,
 .shot-frame .shot-placeholder.is-active {
   opacity: 1;
   pointer-events: auto;
@@ -1360,9 +1370,22 @@ body { background: transparent; }
   .lately-label { font-size: 11px; }
 }
 
+/* ---- Mobile headshot: adaptive frame ----
+   The frame takes each photo's own shape — landscape photos get a wide
+   landscape frame, square/portrait ones sit in a square (home.js sets the
+   aspect-ratio per active slide, clamped so it never goes taller than 1:1).
+   Photo 1 swaps to a dedicated landscape crop via <picture>. The 3/2 default
+   here matches that first photo so the first paint is right before JS runs. */
+@media (max-width: 720px) {
+  #about .shot-frame {
+    max-width: 100%;
+    aspect-ratio: 3 / 2;
+  }
+}
+
 /* ---- Mobile job header: clean, compact, logo anchored ---- */
 @media (max-width: 720px) {
-  .jobrow { grid-template-columns: 1fr; gap: 2px; padding: 14px 0; }
+  .jobrow { grid-template-columns: 1fr; gap: 1px; padding: 14px 0; }
   .job-org { gap: 4px; }
   .job-meta { grid-column: auto; flex-direction: row; gap: 10px; margin-top: 0; font-size: 11px; text-align: left; }
   .chev { display: none; }                 /* kill the orphaned chevron */
