@@ -1371,7 +1371,7 @@ body { background: transparent; }
 
 /* ---- Mobile job header: clean, compact, logo anchored ---- */
 @media (max-width: 720px) {
-  .jobrow { grid-template-columns: 1fr; gap: 4px; padding: 14px 0; }
+  .jobrow { grid-template-columns: 1fr; gap: 8px; padding: 14px 0; }
   .job-org { gap: 4px; }
   .job-meta { grid-column: auto; flex-direction: row; gap: 10px; margin-top: 0; font-size: 11px; text-align: left; }
   .chev { display: none; }                 /* kill the orphaned chevron */
