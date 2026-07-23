@@ -16,11 +16,13 @@
   // ── Access codes ────────────────────────────────────────────
   //  One code per person. Each lists the case studies they can see.
   //  Case keys: casper, nike, sja, stink, hinge. Matched case-insensitively.
+  //  `name` shows after "Welcome, ". `note` is the personalized one-line
+  //  message under the heading — customise it per invite.
   var CODES = {
-    'carousel': { name: 'Full Portfolio',      cases: ['casper', 'nike', 'sja', 'stink', 'hinge'] },
-    'airmax21': { name: 'Nike',                cases: ['nike', 'casper', 'stink'] },
-    'wildmode': { name: 'Spotify',             cases: ['casper', 'nike', 'hinge'] },
-    'archive':  { name: 'Steve Jobs Archive',  cases: ['sja', 'stink', 'casper'] }
+    'carousel': { name: 'Full Portfolio',     note: 'A private selection prepared for you — please keep these links confidential.', cases: ['casper', 'nike', 'sja', 'stink', 'hinge'] },
+    'airmax21': { name: 'Nike',               note: 'Prepared for the Nike team — please keep these links confidential.',           cases: ['nike', 'casper', 'stink'] },
+    'wildmode': { name: 'Spotify',            note: 'Prepared for the Spotify team — please keep these links confidential.',        cases: ['casper', 'nike', 'hinge'] },
+    'archive':  { name: 'Steve Jobs Archive', note: 'Prepared for the Steve Jobs Archive team — please keep these links confidential.', cases: ['sja', 'stink', 'casper'] }
   };
 
   // ── Visit tracking ──────────────────────────────────────────
@@ -38,6 +40,7 @@
   var field = document.getElementById('lock-field');
   var errorEl = document.getElementById('lock-error');
   var visitorEl = document.getElementById('visitor');
+  var noteEl = document.getElementById('work-note');
   var listEl = document.getElementById('caselist');
   var lockBtn = document.getElementById('lock-again');
 
@@ -75,6 +78,7 @@
 
   function render(entry) {
     visitorEl.textContent = entry.name;
+    if (noteEl) noteEl.textContent = entry.note || '';
     listEl.innerHTML = '';
 
     entry.cases.filter(function (k) { return CASES[k]; }).forEach(function (key, i) {

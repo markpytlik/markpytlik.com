@@ -21,10 +21,7 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="wordmark">Mark Pytlik</a>
-    <div class="nav-links">
-      <a href="index.html" class="navlink">← Home</a>
-    </div>
+    <a href="index.html" class="wordmark">←&nbsp;Mark Pytlik</a>
   </div>
 </nav>
 
@@ -32,9 +29,7 @@
 <div class="lock" id="locked">
   <div class="lock-card">
     <div class="lock-head">
-      <span class="mono" style="letter-spacing:.2em;">(Private)</span>
       <h1>Selected Work</h1>
-      <p>These case studies are private. Enter the access code from your invite, or email for one.</p>
     </div>
 
     <form class="lock-form" id="lock-form">
@@ -45,8 +40,6 @@
       <span class="lock-error" id="lock-error" hidden>Invalid code — try again</span>
       <button type="submit" class="btn">Enter ↗</button>
     </form>
-
-    <a href="mailto:hi@markpytlik.com?subject=Case%20study%20access" class="navlink" style="align-self:flex-start;">Email for access →</a>
   </div>
 </div>
 
@@ -54,11 +47,10 @@
 <main class="work-main" id="unlocked" hidden>
   <header class="work-head" data-reveal>
     <div class="meta-row mono">
-      <span>(Selected Work — Private)</span>
       <span>Welcome, <span id="visitor"></span></span>
     </div>
     <h1>Case Studies</h1>
-    <p>A private selection prepared for you. Please keep these links confidential.</p>
+    <p id="work-note"></p>
   </header>
 
   <div class="caselist" id="caselist" data-reveal></div>
