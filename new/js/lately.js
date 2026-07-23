@@ -67,9 +67,22 @@ window.MP_LATELY = [
   host.appendChild(first);
   host.appendChild(buildSet(true)); // identical duplicate → seamless loop
 
-  // Constant scroll speed (~60px/s) no matter how long the list gets.
-  requestAnimationFrame(function () {
+  // Constant, slow scroll (~34px/s) no matter how long the list gets.
+  // Retry until the set has laid out (width > 0), and recompute on resize.
+  var tries = 0;
+  function setSpeed() {
     var w = first.getBoundingClientRect().width;
-    if (w) host.style.animationDuration = Math.max(20, Math.round(w / 60)) + 's';
-  });
+    if (w > 0) {
+      host.style.animationDuration = Math.max(30, Math.round(w / 34)) + 's';
+    } else if (tries++ < 60) {
+      requestAnimationFrame(setSpeed);
+    }
+  }
+  setSpeed();
+  window.addEventListener('load', function () { tries = 0; setSpeed(); });
+  var rz;
+  window.addEventListener('resize', function () {
+    clearTimeout(rz);
+    rz = setTimeout(function () { tries = 0; setSpeed(); }, 200);
+  }, { passive: true });
 })();

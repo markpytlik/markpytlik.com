@@ -1238,3 +1238,27 @@ body { background: transparent; }
 .lately-item:hover { color: var(--text); }
 .lately-item .k { color: var(--muted); }
 .lately .sep { color: var(--muted); margin: 0 16px; }
+
+/* "Lately" — pinned RECOMMENDATIONS label + scrolling marquee to its right */
+.lately-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+.lately-label {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--text);            /* white */
+  white-space: nowrap;
+}
+.lately-row .lately {           /* the marquee fills the rest; drop its own rule */
+  flex: 1 1 auto;
+  min-width: 0;
+  border-top: 0;
+  padding-top: 0;
+}
