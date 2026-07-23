@@ -847,7 +847,7 @@ a { color: inherit; text-decoration: none; }
 
   min-height: 100vh;
   color: var(--page-text);
-  padding: 40px 48px 96px;
+  padding: 32px 32px 96px;
   position: relative;
   /* Cursor-lit spotlight, tinted per case (--fx) — subtly unique to each */
   background:
@@ -1109,7 +1109,7 @@ a { color: inherit; text-decoration: none; }
   .caserow img { grid-column: 1 / -1; width: 100%; height: 160px; }
   .caserow .n { display: none; }
 
-  .case-page { padding: 24px 16px 64px; }
+  .case-page { padding: 12px 12px 64px; }
   .ink { padding: 28px; border-radius: 20px; gap: 40px; }
   .case-hero { width: calc(100% + 56px); margin-left: -28px; margin-right: -28px; }
   .case-pair { grid-template-columns: 1fr !important; }

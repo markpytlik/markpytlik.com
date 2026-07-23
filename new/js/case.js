@@ -26,7 +26,7 @@
   }
 
   /* ---------- Header ---------- */
-  document.getElementById('case-index').textContent = c.index;
+  var idxEl = document.getElementById('case-index'); if (idxEl) idxEl.textContent = c.index;
   // Eyebrow keeps just "Category · Year"; client + project go in the headline.
   document.getElementById('case-eyebrow').textContent = c.eyebrow.split(' · ').slice(0, 2).join(' · ');
   document.getElementById('case-title').textContent = c.client ? c.client + ' — ' + c.title : c.title;
