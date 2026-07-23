@@ -7,15 +7,6 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0B0B0A">
 
-<script>
-  (function () {
-    try {
-      var t = localStorage.getItem('mp_theme');
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-    } catch (e) {}
-  })();
-</script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -30,7 +21,6 @@
     <a href="index.html" class="wordmark">✦&nbsp;Mark Pytlik</a>
     <div class="nav-links">
       <a href="index.html" class="navlink">← Home</a>
-      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">Light ☀</button>
     </div>
   </div>
 </nav>
@@ -75,8 +65,6 @@
     <button type="button" class="navlink linkbtn" id="lock-again">Lock again</button>
   </div>
 </main>
-
-<script src="js/theme.js"></script>
 <script src="js/reveal.js"></script>
 <script src="js/cases.js"></script>
 <script src="js/work.js"></script>

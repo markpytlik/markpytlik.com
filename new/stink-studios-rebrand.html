@@ -19,14 +19,6 @@
       location.replace('work.html');
     }
   })();
-
-  /* Stored theme, applied before first paint. */
-  (function () {
-    try {
-      var t = localStorage.getItem('mp_theme');
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-    } catch (e) {}
-  })();
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,7 +60,6 @@
 </div>
 
 <script src="js/media.js"></script>
-<script src="js/theme.js"></script>
 <script src="js/cases.js"></script>
 <script src="js/case.js"></script>
 </body>

@@ -43,7 +43,7 @@ body {
   transition: background .45s ease, color .45s ease;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 32px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 a { color: inherit; text-decoration: none; }
@@ -327,7 +327,7 @@ a { color: inherit; text-decoration: none; }
 .para {
   margin: 0;
   font-size: clamp(16px, 1.45vw, 19px);
-  line-height: 1.6;
+  line-height: 1.4;
   color: var(--body);
   text-wrap: pretty;
 }
@@ -505,7 +505,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   padding: 0 44px 26px 76px;
   font-size: clamp(15px, 1.4vw, 18px);
-  line-height: 1.6;
+  line-height: 1.4;
   color: var(--body);
   max-width: 840px;
   text-wrap: pretty;
@@ -678,7 +678,7 @@ a { color: inherit; text-decoration: none; }
 .lock-head p {
   margin: 0;
   font-size: 15.5px;
-  line-height: 1.55;
+  line-height: 1.4;
   color: var(--muted);
   text-wrap: pretty;
 }
@@ -763,7 +763,7 @@ a { color: inherit; text-decoration: none; }
 .work-head p {
   margin: 0;
   font-size: clamp(16px, 1.5vw, 20px);
-  line-height: 1.5;
+  line-height: 1.4;
   max-width: 640px;
   color: var(--muted);
   text-wrap: pretty;
@@ -1020,7 +1020,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0;
   font-family: var(--font-body);
   font-size: clamp(16px, 1.55vw, 20px);
-  line-height: 1.6;
+  line-height: 1.45;
   max-width: 780px;
   color: var(--text);
 }
@@ -1123,7 +1123,7 @@ a { color: inherit; text-decoration: none; }
    Remove this whole block and the .page-card <div> in index.html
    to revert to the full-bleed layout.
    ============================================================ */
-:root            { --page-surround: #141310; }  /* light mode: dark frame around the white card */
+:root            { --page-surround: #000000; }  /* light mode: black frame around the white card */
 [data-theme="dark"] { --page-surround: #FFFFFF; }  /* dark mode: white frame around the dark card */
 html { background: var(--page-surround); }
 body { background: transparent; }
@@ -1162,15 +1162,15 @@ body { background: transparent; }
 .hero-status { justify-content: flex-end; }
 
 /* Section labels (About / Career / …) a touch smaller */
-.section-title { font-size: clamp(18px, 1.7vw, 22px); }
+.section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; }
 
 /* Tighten the About lead line spacing */
-.lead { line-height: 1.12; }
+.lead { line-height: 1.08; }
 
 /* About: wider gutter to the headshot, larger headshot, smaller+tighter body */
 #about.split           { grid-template-columns: 230px 1fr; gap: 54px; }
 #about .shot-frame     { max-width: 230px; }
-#about .about-copy .para { font-size: clamp(14.5px, 1.05vw, 16px); line-height: 1.5; }
+#about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.4; }
 
 /* Writing: make the Selected-work list much more compact */
 #writing .writing-copy            { gap: 20px; }
@@ -1178,3 +1178,28 @@ body { background: transparent; }
 #writing .writerow                { padding: 3px 0; gap: 10px; }
 #writing .writerow .artist        { font-size: 11.5px; }
 #writing .writerow .title         { font-size: 10.5px; }
+
+/* Hero status: keep the date · available line right-aligned even when it wraps */
+.hero-status .right { flex-wrap: wrap; justify-content: flex-end; text-align: right; }
+
+/* About on narrow screens: stack the headshot above the copy with generous
+   vertical space (overrides the id-specificity #about.split, which otherwise
+   keeps 2 columns on mobile). */
+@media (max-width: 860px) {
+  #about.split { grid-template-columns: 1fr; gap: 44px; }
+}
+
+/* Writing — compact inline review links (replaces the old Selected-work list) */
+.writing-links {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.writing-links a {
+  color: var(--body);
+  border-bottom: 1px solid transparent;
+  transition: color .25s ease, border-color .25s ease;
+}
+.writing-links a:hover { color: var(--text); border-bottom-color: var(--line); }

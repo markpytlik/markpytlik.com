@@ -15,16 +15,6 @@
 <meta property="og:description" content="Nearly two decades building teams, running businesses, and making award-winning work.">
 <meta name="twitter:card" content="summary_large_image">
 
-<script>
-  /* Apply the stored theme before first paint. Default is dark. */
-  (function () {
-    try {
-      var t = localStorage.getItem('mp_theme');
-      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-    } catch (e) {}
-  })();
-</script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -46,7 +36,6 @@
       <a href="#career" class="navlink">Career</a>
       <a href="#writing" class="navlink">Writing</a>
       <a href="#contact" class="navlink">Contact</a>
-      <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">Light ☀</button>
     </div>
   </div>
 </nav>
@@ -55,12 +44,6 @@
 
   <!-- Hero -->
   <header class="hero">
-    <div class="hero-status mono">
-      <span class="right">
-        <span><span data-clock-date></span> · <span data-clock-time></span> PT</span>
-        <span class="available"><span class="dot" aria-hidden="true"></span>Available</span>
-      </span>
-    </div>
     <h1>I'm Mark Pytlik, a brand &amp; creative leader based in San Francisco.</h1>
   </header>
 
@@ -226,23 +209,13 @@
   <section id="writing" class="section split" data-reveal>
     <span class="section-title">Writing</span>
     <div class="writing-copy">
-      <p style="margin:0;font-size:clamp(16px,1.45vw,19px);line-height:1.6;text-wrap:pretty;">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine <em>Boards</em>, and the author of a Björk biography called <em>Wow &amp; Flutter</em>. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
-      <div class="writing-list">
-        <span class="mono" style="padding-bottom:12px;">Selected work</span>
-        <a href="https://archive.is/aTYUj" target="_blank" rel="noopener" class="writerow">
-          <span class="artist">Radiohead</span><span class="title">In Rainbows ↗</span>
-        </a>
-        <a href="https://archive.is/w5Kml" target="_blank" rel="noopener" class="writerow">
-          <span class="artist">The Knife</span><span class="title">Silent Shout ↗</span>
-        </a>
-        <a href="https://archive.is/lb6E" target="_blank" rel="noopener" class="writerow">
-          <span class="artist">Beach House</span><span class="title">Beach House ↗</span>
-        </a>
-        <a href="https://archive.is/vz60z" target="_blank" rel="noopener" class="writerow">
-          <span class="artist">LCD Soundsystem</span><span class="title">Sound of Silver ↗</span>
-        </a>
-        <div class="rule"></div>
-      </div>
+      <p style="margin:0;font-size:clamp(15px,1.4vw,18px);line-height:1.4;text-wrap:pretty;">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine <em>Boards</em>, and the author of a Björk biography called <em>Wow &amp; Flutter</em>. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
+      <p class="writing-links">A few reviews from the Pitchfork years —
+        <a href="https://archive.is/aTYUj" target="_blank" rel="noopener">Radiohead, <em>In&nbsp;Rainbows</em></a> ·
+        <a href="https://archive.is/w5Kml" target="_blank" rel="noopener">The Knife, <em>Silent&nbsp;Shout</em></a> ·
+        <a href="https://archive.is/lb6E" target="_blank" rel="noopener">Beach&nbsp;House</a> ·
+        <a href="https://archive.is/vz60z" target="_blank" rel="noopener">LCD Soundsystem, <em>Sound&nbsp;of&nbsp;Silver</em></a>
+      </p>
     </div>
   </section>
 
@@ -281,7 +254,6 @@
 </div><!-- /.page-card -->
 
 <script src="js/media.js"></script>
-<script src="js/theme.js"></script>
 <script src="js/reveal.js"></script>
 <script src="js/home.js"></script>
 </body>
