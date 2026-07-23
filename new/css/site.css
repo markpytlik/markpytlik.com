@@ -1262,3 +1262,10 @@ body { background: transparent; }
   border-top: 0;
   padding-top: 0;
 }
+
+/* Tighten the Contact top (removing the big email left a void) and the
+   space under the Writing blurb; center the awards marquee in its band. */
+#contact { margin-top: 0; padding-top: 30px; }
+#writing { padding-bottom: 22px; }
+#career  { padding-bottom: 30px; }
+#career .marquee { margin-top: 30px; }
