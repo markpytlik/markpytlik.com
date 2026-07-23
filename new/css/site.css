@@ -840,25 +840,28 @@ a { color: inherit; text-decoration: none; }
    Case study pages
    ============================================================ */
 .case-page {
-  --page: #ECEBE6;
+  --page: #FFFFFF;             /* white surround, like the home page */
   --page-text: #141310;
-  --page-muted: #8A867C;
-  --page-line: #D7D4CB;
+  --page-muted: #8A8A85;
+  --page-line: #E8E8E6;
 
   min-height: 100vh;
-  background: var(--page);
   color: var(--page-text);
   padding: 40px 48px 96px;
-  transition: background .45s ease, color .45s ease;
   position: relative;
+  /* Cursor-lit spotlight, tinted per case (--fx) — subtly unique to each */
+  background:
+    radial-gradient(520px circle at var(--mx, 50%) var(--my, 40%),
+      var(--fx, rgba(255, 210, 160, 0.5)), rgba(255,255,255,0) 60%),
+    var(--page);
 }
 
-[data-theme="dark"] .case-page {
-  --page: #0B0B0A;
-  --page-text: #F1EFEA;
-  --page-muted: #7C7A73;
-  --page-line: #26251F;
-}
+/* Per-case surround tint */
+[data-case="casper"] { --fx: rgba(150, 180, 255, 0.42); }  /* cool blue — sleep */
+[data-case="nike"]   { --fx: rgba(255, 150, 90, 0.50); }   /* warm orange — energy */
+[data-case="sja"]    { --fx: rgba(255, 205, 150, 0.45); }  /* amber — editorial */
+[data-case="stink"]  { --fx: rgba(205, 205, 205, 0.50); }  /* neutral graphite */
+[data-case="hinge"]  { --fx: rgba(255, 150, 185, 0.45); }  /* rose — dating */
 
 .case-page ::selection { background: var(--page-text); color: var(--page); }
 
