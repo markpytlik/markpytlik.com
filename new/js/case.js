@@ -27,8 +27,9 @@
 
   /* ---------- Header ---------- */
   document.getElementById('case-index').textContent = c.index;
-  document.getElementById('case-eyebrow').textContent = c.eyebrow;
-  document.getElementById('case-title').textContent = c.title;
+  // Eyebrow keeps just "Category · Year"; client + project go in the headline.
+  document.getElementById('case-eyebrow').textContent = c.eyebrow.split(' · ').slice(0, 2).join(' · ');
+  document.getElementById('case-title').textContent = c.client ? c.client + ' — ' + c.title : c.title;
   document.getElementById('case-intro').textContent = c.intro;
 
   var hero = document.getElementById('case-hero');
@@ -136,5 +137,24 @@
 
   if (window.MP && window.MP.observeVideos) window.MP.observeVideos(blocks);
 
-  document.title = c.title + ' — Mark Pytlik';
+  /* ---------- Prev · Home · Next ---------- */
+  var foot = document.getElementById('case-foot');
+  if (foot) {
+    var keys = Object.keys(window.MP_CASES);
+    var i = keys.indexOf(key);
+    var prev = window.MP_CASES[keys[(i - 1 + keys.length) % keys.length]];
+    var next = window.MP_CASES[keys[(i + 1) % keys.length]];
+    function footLink(href, label, cls) {
+      var a = el('a', cls);
+      a.href = href;
+      a.textContent = label;
+      return a;
+    }
+    foot.textContent = '';
+    foot.appendChild(footLink(prev.href, '← ' + prev.listTitle, 'foot-prev'));
+    foot.appendChild(footLink('index.html', 'Home', 'foot-home'));
+    foot.appendChild(footLink(next.href, next.listTitle + ' →', 'foot-next'));
+  }
+
+  document.title = (c.client ? c.client + ' — ' + c.title : c.title) + ' — Mark Pytlik';
 })();

@@ -21,7 +21,8 @@ window.MP_CASES = {
 
     index: 'Case 01 / 05',
     eyebrow: 'Social · 2019 · Casper, The Sleep Company',
-    title: 'Casper',
+    client: 'Casper',
+    title: 'The Sleep Channel',
     hero: { src: 'assets/work/casper.webp', alt: 'Casper — bedroom' },
     intro: 'By 2019, over 100 mattress-in-a-box brands had turned “mattresses” into a commodity, so Casper set out to become a lifestyle company built around sleep — and we answered with the Casper Sleep Channel, a library of gently absurd long-form sleep content that lived on YouTube and Spotify.',
     blocks: [
@@ -47,6 +48,7 @@ window.MP_CASES = {
 
     index: 'Case 02 / 05',
     eyebrow: 'Campaign · 2021 · Nike, Air Max Day Worldwide',
+    client: 'Nike',
     title: 'Air Max Day',
     hero: { src: 'assets/work/nike/hero.webp', alt: 'Nike — Air Max Day Worldwide' },
     intro: 'Air Max Day is Nike’s annual celebration of the Air Max — usually a global, on-the-ground affair of events, installations and drops. In 2021 none of that was possible, so we built AMD Worldwide: a mobile-first, members-only 24-hour virtual event that met a diehard fanbase and a new Gen-Z audience where they already were.',
@@ -76,6 +78,7 @@ window.MP_CASES = {
 
     index: 'Case 03 / 05',
     eyebrow: 'Editorial · 2023 · Steve Jobs Archive',
+    client: 'Steve Jobs Archive',
     title: 'Letters to a Young Creator',
     hero: { src: 'assets/work/sja/a.webp', alt: 'Steve Jobs Archive' },
     intro: 'The Steve Jobs Archive is the authoritative home for Steve’s story and a resource for new generations eager to make their own mark. “Letters to a Young Creator” is part of that work — editorial and creative direction for a new kind of institution.',
@@ -102,7 +105,8 @@ window.MP_CASES = {
 
     index: 'Case 04 / 05',
     eyebrow: 'Brand · 2022 · Stink Studios',
-    title: 'Stink Studios Rebrand',
+    client: 'Stink Studios',
+    title: 'Rebrand',
     hero: { src: 'assets/work/stink/b.webp', alt: 'Stink Studios rebrand' },
     intro: 'Eight years on from our last rebrand, Stink had grown to hundreds of people across six offices — lots of strangers who needed a cohesive sense of what Stink was for. The rebrand gave everyone something to rally around: a system built on craft, digital fluency and humanity, running from the values to the type to a custom icon font.',
     blocks: [
@@ -132,6 +136,7 @@ window.MP_CASES = {
 
     index: 'Case 05 / 05',
     eyebrow: 'Brand · 2022 · Hinge',
+    client: 'Hinge',
     title: 'NFAQ',
     hero: { src: 'assets/work/hinge/a.webp', alt: 'Hinge — NFAQ' },
     intro: 'Hinge is the dating app designed to be deleted. NFAQ — the Not-So-Frequently Asked Questions — is a brand answer to the questions dating apps never address, turning real dating anxieties into a warm, disarming campaign.',

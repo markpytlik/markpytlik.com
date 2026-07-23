@@ -866,7 +866,7 @@ a { color: inherit; text-decoration: none; }
 .case-page ::selection { background: var(--page-text); color: var(--page); }
 
 .case-bar {
-  max-width: 1160px;
+  max-width: calc(var(--maxw) + 96px);
   margin: 0 auto 20px;
   display: flex;
   justify-content: space-between;
@@ -917,7 +917,7 @@ a { color: inherit; text-decoration: none; }
   --line: #E8E8E8;
   --radius: 18px;
 
-  max-width: 1160px;
+  max-width: calc(var(--maxw) + 96px);
   margin: 0 auto;
   background: var(--bg);
   color: var(--text);
@@ -1283,3 +1283,10 @@ body { background: transparent; }
 
 /* Uniform gap between each section title and its content (About was 20 vs 22) */
 .about-col { gap: 22px; }
+
+/* Smooth cross-fade between pages (work ⇄ home ⇄ cases) where supported */
+@view-transition { navigation: auto; }
+
+/* Case prev/home/next foot links */
+.case-foot a { color: var(--muted); transition: color .25s ease; }
+.case-foot a:hover { color: var(--text); }
