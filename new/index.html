@@ -34,6 +34,10 @@
 <body>
 <div class="grain" aria-hidden="true"></div>
 
+<!-- EXPERIMENT: card-framed layout (wraps nav + main). Remove this div (and the
+     "Card-framed layout" block in css/site.css) to revert to full-bleed. -->
+<div class="page-card">
+
 <nav class="nav">
   <div class="nav-inner">
     <a href="#top" class="wordmark">✦&nbsp;Mark Pytlik</a>
@@ -273,6 +277,8 @@
   </section>
 
 </main>
+
+</div><!-- /.page-card -->
 
 <script src="js/media.js"></script>
 <script src="js/theme.js"></script>

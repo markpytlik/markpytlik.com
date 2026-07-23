@@ -1116,3 +1116,40 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 560px) {
   .footer-row { flex-direction: column; gap: 10px; }
 }
+
+/* ============================================================
+   EXPERIMENT — Card-framed layout
+   Wraps nav + main in a rounded card floating on a white page.
+   Remove this whole block and the .page-card <div> in index.html
+   to revert to the full-bleed layout.
+   ============================================================ */
+:root            { --page-surround: #EAEAE8; }  /* light mode: soft gray so the white card reads */
+[data-theme="dark"] { --page-surround: #FFFFFF; }  /* dark mode: white frame around the dark card */
+html { background: var(--page-surround); }
+body { background: transparent; }
+
+.page-card {
+  max-width: calc(var(--maxw) + 96px);   /* content 1200 + card breathing room */
+  margin: 32px auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  overflow: clip;                          /* clean rounded corners */
+  box-shadow: 0 30px 90px -30px rgba(0,0,0,.35);
+}
+
+/* The card adds its own outer breathing room, so give the nav + content
+   a little inner side padding and pull the sticky nav to the card's top. */
+.page-card .nav {
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+}
+.page-card .nav-inner,
+.page-card .wrap { padding-left: 40px; padding-right: 40px; }
+
+@media (max-width: 720px) {
+  .page-card { margin: 12px; border-radius: 22px; }
+  .page-card .nav { border-radius: 22px 22px 0 0; }
+  .page-card .nav-inner,
+  .page-card .wrap { padding-left: 20px; padding-right: 20px; }
+}
