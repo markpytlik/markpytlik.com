@@ -10,8 +10,15 @@
   var G = '50+ Cannes Lions\u00A0\u00A0\u00B7\u00A0\u00A025+ D&AD Pencils\u00A0\u00A0\u00B7\u00A0\u00A025+ Webby Awards\u00A0\u00A0\u00B7\u00A0\u00A01\u00D7 Cannes Grand Prix\u00A0\u00A0\u00B7\u00A0\u00A0';
 
   function build() {
-    // Measure one group.
     host.textContent = '';
+    // Reduced motion: no scroll — show the awards once, static and wrapped.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var one = document.createElement('span');
+      one.textContent = G.replace(/[ \s·]+$/, '');
+      host.appendChild(one);
+      return;
+    }
+    // Measure one group.
     var probe = document.createElement('span');
     probe.textContent = G;
     host.appendChild(probe);

@@ -65,6 +65,10 @@ window.MP_LATELY = [
   host.textContent = '';
   var first = buildSet(false);
   host.appendChild(first);
+
+  // Reduced motion: keep a single static copy, no scroll.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   host.appendChild(buildSet(true)); // identical duplicate → seamless loop
 
   // Constant, slow scroll (~34px/s) no matter how long the list gets.

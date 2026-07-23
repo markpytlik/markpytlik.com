@@ -28,6 +28,8 @@ window.MP = window.MP || {};
   }
 
   function activate(video) {
+    // Reduced motion: don't autoplay — the poster frame stays.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!video.src && video.dataset.src) video.src = video.dataset.src;
     var p = video.play();
     if (p && p.catch) p.catch(function () { /* autoplay blocked — leave it */ });
