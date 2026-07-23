@@ -1379,3 +1379,7 @@ body { background: transparent; }
   .joblogo img { width: 40px; height: 40px; border-radius: 8px; }
   .jobpanel p { padding: 4px 0 26px 0; }
 }
+
+/* Keep the pinned "Lately" label locked when its marquee becomes swipeable
+   under reduced motion (the swipe wrapper must fill the row like .lately did) */
+.lately-row .marquee-swipe { flex: 1 1 auto; min-width: 0; }
