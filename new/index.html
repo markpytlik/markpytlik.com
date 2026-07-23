@@ -22,7 +22,7 @@
 </head>
 
 <body>
-<!-- Background-FX tester: switch effects with the pill at the bottom, or ?bg=spotlight|marginalia|drift|ledger -->
+<!-- Cursor-lit spotlight in the white surround behind the card (js/bg.js) -->
 <div class="bg-fx" data-bg-fx aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 
@@ -218,16 +218,9 @@
       </div>
     </div>
 
-    <!-- "Lately" — edit the four links below -->
+    <!-- "Lately" — content lives in js/lately.js (edit that list any time) -->
     <div class="marquee lately">
-      <div class="marquee-text">
-        <span>Last great podcast episode&nbsp;—&nbsp;Ezra Klein × Brian Eno&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-        <span>Last great album&nbsp;—&nbsp;Boards of Canada, Inferno&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-        <span>Last great book&nbsp;—&nbsp;London Falling, Patrick Radden Keefe&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-        <span aria-hidden="true">Last great podcast episode&nbsp;—&nbsp;Ezra Klein × Brian Eno&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-        <span aria-hidden="true">Last great album&nbsp;—&nbsp;Boards of Canada, Inferno&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-        <span aria-hidden="true">Last great book&nbsp;—&nbsp;London Falling, Patrick Radden Keefe&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-      </div>
+      <div class="marquee-text" data-lately></div>
     </div>
   </section>
 
@@ -238,6 +231,7 @@
 <script src="js/media.js"></script>
 <script src="js/reveal.js"></script>
 <script src="js/home.js"></script>
+<script src="js/lately.js"></script>
 <script src="js/bg.js"></script>
 </body>
 </html>

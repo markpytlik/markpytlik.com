@@ -1218,92 +1218,23 @@ body { background: transparent; }
 }
 
 /* ============================================================
-   Background FX (behind the card, shown in the white surround)
-   Tester: ?bg=spotlight|marginalia|drift|ledger  or the pill switcher.
+   Cursor-lit spotlight — a warm glow follows the pointer in the
+   white surround; the card masks it, so it reads only in the margins.
    ============================================================ */
 .bg-fx {
   position: fixed;
   inset: 0;
-  z-index: -1;              /* behind the card; only shows in the margins */
+  z-index: -1;                 /* behind the card */
   pointer-events: none;
   overflow: hidden;
-  background: var(--page-surround);
-}
-
-/* 1 — Spotlight: a warm glow follows the cursor */
-.bg-fx.fx-spotlight {
   background:
-    radial-gradient(460px circle at var(--mx, 50%) var(--my, 42%),
-      rgba(255, 208, 156, 0.6), rgba(255,255,255,0) 60%),
+    radial-gradient(500px circle at var(--mx, 50%) var(--my, 42%),
+      rgba(255, 210, 160, 0.55), rgba(255,255,255,0) 60%),
     var(--page-surround);
 }
 
-/* 2 — Marginalia: name/title creeps up the side gutters */
-.bg-fx.fx-marginalia::before,
-.bg-fx.fx-marginalia::after {
-  content: "MARK PYTLIK — BRAND & CREATIVE LEADER — ";
-  position: absolute;
-  top: 0;
-  writing-mode: vertical-rl;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: .38em;
-  text-transform: uppercase;
-  color: #d9d9d5;
-  white-space: nowrap;
-  animation: bg-margin 40s linear infinite;
-}
-.bg-fx.fx-marginalia::before { left: 15px; }
-.bg-fx.fx-marginalia::after  { right: 15px; animation-direction: reverse; }
-@keyframes bg-margin { from { transform: translateY(-50%); } to { transform: translateY(0); } }
-
-/* 3 — Drift: a barely-there off-white blob wanders */
-.bg-fx.fx-drift::before {
-  content: "";
-  position: absolute;
-  width: 65vw; height: 65vw;
-  left: 18%; top: 8%;
-  background: radial-gradient(circle, #efe8dd 0%, rgba(255,255,255,0) 62%);
-  filter: blur(24px);
-  animation: bg-drift 28s ease-in-out infinite alternate;
-}
-@keyframes bg-drift {
-  from { transform: translate(-9%, -6%) scale(1); }
-  to   { transform: translate(12%, 11%) scale(1.28); }
-}
-
-/* 4 — Ledger: faint rules, parallax against scroll */
-.bg-fx.fx-ledger {
-  background:
-    repeating-linear-gradient(to bottom, transparent 0 39px, #ececea 39px 40px),
-    var(--page-surround);
-  background-position: 0 calc(var(--ledger, 0) * 1px), 0 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bg-fx.fx-marginalia::before,
-  .bg-fx.fx-marginalia::after,
-  .bg-fx.fx-drift::before { animation: none; }
-}
-
-/* Tester switcher pill */
-.bg-switch {
-  position: fixed;
-  left: 50%; bottom: 14px; transform: translateX(-50%);
-  z-index: 200;
-  display: flex; gap: 3px;
-  padding: 5px;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-.bg-switch button {
-  border: 0; background: transparent; color: var(--muted);
-  font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em;
-  text-transform: uppercase; padding: 5px 11px; border-radius: 999px; cursor: pointer;
-  transition: color .2s ease, background .2s ease;
-}
-.bg-switch button:hover { color: var(--text); }
-.bg-switch button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+/* "Lately" marquee items (content from js/lately.js) */
+.lately-item { color: var(--body); white-space: nowrap; transition: color .2s ease; }
+.lately-item:hover { color: var(--text); }
+.lately-item .k { color: var(--muted); }
+.lately .sep { color: var(--muted); margin: 0 16px; }
