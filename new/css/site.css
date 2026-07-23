@@ -1123,7 +1123,7 @@ a { color: inherit; text-decoration: none; }
    Remove this whole block and the .page-card <div> in index.html
    to revert to the full-bleed layout.
    ============================================================ */
-:root            { --page-surround: #EAEAE8; }  /* light mode: soft gray so the white card reads */
+:root            { --page-surround: #141310; }  /* light mode: dark frame around the white card */
 [data-theme="dark"] { --page-surround: #FFFFFF; }  /* dark mode: white frame around the dark card */
 html { background: var(--page-surround); }
 body { background: transparent; }
@@ -1153,3 +1153,28 @@ body { background: transparent; }
   .page-card .nav-inner,
   .page-card .wrap { padding-left: 20px; padding-right: 20px; }
 }
+
+/* ============================================================
+   Design tweaks — home page refinements
+   ============================================================ */
+
+/* Hero: right-align the date · available line */
+.hero-status { justify-content: flex-end; }
+
+/* Section labels (About / Career / …) a touch smaller */
+.section-title { font-size: clamp(18px, 1.7vw, 22px); }
+
+/* Tighten the About lead line spacing */
+.lead { line-height: 1.12; }
+
+/* About: wider gutter to the headshot, larger headshot, smaller+tighter body */
+#about.split           { grid-template-columns: 230px 1fr; gap: 54px; }
+#about .shot-frame     { max-width: 230px; }
+#about .about-copy .para { font-size: clamp(14.5px, 1.05vw, 16px); line-height: 1.5; }
+
+/* Writing: make the Selected-work list much more compact */
+#writing .writing-copy            { gap: 20px; }
+#writing .writing-list .mono      { padding-bottom: 4px !important; font-size: 10px; }
+#writing .writerow                { padding: 3px 0; gap: 10px; }
+#writing .writerow .artist        { font-size: 11.5px; }
+#writing .writerow .title         { font-size: 10.5px; }
