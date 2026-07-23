@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1024" height="1024" viewBox="0 0 1024 1024"
+     role="img" aria-labelledby="title desc">
+  <title id="title">Rounded radial sunburst favicon</title>
+  <desc id="desc">Twelve black rounded rays arranged around an open circular center on white.</desc>
+  <rect width="1024" height="1024" fill="#fff"/>
+  <g fill="none" stroke="#000" stroke-width="42"
+     stroke-linecap="round" stroke-linejoin="round">
+  <line x1="512.00" y1="307.00" x2="512.00" y2="189.00" />
+  <line x1="614.50" y1="334.46" x2="660.50" y2="254.79" />
+  <line x1="689.54" y1="409.50" x2="769.21" y2="363.50" />
+  <line x1="717.00" y1="512.00" x2="835.00" y2="512.00" />
+  <line x1="689.54" y1="614.50" x2="769.21" y2="660.50" />
+  <line x1="614.50" y1="689.54" x2="660.50" y2="769.21" />
+  <line x1="512.00" y1="717.00" x2="512.00" y2="835.00" />
+  <line x1="409.50" y1="689.54" x2="363.50" y2="769.21" />
+  <line x1="334.46" y1="614.50" x2="254.79" y2="660.50" />
+  <line x1="307.00" y1="512.00" x2="189.00" y2="512.00" />
+  <line x1="334.46" y1="409.50" x2="254.79" y2="363.50" />
+  <line x1="409.50" y1="334.46" x2="363.50" y2="254.79" />
+  </g>
+</svg>
