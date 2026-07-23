@@ -916,8 +916,8 @@ function newBlock(kind){
 function tidy(s){
   if(s == null) return s;
   var t = String(s).replace(/\r\n?/g,'\n');
-  // em dashes:  --  and  spaced hyphen  ->  —
-  t = t.replace(/\s*--\s*/g, '—');
+  // em dashes:  --  and  spaced hyphen  ->  " — " (the site spaces its em dashes)
+  t = t.replace(/\s*--\s*/g, ' — ');
   t = t.replace(/(\S)\s+-\s+(\S)/g, '$1 — $2');
   // ellipsis
   t = t.replace(/\.\.\./g, '…');
@@ -1154,7 +1154,7 @@ function bindMeta(){
     if(el.hasAttribute('data-tidy')){
       el.addEventListener('blur', function(){
         var v = tidy(el.value);
-        if(v !== el.value){ el.value = v; state[metaMap[id]] = v; renderPreview(); scheduleSave(); }
+        if(v !== el.value){ el.value = v; state[metaMap[id]] = v; if(el._updateCounter) el._updateCounter(); renderPreview(); scheduleSave(); }
       });
     }
   });
@@ -1448,12 +1448,12 @@ function textEditor(b){
   var ta = document.createElement('textarea');
   ta.value = b.text || ''; ta.placeholder = 'Paragraph copy…';
   ta.addEventListener('input', function(){ b.text = ta.value; renderPreview(); scheduleSave(); });
-  ta.addEventListener('blur', function(){ var v = tidy(ta.value); if(v !== ta.value){ ta.value = v; b.text = v; renderPreview(); scheduleSave(); } });
+  ta.addEventListener('blur', function(){ var v = tidy(ta.value); if(v !== ta.value){ ta.value = v; b.text = v; if(ta._updateCounter) ta._updateCounter(); renderPreview(); scheduleSave(); } });
 
   var top = document.createElement('div'); top.className = 'row-inline';
   top.appendChild(leadWrap);
   var tidyBtn = document.createElement('button'); tidyBtn.className = 'btn tiny ghost'; tidyBtn.textContent = 'Tidy';
-  tidyBtn.addEventListener('click', function(){ ta.value = tidy(ta.value); b.text = ta.value; renderPreview(); scheduleSave(); });
+  tidyBtn.addEventListener('click', function(){ ta.value = tidy(ta.value); b.text = ta.value; if(ta._updateCounter) ta._updateCounter(); renderPreview(); scheduleSave(); });
   top.appendChild(tidyBtn);
 
   f.appendChild(top); f.appendChild(ta);
@@ -2123,7 +2123,7 @@ function tidyAll(){
     if(b.left) b.left.caption = tidy(b.left.caption);
     if(b.right) b.right.caption = tidy(b.right.caption);
   });
-  renderBlocks(); renderPreview(); scheduleSave();
+  renderBlocks(); renderPreview(); refreshMetaCounters(); scheduleSave();
   toast('Tidied all text');
 }
 
