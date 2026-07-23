@@ -1,31 +1,20 @@
-/* Reduced-motion affordance. When the visitor has "Reduce Motion" on, the
-   marquees don't auto-scroll — so wrap each one, make it hand-swipeable, and
-   flag that with white arrows pointing outward (← … →). No-op otherwise.
-   The "Lately" marquee keeps its pinned label as the left anchor, so it
-   only gets the right arrow. */
+/* Reduced-motion affordance. When "Reduce Motion" is on, the marquees don't
+   auto-scroll — CSS makes them hand-swipeable, and we flag that with a single
+   "→" after the relevant section label (Selected work / Lately). No-op
+   otherwise. */
 (function () {
   'use strict';
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  function arrow(side, glyph) {
+  function hint(el) {
+    if (!el) return;
     var s = document.createElement('span');
-    s.className = 'marquee-arrow is-' + side;
+    s.className = 'swipe-hint';
     s.setAttribute('aria-hidden', 'true');
-    s.textContent = glyph;
-    return s;
+    s.textContent = ' →';
+    el.appendChild(s);
   }
 
-  var marquees = document.querySelectorAll('.marquee');
-  Array.prototype.forEach.call(marquees, function (m) {
-    if (m.parentNode && m.parentNode.classList.contains('marquee-swipe')) return;
-
-    var wrap = document.createElement('div');
-    wrap.className = 'marquee-swipe';
-    m.parentNode.insertBefore(wrap, m);
-    wrap.appendChild(m);
-
-    // Lately's left edge is held by the pinned "Lately" label — no left arrow.
-    if (!m.classList.contains('lately')) wrap.appendChild(arrow('left', '←'));
-    wrap.appendChild(arrow('right', '→'));
-  });
+  hint(document.querySelector('#projects .section-title')); // Selected work →
+  hint(document.querySelector('.lately-label'));            // Lately →
 })();

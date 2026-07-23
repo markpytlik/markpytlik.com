@@ -54,6 +54,18 @@
       dot.addEventListener('click', function () { show(n); });
     });
 
+    /* Swipe (mobile): left = next, right = previous */
+    var startX = null;
+    frame.addEventListener('touchstart', function (e) {
+      startX = e.touches[0].clientX; paused = true;
+    }, { passive: true });
+    frame.addEventListener('touchend', function (e) {
+      if (startX === null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+      startX = null; paused = false;
+    }, { passive: true });
+
     show(0);
     if (slides.length > 1) {
       setInterval(function () { if (!paused) show(index + 1); }, 3800);
