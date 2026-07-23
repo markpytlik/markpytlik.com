@@ -1292,7 +1292,6 @@ body { background: transparent; }
 #contact { margin-top: 0; padding-top: 20px; border-top: 0; }
 #writing { padding-bottom: 22px; }
 #career  { padding-bottom: 30px; }
-#career .marquee { margin-top: 8px; }
 
 /* Reel note ("Please email…") matches the muted lead-in colour of the reviews line */
 #projects .writing-links a { color: var(--muted); }
@@ -1383,3 +1382,7 @@ body { background: transparent; }
 /* Keep the pinned "Lately" label locked when its marquee becomes swipeable
    under reduced motion (the swipe wrapper must fill the row like .lately did) */
 .lately-row .marquee-swipe { flex: 1 1 auto; min-width: 0; }
+
+/* Mobile-only paragraph break inside long copy (no-op on desktop) */
+.mbreak { display: none; }
+@media (max-width: 720px) { .mbreak { display: block; height: .75em; } }
