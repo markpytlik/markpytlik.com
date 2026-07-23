@@ -1273,3 +1273,13 @@ body { background: transparent; }
 #writing { padding-bottom: 22px; }
 #career  { padding-bottom: 30px; }
 #career .marquee { margin-top: 8px; }
+
+/* Reel note ("Please email…") matches the muted lead-in colour of the reviews line */
+#projects .writing-links a { color: var(--muted); }
+#projects .writing-links a:hover { color: var(--text); }
+
+/* Delete the divider directly under the CAREER title (keep dividers between jobs) */
+.joblist .jobitem:first-child { border-top: 0; }
+
+/* Uniform gap between each section title and its content (About was 20 vs 22) */
+.about-col { gap: 22px; }
