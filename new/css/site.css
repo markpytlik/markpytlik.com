@@ -1284,9 +1284,59 @@ body { background: transparent; }
 /* Uniform gap between each section title and its content (About was 20 vs 22) */
 .about-col { gap: 22px; }
 
-/* Smooth cross-fade between pages (work ⇄ home ⇄ cases) where supported */
-@view-transition { navigation: auto; }
-
 /* Case prev/home/next foot links */
 .case-foot a { color: var(--muted); transition: color .25s ease; }
 .case-foot a:hover { color: var(--text); }
+
+/* ============================================================
+   Page transitions (View Transitions API) — TEMPORARY TESTER.
+   Pick one with the pill; choice persists as localStorage.mp_transition.
+   Cross-document; works where supported (Chrome/Edge; Safari partial).
+   ============================================================ */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: .5s;
+  animation-timing-function: cubic-bezier(.45, 0, .15, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes vt-fade-in  { from { opacity: 0; } }
+@keyframes vt-fade-out { to   { opacity: 0; } }
+@keyframes vt-in-right { from { opacity: 0; transform: translateX(48px); } }
+@keyframes vt-out-left { to   { opacity: 0; transform: translateX(-48px); } }
+@keyframes vt-in-up    { from { opacity: 0; transform: translateY(56px); } }
+@keyframes vt-zoom-in  { from { opacity: 0; transform: scale(.955); } }
+@keyframes vt-zoom-out { to   { opacity: 0; transform: scale(1.03); } }
+@keyframes vt-flip-in  { from { opacity: 0; transform: perspective(1600px) rotateY(10deg) translateX(70px); } }
+@keyframes vt-flip-out { to   { opacity: 0; transform: perspective(1600px) rotateY(-10deg) translateX(-70px); } }
+
+:root[data-transition="fade"]::view-transition-old(root)  { animation-name: vt-fade-out; }
+:root[data-transition="fade"]::view-transition-new(root)  { animation-name: vt-fade-in; }
+:root[data-transition="slide"]::view-transition-old(root) { animation-name: vt-out-left; }
+:root[data-transition="slide"]::view-transition-new(root) { animation-name: vt-in-right; }
+:root[data-transition="up"]::view-transition-old(root)    { animation-name: vt-fade-out; }
+:root[data-transition="up"]::view-transition-new(root)    { animation-name: vt-in-up; }
+:root[data-transition="zoom"]::view-transition-old(root)  { animation-name: vt-zoom-out; }
+:root[data-transition="zoom"]::view-transition-new(root)  { animation-name: vt-zoom-in; }
+:root[data-transition="flip"]::view-transition-old(root)  { animation-name: vt-flip-out; }
+:root[data-transition="flip"]::view-transition-new(root)  { animation-name: vt-flip-in; }
+:root[data-transition="none"]::view-transition-old(root),
+:root[data-transition="none"]::view-transition-new(root)  { animation-duration: .001s; }
+
+/* Transition tester pill (dark, readable on both white surround and dark card) */
+.tx-switch {
+  position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%);
+  z-index: 200; display: flex; gap: 3px; padding: 5px;
+  background: color-mix(in srgb, #0B0B0A 84%, transparent);
+  border: 1px solid #3a382f; border-radius: 999px;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.tx-switch button {
+  border: 0; background: transparent; color: #b8b6ae;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em;
+  text-transform: uppercase; padding: 5px 10px; border-radius: 999px; cursor: pointer;
+}
+.tx-switch button:hover { color: #fff; }
+.tx-switch button[aria-pressed="true"] { background: #F1EFEA; color: #0B0B0A; }
