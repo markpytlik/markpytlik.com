@@ -456,7 +456,9 @@ a { color: inherit; text-decoration: none; }
   transition: padding .3s ease, background .3s ease;
   border-radius: 12px;
 }
-.jobrow:hover { background: var(--surface); padding-left: 18px; padding-right: 18px; }
+@media (hover: hover) {
+  .jobrow:hover { background: var(--surface); padding-left: 18px; padding-right: 18px; }
+}
 
 .job-org {
   display: flex;
