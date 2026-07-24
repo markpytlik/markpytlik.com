@@ -1406,9 +1406,10 @@ body { background: transparent; }
 /* ---- Mobile headshot: adaptive frame ----
    Every photo shares one fixed height; home.js sets an explicit px width per
    photo (landscape wide, square/portrait a centred square, clamped to 1:1).
-   Only the width changes between slides, and it's transitioned, so tapping
-   through morphs smoothly with no height jump. The aspect-ratio here is only
-   a first-paint fallback before JS assigns a concrete width. */
+   The width is NOT transitioned: animating it made the cover-fit image scale
+   as the box resized, which read as an unwanted zoom onto the square photos.
+   The frame just snaps to the right width and the images cross-fade instead.
+   The aspect-ratio here is only a first-paint fallback before JS sets width. */
 @media (max-width: 720px) {
   .shots { align-items: center; }
   #about .shot-frame {
@@ -1416,7 +1417,7 @@ body { background: transparent; }
     max-width: 100%;
     height: 210px;
     aspect-ratio: 3 / 2;
-    transition: width .24s ease;
+    transition: none;
   }
 }
 

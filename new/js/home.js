@@ -97,6 +97,7 @@
       slides.forEach(function (s, n) { s.classList.toggle('is-active', n === index); });
       dots.forEach(function (d, n) { d.setAttribute('aria-selected', String(n === index)); });
       fitFrame();
+      scheduleNext();   // any change (tap, dot, or auto) restarts the countdown
     }
 
     function onBreakpoint() { syncArt(); fitFrame(); }
@@ -132,9 +133,19 @@
       show(index + 1);
     });
 
-    show(0);
-    if (slides.length > 1) {
-      setInterval(function () { if (!paused) show(index + 1); }, 3800);
+    /* Auto-advance on a resettable timer: every show() (tap, dot, or the auto
+       tick itself) restarts it, so switching by finger gives you a full
+       interval on the new photo instead of an about-to-fire leftover. */
+    var AUTO_MS = 3800, autoTimer = null;
+    function scheduleNext() {
+      if (slides.length <= 1) return;
+      clearTimeout(autoTimer);
+      autoTimer = setTimeout(function () {
+        if (paused) scheduleNext();     // hover-paused — check again shortly
+        else show(index + 1);           // advance (show() reschedules)
+      }, AUTO_MS);
     }
+
+    show(0);
   }
 })();
