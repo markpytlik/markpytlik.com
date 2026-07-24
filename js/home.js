@@ -58,20 +58,18 @@
         if (!img.naturalWidth) return;
         var ar = img.naturalWidth / img.naturalHeight;
         if (ar < 1) ar = 1;                     // never taller than square
-        if (mq.matches) {
-          // mobile: fixed height, width follows the photo (capped to column)
-          frame.style.height = '';
-          var host = frame.parentElement;       // .shots column
-          var maxW = (host ? host.clientWidth : frame.clientWidth) || 0;
-          var w = Math.round(FRAME_H * ar);
-          if (maxW) w = Math.min(w, maxW);
-          frame.style.width = w + 'px';
-        } else {
-          // desktop: fixed column width, height follows the photo
-          frame.style.width = '';
-          var cw = Math.round(frame.getBoundingClientRect().width) || 230;
-          frame.style.height = Math.round(cw / ar) + 'px';
-        }
+        // Both breakpoints: the frame keeps a FIXED height (from CSS) and only
+        // its width follows the photo, capped to the column. A constant height
+        // means object-fit never rescales the image as you switch photos — so
+        // landscape↔square cross-fades instead of popping. Desktop's height is
+        // sized so a 3:2 landscape fills the 230px column without cropping.
+        var H = mq.matches ? 210 : 153;
+        frame.style.height = '';                // CSS owns the fixed height
+        var host = frame.parentElement;
+        var maxW = (host ? host.clientWidth : frame.clientWidth) || 0;
+        var w = Math.round(H * ar);
+        if (maxW) w = Math.min(w, maxW);
+        frame.style.width = w + 'px';
       };
       if (img.complete && img.naturalWidth) apply();
       else img.addEventListener('load', apply, { once: true });

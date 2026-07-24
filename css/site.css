@@ -1225,15 +1225,11 @@ body { background: transparent; }
 /* Desktop: width is fixed to the column; home.js sets the height per photo
    (landscape photos stay landscape rather than being cropped square), and
    the height transition makes that morph smoothly between slides. */
-#about .shot-frame     { max-width: 230px; }   /* no height morph — snap + cross-fade like mobile (avoids the cover-fit zoom) */
+/* Desktop: fixed frame height (like mobile), width varies per photo → the
+   frame never changes height between photos, so switching cross-fades cleanly
+   instead of popping. 153px lets a 3:2 landscape fill the 230px column. */
+#about .shot-frame     { max-width: 230px; height: 153px; }
 #about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.3; }
-
-/* Desktop: reserve the square's full height so the frame stays vertically
-   centred — landscape (shorter) photos recede toward the centre rather than
-   anchoring to the top as you tap through. */
-@media (min-width: 721px) {
-  #about .shot-slot { height: 230px; }
-}
 
 /* Writing: make the Selected-work list much more compact */
 #writing .writing-copy            { gap: 20px; }
@@ -1334,8 +1330,8 @@ body { background: transparent; }
 #career  { padding-bottom: 30px; }
 
 /* Reel note ("Please email…") matches the muted lead-in colour of the reviews line */
-#projects .writing-links a { color: var(--text); }              /* 'email' + 'case studies' in white */
-#projects .writing-links a:hover { color: var(--text); border-bottom-color: var(--line); }
+#projects .writing-links a { color: var(--muted); border-bottom: 0; }   /* grey, white on hover */
+#projects .writing-links a:hover { color: var(--text); }
 
 /* Delete the divider directly under the CAREER title (keep dividers between jobs) */
 .joblist .jobitem:first-child { border-top: 0; }
