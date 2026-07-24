@@ -15,7 +15,7 @@
 # purges the Cloudflare cache automatically.
 
 set -euo pipefail
-cd "$(dirname "$0")/.."          # -> new/
+cd "$(dirname "$0")/.."          # -> repo root
 
 # Guard: never deploy JS with a syntax error — a single broken .js can blank a
 # whole section (e.g. an unescaped apostrophe or a missing comma in a list).
@@ -29,13 +29,12 @@ fi
 msg="${1:-Update site}"
 ver="$(date +%s)"                # unique + monotonic (seconds since epoch)
 
-# Bump ?v= only on .css / .js references, across every *.html in new/.
+# Bump ?v= only on .css / .js references, across every *.html at the repo root.
 perl -0777 -i -pe "s/\.(css|js)\?v=[0-9a-z]+/.\$1?v=$ver/g" *.html
 
 count="$(grep -roh "?v=$ver" *.html | wc -l | tr -d ' ')"
 echo "stamped $count css/js references with ?v=$ver"
 
-cd ..                            # -> repo root
 git add -A
 git commit -m "$msg"
 git push origin main

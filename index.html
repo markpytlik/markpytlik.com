@@ -1,334 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mark Pytlik</title>
-  <meta name="description" content="I’m Mark Pytlik, a brand and creative leader based in San Francisco.">
-  <meta property="og:title" content="Mark Pytlik">
-  <meta property="og:description" content="Brand &amp; Creative Leader&#10;San Francisco / Bay Area">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.markpytlik.com">
-  <meta property="og:site_name" content="www.markpytlik.com">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Mark Pytlik">
-  <meta name="twitter:description" content="Brand &amp; Creative Leader — San Francisco / Bay Area">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100'/><text y='70' x='50' text-anchor='middle' font-size='60' font-family='Georgia' fill='%23e8e8e8'>M</text></svg>">
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHJRBXJ5ZV"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-VHJRBXJ5ZV');
-  </script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { font-size: 16px; }
-    body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      background: #0a0a0a;
-      color: #e8e8e8;
-      line-height: 1.5;
-      min-height: 100vh;
-      padding: 3rem;
-      display: flex;
-      flex-direction: column;
-    }
-    ::selection { background: #e8e8e8; color: #0a0a0a; }
-    a {
-      color: inherit;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(232, 232, 232, 0.4);
-      transition: border-color 0.2s;
-    }
-    a:hover { border-color: #e8e8e8; }
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      max-width: 1400px;
-      width: 100%;
-    }
-    .intro { margin-bottom: 4rem; }
-    .intro h1 {
-      font-size: clamp(1.25rem, 3.5vw, 2rem);
-      font-weight: 300;
-      line-height: 1.3;
-      max-width: 720px;
-      margin-bottom: 0;
-      letter-spacing: -0.01em;
-    }
-    .intro h1 strong { font-weight: 500; }
-    .bio-section {
-      display: flex;
-      gap: 2.5rem;
-      align-items: stretch;
-      margin-bottom: 3rem;
-    }
-    .bio-section .carousel {
-      flex-shrink: 0;
-      margin-top: 0;
-      aspect-ratio: unset;
-      width: 184px;
-      max-width: 184px;
-    }
-    .bio-wrapper { flex: 1; }
-    .bio {
-      font-size: 1rem;
-      line-height: 1.5;
-      max-width: 100%;
-      opacity: 0.85;
-      font-weight: 300;
-    }
-    .bio a { border-bottom: 1px solid rgba(232, 232, 232, 0.4); }
-    .bio a:hover { border-color: #e8e8e8; }
-    .content {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem 6rem;
-      font-size: 0.875rem;
-      align-items: start;
-    }
-    @media (max-width: 650px) {
-      body { padding: 1.5rem; }
-      .content { grid-template-columns: 1fr; }
-      .bio-section {
-        flex-direction: column;
-        gap: 2.5rem;
-      }
-      .bio-section .carousel {
-        width: 65%;
-        max-width: 65%;
-        aspect-ratio: 1;
-        height: auto;
-        margin: 0 auto;
-      }
-      .intro h1 { font-size: 1.875rem; }
-    }
-    .section-title {
-      font-size: 0.625rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-      opacity: 0.4;
-      font-weight: 500;
-    }
-    .section ul { list-style: none; }
-    .section li { margin-bottom: 0.25rem; }
-    .section-blurb {
-      font-size: 0.8125rem;
-      line-height: 1.6;
-      opacity: 0.65;
-      margin-bottom: 1.25rem;
-      font-weight: 300;
-    }
-    .carousel {
-      position: relative;
-      width: 100%;
-      max-width: 184px;
-      aspect-ratio: 1;
-      overflow: hidden;
-      margin-top: 1.5rem;
-      border-radius: 6px;
-    }
-    .carousel-slide {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-    .carousel-slide.active { opacity: 1; }
-    .carousel-slide img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-    }
-    .role-company { font-weight: 500; }
-    .role-title { opacity: 0.6; font-weight: 300; }
-    .role-location, .role-dates { font-size: 0.75rem; opacity: 0.4; font-weight: 300; }
-    .role-blurb {
-      font-size: 0.8125rem;
-      line-height: 1.6;
-      opacity: 0.65;
-      margin-top: 0.85rem;
-      font-weight: 300;
-    }
-    .role-item { margin-bottom: 2rem; }
-    .role-item:last-child { margin-bottom: 0; }
-    .arrow-link::after { content: ' ↗'; font-size: 0.7em; opacity: 0.4; }
-    .footer {
-      margin-top: auto;
-      padding-top: 4rem;
-      font-size: 0.8125rem;
-      color: rgba(232, 232, 232, 0.65);
-      font-weight: 300;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .intro { animation: fadeIn 0.6s ease both; }
-    .content { animation: fadeIn 0.6s ease 0.15s both; }
-    #writing-list { font-size: 0.8125rem; }
-    .loading { opacity: 0.5; }
-    .error { color: #ff6b6b; font-size: 1rem; }
-    .mobile-br { display: none; }
-    @media (max-width: 650px) { .mobile-br { display: inline; } }
-    .desktop-br { display: inline; }
-    @media (max-width: 650px) { .desktop-br { display: none; } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mark Pytlik — Brand &amp; Creative Leader</title>
+<meta name="description" content="Mark Pytlik is a brand and creative leader based in San Francisco. Founder of Stink Studios, former Group Creative Director at Spotify, currently Director of Creative &amp; Editorial at the Steve Jobs Archive.">
+<meta name="theme-color" content="#0B0B0A">
+<link rel="canonical" href="https://markpytlik.com/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mark Pytlik">
+<meta property="og:description" content="Brand &amp; Creative Leader&#10;San Francisco / Bay Area">
+<meta property="og:url" content="https://www.markpytlik.com">
+<meta property="og:site_name" content="www.markpytlik.com">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mark Pytlik">
+<meta name="twitter:description" content="Brand &amp; Creative Leader — San Francisco / Bay Area">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/site.css?v=1784932688">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VHJRBXJ5ZV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VHJRBXJ5ZV');
+</script>
 </head>
+
 <body>
-  <main>
-    <header class="intro">
-      <h1 id="headline"><span class="loading">Loading...</span></h1>
-    </header>
-    <div class="bio-section">
-      <div class="carousel" id="photo-carousel"></div>
-      <div class="bio-wrapper">
-        <p class="section-title" id="header-about" style="margin-bottom: 0.75rem;">About Me</p>
-        <div class="bio" id="bio"></div>
+<!-- Cursor-lit spotlight in the white surround behind the card (js/bg.js) -->
+<div class="bg-fx" data-bg-fx aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- EXPERIMENT: card-framed layout (wraps nav + main). Remove this div (and the
+     "Card-framed layout" block in css/site.css) to revert to full-bleed. -->
+<div class="page-card">
+
+<main id="top" class="wrap">
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1 data-reveal>I'm Mark Pytlik, a brand &amp; creative leader based in San Francisco.</h1>
+  </header>
+
+  <!-- About -->
+  <section id="about" class="section split">
+    <div class="about-col">
+      <span class="section-title" data-reveal>About</span>
+      <div class="shots" data-reveal>
+        <div class="shot-slot">
+        <div class="shot-frame" data-shots>
+          <img src="assets/headshots/1.webp" alt="Mark Pytlik" data-shot
+               data-shot-desktop="assets/headshots/1.webp"
+               data-shot-mobile="assets/headshots/1-landscape.webp"
+               width="200" height="200" decoding="async">
+          <img src="assets/headshots/2.webp?v=3" alt="Mark Pytlik on the Old Spice set" style="object-position:78% center" data-shot width="200" height="200" decoding="async">
+          <img src="assets/headshots/3.webp" alt="Mark Pytlik speaking on stage" style="object-position:25% center" data-shot width="200" height="200" decoding="async">
+          <img src="assets/headshots/4.webp" alt="Mark Pytlik with his daughter" style="object-position:center 30%" data-shot width="200" height="200" decoding="async">
+        </div>
+        </div>
+        <div class="shot-dots" role="tablist" aria-label="Headshots">
+          <button type="button" data-shot-dot role="tab" aria-label="Show headshot 1"></button>
+          <button type="button" data-shot-dot role="tab" aria-label="Show headshot 2"></button>
+          <button type="button" data-shot-dot role="tab" aria-label="Show headshot 3"></button>
+          <button type="button" data-shot-dot role="tab" aria-label="Show headshot 4"></button>
+        </div>
       </div>
     </div>
-    <div class="content">
-      <div class="section">
-        <p class="section-title" id="header-roles">Career</p>
-        <div id="roles-list"></div>
+    <div class="about-copy">
+      <p class="lead" data-reveal>I've spent nearly two decades building teams, running businesses, and making award‑winning work.</p>
+      <p class="para" data-reveal>I founded Stink Studios and scaled it to 125+ people, multiple offices and $40M in revenue; led creative at Spotify; and shipped campaigns for virtually every major brand on the planet. I'm a T-shaped leader who's equally comfortable across creative, strategy, operations, and finance.</p>
+      <p class="para" data-reveal>My background in journalism means I'm a critical thinker who brings a sharp, strategic POV to everything I do. I lead by hiring great people, trusting them, and creating conditions to do great work. I care about craft, culture, and the thread that runs from strategy to execution. I'm interested in senior brand or creative leadership roles where building and managing is part of the job.</p>
+    </div>
+  </section>
+
+  <!-- Career -->
+  <section id="career" class="section">
+    <div class="section-head">
+      <span class="section-title" data-reveal>Career</span>
+    </div>
+
+    <div class="joblist">
+      <div class="jobitem" data-reveal>
+        <div class="joblogo">
+          <img src="assets/logos/sja.png" alt="Steve Jobs Archive" width="44" height="44" loading="lazy" decoding="async">
+        </div>
+        <button type="button" class="jobrow" aria-expanded="true" aria-controls="job-sja">
+          <span class="job-org">
+            <span class="org">Steve Jobs Archive</span>
+            <span class="role">Director of Creative &amp; Editorial</span>
+          </span>
+          <span class="job-meta">
+            <span>2024 — Present</span>
+            <span>San Francisco</span>
+          </span>
+          <span class="chev" aria-hidden="true">↓</span>
+        </button>
       </div>
-      <div class="section">
-        <p class="section-title" id="header-contact">Contact</p>
-        <ul id="contact-list"></ul>
-        <p class="footer" id="footer" style="margin-top: 1.5rem; padding-top: 0;"></p>
-        <p class="section-title" id="header-writing" style="margin-top: 2rem;">Writing</p>
-        <p class="section-blurb" id="writing-blurb"></p>
-        <p class="section-title" id="header-selected-work" style="margin-top: 1.25rem;">Selected Work</p>
-        <ul id="writing-list"></ul>
+      <div class="jobpanel" data-reveal id="job-sja" data-closed="false">
+        <div><p>I lead creative direction and editorial voice for the Steve Jobs Archive, managing a team of roughly ten freelancers across design, development, content creation, writing, and research. Our work spans archival programming, fellowships, and original series with creative luminaries.</p></div>
+      </div>
+
+      <div class="jobitem" data-reveal>
+        <div class="joblogo">
+          <img src="assets/logos/stink.png" alt="Stink Studios" width="44" height="44" loading="lazy" decoding="async">
+        </div>
+        <button type="button" class="jobrow" aria-expanded="true" aria-controls="job-stink">
+          <span class="job-org">
+            <span class="org">Stink Studios</span>
+            <span class="role">Partner / CEO</span>
+          </span>
+          <span class="job-meta">
+            <span>2007 — 2022</span>
+            <span>London · New York</span>
+          </span>
+          <span class="chev" aria-hidden="true">↓</span>
+        </button>
+      </div>
+      <div class="jobpanel" data-reveal id="job-stink" data-closed="false">
+        <div><p>I founded Stink Studios as a small interactive production company for Stink Films in London in 2007, and grew it into a full-service creative studio with 125 people, six global offices, and $40M in annual revenue. <span class="mbreak"></span>In our second year we won a Cannes Grand Prix for Philips’ Carousel — the first interactive work ever to receive the honor — and went on to accumulate 50+ Cannes Lions, 25+ D&amp;AD Pencils, and 25+ Webby Awards over the studio’s lifetime. In 2020–2021, I led a full rebrand of the company, including a new visual identity, website, values framework, and our first annual impact report.</p></div>
+      </div>
+
+      <div class="jobitem" data-reveal>
+        <div class="joblogo">
+          <img src="assets/logos/spotify.png" alt="Spotify" width="44" height="44" loading="lazy" decoding="async">
+        </div>
+        <button type="button" class="jobrow" aria-expanded="true" aria-controls="job-spotify">
+          <span class="job-org">
+            <span class="org">Spotify</span>
+            <span class="role">Group Creative Director</span>
+          </span>
+          <span class="job-meta">
+            <span>2018 — 2019</span>
+            <span>New York · Los Angeles</span>
+          </span>
+          <span class="chev" aria-hidden="true">↓</span>
+        </button>
+      </div>
+      <div class="jobpanel" data-reveal id="job-spotify" data-closed="false">
+        <div><p>After a long relationship with Spotify as a client, they brought me onboard to lead creative for both Artist Marketing and Creator Marketing. <span class="mbreak"></span>I worked in New York and Los Angeles, running teams across 15–20 concurrent workstreams for artists such as Cardi B, Ariana Grande, Twenty One Pilots, Kendrick Lamar, and David Bowie. The output ranged from interactive, branding, and experiential work to television commercials, content, and social.</p></div>
       </div>
     </div>
-  </main>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script>
-    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSewhOf4l1C8jkHM68rsfVvADuWdvg-kwLFBQOuDs_sPIm-t7S_EgvbnOW1Bps1Wy-FBjC2DW0RB9QP/pub?output=csv&cachebust=' + Date.now();
-    let data = {};
+  </section>
 
-    function convertDriveUrl(url) {
-      if (!url) return '';
-      const match = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
-      if (match) return 'https://drive.google.com/thumbnail?id=' + match[1] + '&sz=w1000';
-      const match2 = url.match(/drive\.google\.com\/open\?id=([^&]+)/);
-      if (match2) return 'https://drive.google.com/thumbnail?id=' + match2[1] + '&sz=w1000';
-      return url;
-    }
+  <!-- Selected work reel -->
+  <section id="projects" class="section">
+    <div class="section-head">
+      <span class="section-title" data-reveal>Selected work</span>
+    </div>
 
-    function parseLinks(text) {
-      if (!text) return '';
-      let result = text.replace(/\[([^\]]+)\]\s*\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
-      result = result.replace(/\{([^>]+)>>>([^}]+)\}/g, '<a href="$2" target="_blank">$1</a>');
-      return result;
-    }
+    <!-- Homepage reel. Clips + titles are the editable list in js/reel.js;
+         it shuffles them every load and builds these two scrolling rows. -->
+    <div class="reel" data-reel data-reveal>
+      <div class="marquee"><div class="marquee-track"></div></div>
+      <div class="marquee"><div class="marquee-track-rev"></div></div>
+    </div>
 
-    Papa.parse(SHEET_URL, {
-      download: true,
-      header: false,
-      complete: function(results) {
-        results.data.forEach(row => {
-          if (row[0] && row[0].toLowerCase() !== 'key' && !row[0].startsWith('\u2014')) {
-            data[row[0]] = row[1] || '';
-          }
-        });
-        renderSite();
-      },
-      error: function(error) {
-        document.getElementById('headline').innerHTML = '<span class="error">Error loading content: ' + error.message + '</span>';
-      }
-    });
+    <p class="writing-links" data-reveal>Case studies and testimonials on request</p>
+  </section>
 
-    function renderSite() {
-      // Headline — bold link_text within headline
-      const headline = data.headline || '';
-      const linkText = data.link_text || '';
-      let headlineHtml = linkText
-        ? headline.replace(linkText, `<strong>${linkText}</strong>`)
-        : headline;
-      headlineHtml = headlineHtml.replace('creative leader', 'creative leader<br class="desktop-br">');
-      document.getElementById('headline').innerHTML = headlineHtml;
+  <!-- Writing -->
+  <section id="writing" class="section split">
+    <span class="section-title" data-reveal>Writing</span>
+    <div class="writing-copy" data-reveal>
+      <p style="margin:0;font-size:clamp(15px,1.4vw,18px);line-height:1.3;text-wrap:pretty;">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine <em>Boards</em>, and the author of a Björk biography called <em>Wow &amp; Flutter</em>. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
+    </div>
+  </section>
 
-      // Bio
-      if (data.bio) {
-        let bioHtml = parseLinks(data.bio);
-        bioHtml = bioHtml.replace(/I[\u2019']m a T-shaped|I am a T-shaped/, '<br class="mobile-br"><br class="mobile-br">$&');
-        document.getElementById('bio').innerHTML = bioHtml;
-      }
+  <!-- Contact / footer -->
+  <section id="contact">
 
-      // Contact
-      document.getElementById('contact-list').innerHTML = `
-        <li><a href="mailto:${data.email || ''}" class="arrow-link">Email</a></li>
-        <li><a href="https://${data.linkedin || ''}" target="_blank" class="arrow-link">LinkedIn</a></li>
-      `;
+    <div class="footer-row" data-reveal>
+      <div class="social">
+        <a href="https://www.linkedin.com/in/markpytlik" target="_blank" rel="noopener" class="navlink">LinkedIn ↗</a>
+        <a href="mailto:hi@markpytlik.com" class="navlink">Email ↗</a>
+      </div>
+      <span>Testimonials available on request</span>
+    </div>
 
-      // Photos
-      const photos = Object.keys(data)
-        .filter(k => k.startsWith('photo_') && data[k] && !data[k].includes('PASTE'))
-        .sort()
-        .map(k => convertDriveUrl(data[k]));
-      if (photos.length) {
-        document.getElementById('photo-carousel').innerHTML = photos.map((url, i) =>
-          `<div class="carousel-slide ${i === 0 ? 'active' : ''}"><img src="${url}" alt="" referrerpolicy="no-referrer"></div>`
-        ).join('');
-        startPhotoCarousel();
-      }
+    <!-- "Lately" — content lives in js/lately.js (edit that list any time) -->
+    <div class="lately-row" data-reveal>
+      <span class="lately-label">Lately</span>
+      <div class="marquee lately">
+        <div class="marquee-text" data-lately></div>
+      </div>
+    </div>
+  </section>
 
-      // Roles — blurbs come from sheet as role_1_blurb, role_2_blurb, etc.
-      const roleKeys = Object.keys(data).filter(k => /^role_\d+$/.test(k)).sort();
-      document.getElementById('roles-list').innerHTML = roleKeys.map(key => {
-        const [company, title, location, dates] = data[key].split(' | ');
-        const blurb = data[key + '_blurb'] || '';
-        return `
-        <div class="role-item">
-          <div class="role-company">${company || ''}</div>
-          <div class="role-title">${title || ''}</div>
-          <div class="role-dates">${dates || ''}${location ? ' (' + location.replace(/ \/ /g, ' \u00b7 ') + ')' : ''}</div>
-          ${blurb ? `<p class="role-blurb">${blurb}</p>` : ''}
-        </div>`;
-      }).join('');
+</main>
 
-      // Writing blurb
-      if (data.writing_blurb) {
-        document.getElementById('writing-blurb').textContent = data.writing_blurb;
-      }
+</div><!-- /.page-card -->
 
-      // Writing links
-      const writings = Object.keys(data)
-        .filter(k => /^writing_\d+$/.test(k))
-        .sort()
-        .map(k => data[k].split(' | '))
-        .filter(([title]) => title && !title.includes('Bj') && !title.includes('rupture'));
-      document.getElementById('writing-list').innerHTML = writings.map(([title, url]) =>
-        `<li><a href="${url || '#'}" target="_blank" class="arrow-link">${title}</a></li>`
-      ).join('');
-
-      // Footer
-      document.getElementById('footer').textContent = (data.footer || '').replace(' and work', '').replace(/^—\s*/, '');
-
-      // Section headers
-      if (data.header_roles) document.getElementById('header-roles').textContent = data.header_roles;
-      if (data.header_contact) document.getElementById('header-contact').textContent = data.header_contact;
-      if (data.header_about) document.getElementById('header-about').textContent = data.header_about;
-      if (data.header_writing) document.getElementById('header-writing').textContent = data.header_writing;
-      if (data.header_selected_work) document.getElementById('header-selected-work').textContent = data.header_selected_work;
-    }
-
-    let photoIndex = 0;
-    function startPhotoCarousel() {
-      const slides = document.querySelectorAll('.carousel-slide');
-      if (slides.length < 2) return;
-      setInterval(() => {
-        slides.forEach(s => s.classList.remove('active'));
-        photoIndex = (photoIndex + 1) % slides.length;
-        slides[photoIndex].classList.add('active');
-      }, 4000);
-    }
-  </script>
+<script src="js/media.js?v=1784932688"></script>
+<script src="js/reel.js?v=1784932688"></script>
+<script src="js/reveal.js?v=1784932688"></script>
+<script src="js/home.js?v=1784932688"></script>
+<script src="js/lately.js?v=1784932688"></script>
+<script src="js/marquee-swipe.js?v=1784932688"></script>
+<script src="js/bg.js?v=1784932688"></script>
 </body>
 </html>

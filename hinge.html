@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Air Max Day — Mark Pytlik</title>
+<title>NFAQ — Mark Pytlik</title>
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0B0B0A">
 
@@ -14,7 +14,7 @@
     try {
       var c = sessionStorage.getItem('mp_work_code');
       var a = JSON.parse(sessionStorage.getItem('mp_work_cases') || '[]');
-      if (!c || a.indexOf('nike') === -1) location.replace('work.html');
+      if (!c || a.indexOf('hinge') === -1) location.replace('work.html');
     } catch (e) {
       location.replace('work.html');
     }
@@ -27,10 +27,18 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/site.css?v=1784930803">
+<link rel="stylesheet" href="css/site.css?v=1784932688">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VHJRBXJ5ZV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VHJRBXJ5ZV');
+</script>
 </head>
 
-<body data-case="nike">
+<body data-case="hinge">
 <div class="case-page" data-bg-fx>
   <div class="grain" aria-hidden="true"></div>
 
@@ -50,9 +58,9 @@
   </article>
 </div>
 
-<script src="js/media.js?v=1784930803"></script>
-<script src="js/cases.js?v=1784930803"></script>
-<script src="js/case.js?v=1784930803"></script>
-<script src="js/bg.js?v=1784930803"></script>
+<script src="js/media.js?v=1784932688"></script>
+<script src="js/cases.js?v=1784932688"></script>
+<script src="js/case.js?v=1784932688"></script>
+<script src="js/bg.js?v=1784932688"></script>
 </body>
 </html>
