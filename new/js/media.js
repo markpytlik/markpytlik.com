@@ -21,10 +21,27 @@ window.MP = window.MP || {};
   var watched = [];
   var queued = false;
 
-  function near(el) {
+  // vertical-only visibility (used to decide whether a row is on screen at all)
+  function verticalNear(el) {
     var r = el.getBoundingClientRect();
     if (!r.width && !r.height) return false;          // not laid out yet
     return r.bottom > -MARGIN && r.top < (window.innerHeight || 0) + MARGIN;
+  }
+
+  // full visibility — both axes. The reel is a horizontal marquee, so a clip
+  // scrolled off to the side is NOT on screen and shouldn't be decoding. The
+  // sideways drift is slow, so a tight horizontal margin still gives plenty of
+  // lead time to buffer + start before a clip is actually visible.
+  var XMARGIN = 100;
+  function near(el) {
+    if (!verticalNear(el)) return false;
+    var r = el.getBoundingClientRect();
+    return r.right > -XMARGIN && r.left < (window.innerWidth || 0) + XMARGIN;
+  }
+
+  function anyVerticalNear() {
+    for (var i = 0; i < watched.length; i++) if (verticalNear(watched[i])) return true;
+    return false;
   }
 
   function activate(video) {
@@ -35,6 +52,17 @@ window.MP = window.MP || {};
     if (p && p.catch) p.catch(function () { /* autoplay blocked — leave it */ });
   }
 
+  // While a row is vertically on screen its clips slide sideways under a CSS
+  // animation that fires no scroll events — so poll to pause the ones that
+  // drift out of view (and resume those that drift in). Only runs while the
+  // reel is actually on screen; otherwise scroll events drive the checks.
+  var pollTimer = null;
+  function managePoll() {
+    var need = anyVerticalNear();
+    if (need && !pollTimer) pollTimer = setInterval(check, 250);
+    else if (!need && pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+  }
+
   function check() {
     queued = false;
     for (var i = 0; i < watched.length; i++) {
@@ -43,6 +71,7 @@ window.MP = window.MP || {};
       if (isNear && !el.__mpOn) { el.__mpOn = true; activate(el); }
       else if (!isNear && el.__mpOn) { el.__mpOn = false; if (el.src) el.pause(); }
     }
+    managePoll();
   }
 
   function schedule() {
