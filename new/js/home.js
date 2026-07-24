@@ -111,55 +111,24 @@
       dot.addEventListener('click', function () { show(n); });
     });
 
-    /* Tap = next; swipe left = next, right = previous. The active photo
-       tracks the finger during a horizontal drag (damped) and springs back
-       on release, so the swipe feels connected rather than a blind jump. A
-       mostly-vertical drag is left alone so the page can still scroll. Click
-       advances on desktop (the post-tap synthetic click is ignored). */
+    /* A tap (or desktop click) advances to the next photo — no swipe. A touch
+       that moves much is treated as a page scroll and ignored, so scrolling
+       past the photo doesn't flip it. */
     frame.style.cursor = 'pointer';
-    var sx = null, sy = null, touchAt = 0, dragging = false, dragImg = null;
-    var SETTLE = 'transform .28s cubic-bezier(.45,0,.15,1), opacity .34s ease';
-
-    function activeImg() {
-      var s = slides[index];
-      return s.tagName === 'IMG' ? s : s.querySelector('img');
-    }
-    function releaseDrag() {
-      if (!dragImg) return;
-      var el = dragImg; dragImg = null;
-      el.style.transition = SETTLE;
-      el.style.transform = 'translateX(0)';
-      setTimeout(function () { el.style.transition = ''; el.style.transform = ''; }, 340);
-    }
-
+    var sx = null, sy = null, touchAt = 0;
     frame.addEventListener('touchstart', function (e) {
       sx = e.touches[0].clientX; sy = e.touches[0].clientY; paused = true;
-      dragging = false; dragImg = activeImg();
-    }, { passive: true });
-    frame.addEventListener('touchmove', function (e) {
-      if (sx === null || !dragImg) return;
-      var dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
-      if (!dragging && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) dragging = true;
-      if (dragging) {
-        var t = Math.max(-70, Math.min(70, dx * 0.35));
-        dragImg.style.transition = 'none';
-        dragImg.style.transform = 'translateX(' + t.toFixed(1) + 'px)';
-      }
     }, { passive: true });
     frame.addEventListener('touchend', function (e) {
       touchAt = Date.now();
       if (sx === null) return;
-      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
-      releaseDrag();
-      if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
-        show(index + (dx < 0 ? 1 : -1));        // horizontal swipe
-      } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
-        show(index + 1);                         // tap → next
-      }
-      sx = sy = null; paused = false; dragging = false;
+      var dx = Math.abs(e.changedTouches[0].clientX - sx);
+      var dy = Math.abs(e.changedTouches[0].clientY - sy);
+      if (dx < 16 && dy < 16) show(index + 1);   // a tap → next (ignore scrolls)
+      sx = sy = null; paused = false;
     }, { passive: true });
     frame.addEventListener('click', function () {
-      if (Date.now() - touchAt < 600) return;   // ignore click synthesized after a tap
+      if (Date.now() - touchAt < 600) return;    // ignore the click synthesized after a tap
       show(index + 1);
     });
 
