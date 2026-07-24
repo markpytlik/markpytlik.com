@@ -1237,17 +1237,22 @@ body { background: transparent; }
 @media (min-width: 721px) {
   #about .shot-frame { background: transparent; border-color: transparent; }
   /* Size each photo to its OWN aspect (fit within the square) and centre it, so
-     border-radius rounds the actual photo — not a transparent letterbox box. */
+     border-radius rounds the actual photo — not a transparent letterbox box.
+     Each photo also fades AND drifts up a touch as it becomes active, for a bit
+     more motion in the cross-fade. */
   #about .shot-frame > img,
   #about .shot-frame > picture > img {
     inset: auto;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, calc(-50% + 14px));   /* inactive: slightly low */
     width: auto; height: auto;
     max-width: 100%; max-height: 100%;
     object-fit: contain;
     border-radius: 12px;
+    transition: opacity .55s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
   }
+  #about .shot-frame > img.is-active,
+  #about .shot-frame > picture.is-active > img { transform: translate(-50%, -50%); }
 }
 
 /* Writing: make the Selected-work list much more compact */

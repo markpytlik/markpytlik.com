@@ -29,10 +29,10 @@ fi
 msg="${1:-Update site}"
 ver="$(date +%s)"                # unique + monotonic (seconds since epoch)
 
-# Bump ?v= only on .css / .js references, across every *.html at the repo root.
-perl -0777 -i -pe "s/\.(css|js)\?v=[0-9a-z]+/.\$1?v=$ver/g" *.html
+# Bump ?v= only on .css / .js references, across the site's HTML (root + work/).
+perl -0777 -i -pe "s/\.(css|js)\?v=[0-9a-z]+/.\$1?v=$ver/g" *.html work/*.html
 
-count="$(grep -roh "?v=$ver" *.html | wc -l | tr -d ' ')"
+count="$(grep -roh "?v=$ver" *.html work/*.html | wc -l | tr -d ' ')"
 echo "stamped $count css/js references with ?v=$ver"
 
 git add -A

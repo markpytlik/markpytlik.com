@@ -14,9 +14,9 @@
     try {
       var c = sessionStorage.getItem('mp_work_code');
       var a = JSON.parse(sessionStorage.getItem('mp_work_cases') || '[]');
-      if (!c || a.indexOf('sja') === -1) location.replace('work.html');
+      if (!c || a.indexOf('sja') === -1) location.replace('/work/');
     } catch (e) {
-      location.replace('work.html');
+      location.replace('/work/');
     }
   })();
 </script>
@@ -27,7 +27,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/site.css?v=1784936138">
+<link rel="stylesheet" href="css/site.css?v=1784936583">
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -58,9 +58,9 @@
   </article>
 </div>
 
-<script src="js/media.js?v=1784936138"></script>
-<script src="js/cases.js?v=1784936138"></script>
-<script src="js/case.js?v=1784936138"></script>
-<script src="js/bg.js?v=1784936138"></script>
+<script src="js/media.js?v=1784936583"></script>
+<script src="js/cases.js?v=1784936583"></script>
+<script src="js/case.js?v=1784936583"></script>
+<script src="js/bg.js?v=1784936583"></script>
 </body>
 </html>

@@ -17,11 +17,11 @@
     var code = sessionStorage.getItem('mp_work_code');
     var allowed = JSON.parse(sessionStorage.getItem('mp_work_cases') || '[]');
     if (!code || allowed.indexOf(key) === -1) {
-      location.replace('work.html');
+      location.replace('/work/');
       return;
     }
   } catch (e) {
-    location.replace('work.html');
+    location.replace('/work/');
     return;
   }
 
