@@ -1334,8 +1334,8 @@ body { background: transparent; }
 #career  { padding-bottom: 30px; }
 
 /* Reel note ("Please email…") matches the muted lead-in colour of the reviews line */
-#projects .writing-links a { color: var(--muted); }
-#projects .writing-links a:hover { color: var(--text); }
+#projects .writing-links a { color: var(--text); }              /* 'email' + 'case studies' in white */
+#projects .writing-links a:hover { color: var(--text); border-bottom-color: var(--line); }
 
 /* Delete the divider directly under the CAREER title (keep dividers between jobs) */
 .joblist .jobitem:first-child { border-top: 0; }

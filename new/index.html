@@ -25,7 +25,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/site.css?v=1784930195">
+<link rel="stylesheet" href="css/site.css?v=1784930442">
 </head>
 
 <body>
@@ -41,14 +41,14 @@
 
   <!-- Hero -->
   <header class="hero">
-    <h1>I'm Mark Pytlik, a brand &amp; creative leader based in San Francisco.</h1>
+    <h1 data-reveal>I'm Mark Pytlik, a brand &amp; creative leader based in San Francisco.</h1>
   </header>
 
   <!-- About -->
-  <section id="about" class="section split" data-reveal>
+  <section id="about" class="section split">
     <div class="about-col">
-      <span class="section-title">About</span>
-      <div class="shots">
+      <span class="section-title" data-reveal>About</span>
+      <div class="shots" data-reveal>
         <div class="shot-slot">
         <div class="shot-frame" data-shots>
           <img src="assets/headshots/1.webp" alt="Mark Pytlik" data-shot
@@ -69,20 +69,20 @@
       </div>
     </div>
     <div class="about-copy">
-      <p class="lead">I've spent nearly two decades building teams, running businesses, and making award‑winning work.</p>
-      <p class="para">I founded Stink Studios and scaled it to 125+ people, multiple offices and $40M in revenue; led creative at Spotify; and shipped campaigns for virtually every major brand on the planet. I'm a T-shaped leader who's equally comfortable across creative, strategy, operations, and finance.</p>
-      <p class="para">My background in journalism means I'm a critical thinker who brings a sharp, strategic POV to everything I do. I lead by hiring great people, trusting them, and creating conditions to do great work. I care about craft, culture, and the thread that runs from strategy to execution. I'm interested in senior brand or creative leadership roles where building and managing is part of the job.</p>
+      <p class="lead" data-reveal>I've spent nearly two decades building teams, running businesses, and making award‑winning work.</p>
+      <p class="para" data-reveal>I founded Stink Studios and scaled it to 125+ people, multiple offices and $40M in revenue; led creative at Spotify; and shipped campaigns for virtually every major brand on the planet. I'm a T-shaped leader who's equally comfortable across creative, strategy, operations, and finance.</p>
+      <p class="para" data-reveal>My background in journalism means I'm a critical thinker who brings a sharp, strategic POV to everything I do. I lead by hiring great people, trusting them, and creating conditions to do great work. I care about craft, culture, and the thread that runs from strategy to execution. I'm interested in senior brand or creative leadership roles where building and managing is part of the job.</p>
     </div>
   </section>
 
   <!-- Career -->
-  <section id="career" class="section" data-reveal>
+  <section id="career" class="section">
     <div class="section-head">
-      <span class="section-title">Career</span>
+      <span class="section-title" data-reveal>Career</span>
     </div>
 
     <div class="joblist">
-      <div class="jobitem">
+      <div class="jobitem" data-reveal>
         <div class="joblogo">
           <img src="assets/logos/sja.png" alt="Steve Jobs Archive" width="44" height="44" loading="lazy" decoding="async">
         </div>
@@ -98,11 +98,11 @@
           <span class="chev" aria-hidden="true">↓</span>
         </button>
       </div>
-      <div class="jobpanel" id="job-sja" data-closed="false">
+      <div class="jobpanel" data-reveal id="job-sja" data-closed="false">
         <div><p>I lead creative direction and editorial voice for the Steve Jobs Archive, managing a team of roughly ten freelancers across design, development, content creation, writing, and research. Our work spans archival programming, fellowships, and original series with creative luminaries.</p></div>
       </div>
 
-      <div class="jobitem">
+      <div class="jobitem" data-reveal>
         <div class="joblogo">
           <img src="assets/logos/stink.png" alt="Stink Studios" width="44" height="44" loading="lazy" decoding="async">
         </div>
@@ -118,11 +118,11 @@
           <span class="chev" aria-hidden="true">↓</span>
         </button>
       </div>
-      <div class="jobpanel" id="job-stink" data-closed="false">
+      <div class="jobpanel" data-reveal id="job-stink" data-closed="false">
         <div><p>I founded Stink Studios as a small interactive production company for Stink Films in London in 2007, and grew it into a full-service creative studio with 125 people, six global offices, and $40M in annual revenue. <span class="mbreak"></span>In our second year we won a Cannes Grand Prix for Philips’ Carousel — the first interactive work ever to receive the honor — and went on to accumulate 50+ Cannes Lions, 25+ D&amp;AD Pencils, and 25+ Webby Awards over the studio’s lifetime. In 2020–2021, I led a full rebrand of the company, including a new visual identity, website, values framework, and our first annual impact report.</p></div>
       </div>
 
-      <div class="jobitem">
+      <div class="jobitem" data-reveal>
         <div class="joblogo">
           <img src="assets/logos/spotify.png" alt="Spotify" width="44" height="44" loading="lazy" decoding="async">
         </div>
@@ -138,40 +138,40 @@
           <span class="chev" aria-hidden="true">↓</span>
         </button>
       </div>
-      <div class="jobpanel" id="job-spotify" data-closed="false">
+      <div class="jobpanel" data-reveal id="job-spotify" data-closed="false">
         <div><p>After a long relationship with Spotify as a client, they brought me onboard to lead creative for both Artist Marketing and Creator Marketing. <span class="mbreak"></span>I worked in New York and Los Angeles, running teams across 15–20 concurrent workstreams for artists such as Cardi B, Ariana Grande, Twenty One Pilots, Kendrick Lamar, and David Bowie. The output ranged from interactive, branding, and experiential work to television commercials, content, and social.</p></div>
       </div>
     </div>
   </section>
 
   <!-- Selected work reel -->
-  <section id="projects" class="section" data-reveal>
+  <section id="projects" class="section">
     <div class="section-head">
-      <span class="section-title">Selected work</span>
+      <span class="section-title" data-reveal>Selected work</span>
     </div>
 
     <!-- Homepage reel. Clips + titles are the editable list in js/reel.js;
          it shuffles them every load and builds these two scrolling rows. -->
-    <div class="reel" data-reel>
+    <div class="reel" data-reel data-reveal>
       <div class="marquee"><div class="marquee-track"></div></div>
       <div class="marquee"><div class="marquee-track-rev"></div></div>
     </div>
 
-    <p class="writing-links">Please <a href="mailto:hi@markpytlik.com?subject=Case%20studies">email</a> for <a href="work.html">case studies</a></p>
+    <p class="writing-links" data-reveal>Please <a href="mailto:hi@markpytlik.com?subject=Case%20studies">email</a> for <a href="work.html">case studies</a></p>
   </section>
 
   <!-- Writing -->
-  <section id="writing" class="section split" data-reveal>
-    <span class="section-title">Writing</span>
-    <div class="writing-copy">
+  <section id="writing" class="section split">
+    <span class="section-title" data-reveal>Writing</span>
+    <div class="writing-copy" data-reveal>
       <p style="margin:0;font-size:clamp(15px,1.4vw,18px);line-height:1.3;text-wrap:pretty;">In my previous life as a journalist, I was a longtime contributor to Pitchfork, a Features Editor at the now-defunct advertising magazine <em>Boards</em>, and the author of a Björk biography called <em>Wow &amp; Flutter</em>. Over that time I conducted more than 200 interviews, with subjects ranging from John Hegarty, Gerry Graf, and Michel Gondry to LCD Soundsystem, Boards of Canada, and Elliott Smith.</p>
     </div>
   </section>
 
   <!-- Contact / footer -->
-  <section id="contact" data-reveal>
+  <section id="contact">
 
-    <div class="footer-row">
+    <div class="footer-row" data-reveal>
       <div class="social">
         <a href="https://www.linkedin.com/in/markpytlik" target="_blank" rel="noopener" class="navlink">LinkedIn ↗</a>
         <a href="mailto:hi@markpytlik.com" class="navlink">Email ↗</a>
@@ -180,7 +180,7 @@
     </div>
 
     <!-- "Lately" — content lives in js/lately.js (edit that list any time) -->
-    <div class="lately-row">
+    <div class="lately-row" data-reveal>
       <span class="lately-label">Lately</span>
       <div class="marquee lately">
         <div class="marquee-text" data-lately></div>
@@ -192,12 +192,12 @@
 
 </div><!-- /.page-card -->
 
-<script src="js/media.js?v=1784930195"></script>
-<script src="js/reel.js?v=1784930195"></script>
-<script src="js/reveal.js?v=1784930195"></script>
-<script src="js/home.js?v=1784930195"></script>
-<script src="js/lately.js?v=1784930195"></script>
-<script src="js/marquee-swipe.js?v=1784930195"></script>
-<script src="js/bg.js?v=1784930195"></script>
+<script src="js/media.js?v=1784930442"></script>
+<script src="js/reel.js?v=1784930442"></script>
+<script src="js/reveal.js?v=1784930442"></script>
+<script src="js/home.js?v=1784930442"></script>
+<script src="js/lately.js?v=1784930442"></script>
+<script src="js/marquee-swipe.js?v=1784930442"></script>
+<script src="js/bg.js?v=1784930442"></script>
 </body>
 </html>
