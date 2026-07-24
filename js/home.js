@@ -56,18 +56,20 @@
       var apply = function () {
         if (slides[index] !== slide) return;   // a later slide is active now — ignore
         if (!img.naturalWidth) return;
+        if (!mq.matches) {
+          // Desktop: fixed square frame (from CSS). No per-photo sizing — a
+          // constant frame means the photos simply cross-fade, no resize.
+          frame.style.width = ''; frame.style.height = '';
+          return;
+        }
+        // Mobile: fixed height (from CSS), width follows the photo (landscape
+        // wide, square/portrait clamped to square), capped to the column.
         var ar = img.naturalWidth / img.naturalHeight;
         if (ar < 1) ar = 1;                     // never taller than square
-        // Both breakpoints: the frame keeps a FIXED height (from CSS) and only
-        // its width follows the photo, capped to the column. A constant height
-        // means object-fit never rescales the image as you switch photos — so
-        // landscape↔square cross-fades instead of popping. Desktop's height is
-        // sized so a 3:2 landscape fills the 230px column without cropping.
-        var H = mq.matches ? 210 : 153;
-        frame.style.height = '';                // CSS owns the fixed height
+        frame.style.height = '';
         var host = frame.parentElement;
         var maxW = (host ? host.clientWidth : frame.clientWidth) || 0;
-        var w = Math.round(H * ar);
+        var w = Math.round(210 * ar);
         if (maxW) w = Math.min(w, maxW);
         frame.style.width = w + 'px';
       };
