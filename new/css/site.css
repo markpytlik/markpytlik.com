@@ -226,7 +226,10 @@ a { color: inherit; text-decoration: none; }
   .marquee-text { animation: none; }
   .marquee { -webkit-mask-image: none; mask-image: none; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .marquee::-webkit-scrollbar { display: none; }
-  .marquee [aria-hidden="true"] { display: none; }
+  /* Hide the duplicated (aria-hidden) copies so only one static strip shows —
+     but NOT the "·" separators, which are also aria-hidden and must stay or
+     the Lately items collide ("Radden Keefe" · "Album:" → "KeefeAlbum:"). */
+  .marquee [aria-hidden="true"]:not(.sep) { display: none; }
 }
 
 /* Swipe hint after a section label (only present under reduced motion) */
@@ -1398,7 +1401,7 @@ body { background: transparent; }
 /* ---- Mobile job header: clean, compact, logo anchored ---- */
 @media (max-width: 720px) {
   .jobrow { grid-template-columns: 1fr; gap: 0.8px; padding: 14px 0; }
-  .job-org { gap: 4px; }
+  .job-org { gap: 0.8px; }   /* company→title as tight as title→years */
   /* Job title (role): larger and white so it reads as the primary line */
   .job-org .role { font-size: 15px; color: var(--text); }
   .job-meta { grid-column: auto; flex-direction: row; gap: 10px; margin-top: 0; font-size: 11px; text-align: left; }
