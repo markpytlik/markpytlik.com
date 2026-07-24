@@ -18,14 +18,14 @@
 window.MP_REEL = [
   { src: 'nike-006',                        title: 'Nike — Air Max Day',     meta: 'Campaign' },
   { src: 'hinge-006',                       title: 'Hinge — NFAQ',       meta: 'Campaign' },
-  { src: 'sja-004',                         title: 'SJA - Inside the Fellowship', meta: 'Content' },
+  { src: 'fellowship_cut',                         title: 'SJA - Inside the Fellowship', meta: 'Content' },
   { src: 'cardi_cut',                       title: 'Spotify - Music School',            meta: 'TVC' },
   { src: 'spotify_cut',                     title: 'Spotify - Year in Music',            meta: 'Campaign' },
   { src: 'carousel_cut',                    title: 'Philips - Carousel',           meta: 'Interactive, Content' },
   { src: 'casper_cut',                      title: 'Casper - 40000',             meta: 'TVC' },
   { src: 'googleparks',                     title: 'Google - National Parks',       meta: 'Interactive, Content' },
   { src: 'joji_cut',                        title: 'Spotify - RISE x Joji',               meta: 'Content' },
-  { src: 'letters_illustrators_composite',  title: 'SJA - Letters to a Young Creator',       meta: 'Print, Interactive' },
+  { src: 'letters_cut',  title: 'SJA - Letters to a Young Creator',       meta: 'Campaign' },
   { src: 'twenty_one_cut',                  title: 'Spotify - The Bandito Experience',         meta: 'Interactive' },
   { src: 'wrangler_cut',                    title: 'Wrangler - Get Your Edge Back',           meta: 'Interactive, Content' }
 ];
