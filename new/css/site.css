@@ -1371,14 +1371,19 @@ body { background: transparent; }
   .jobitem { align-items: center; }
   .job-meta { font-size: 11px; }
 
-  /* Marquees: the mono text was too large on phones */
+  /* Reel labels: the mono text was too large on phones */
   .marquee-text { font-size: 10px; }
-  .lately-label { font-size: 11px; }
 
-  /* Lately: bump the item text to 11px, and tighten the separator margins
+  /* Lately (label + marquee) reads at 13px; tighten the separator margins
      (16px left big gaps at the smaller mobile type) for an even rhythm. */
-  .lately-item { font-size: 11px; }
+  .lately-label { font-size: 13px; }
+  .lately-item,
+  .lately .sep { font-size: 13px; }
   .lately .sep { margin: 0 8px; }
+
+  /* Contact lines a step down from Lately */
+  .footer-row { font-size: 11px; }              /* Testimonials */
+  .footer-row .social .navlink { font-size: 11px; }  /* LinkedIn / Email */
 }
 
 /* ---- Mobile headshot: adaptive frame ----
