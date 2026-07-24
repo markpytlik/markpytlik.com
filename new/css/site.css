@@ -1225,7 +1225,7 @@ body { background: transparent; }
 /* Desktop: width is fixed to the column; home.js sets the height per photo
    (landscape photos stay landscape rather than being cropped square), and
    the height transition makes that morph smoothly between slides. */
-#about .shot-frame     { max-width: 230px; transition: height .24s ease; }
+#about .shot-frame     { max-width: 230px; }   /* no height morph — snap + cross-fade like mobile (avoids the cover-fit zoom) */
 #about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.3; }
 
 /* Desktop: reserve the square's full height so the frame stays vertically
