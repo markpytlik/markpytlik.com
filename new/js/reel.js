@@ -16,19 +16,18 @@
    ./tools/encode-loops.sh, make a poster, then add a line here.
    ====================================================================== */
 window.MP_REEL = [
-  { src: 'nike-006',                        title: 'Nike — Air Max',     meta: 'Film · 2021' },
-  { src: 'hinge-006',                       title: 'Hinge — NFAQ',       meta: 'Spot · 2022' },
-  { src: 'sja-004',                         title: 'Steve Jobs Archive', meta: 'Editorial · 2023' },
-  { src: 'reel-03',                         title: 'Selected Motion',    meta: 'Loop' },
-  { src: 'cardi_cut',                       title: 'Cardi B',            meta: 'Loop' },
-  { src: 'spotify_cut',                     title: 'Spotify',            meta: 'Loop' },
-  { src: 'carousel_cut',                    title: 'Carousel',           meta: 'Loop' },
-  { src: 'casper_cut',                      title: 'Casper',             meta: 'Loop' },
-  { src: 'googleparks',                     title: 'Google Parks',       meta: 'Loop' },
-  { src: 'joji_cut',                        title: 'Joji',               meta: 'Loop' },
-  { src: 'letters_illustrators_composite',  title: 'Illustrators',       meta: 'Loop' },
-  { src: 'twenty_one_cut',                  title: 'Twenty One',         meta: 'Loop' },
-  { src: 'wrangler_cut',                    title: 'Wrangler',           meta: 'Loop' }
+  { src: 'nike-006',                        title: 'Nike — Air Max Day',     meta: 'Loop' },
+  { src: 'hinge-006',                       title: 'Hinge — NFAQ',       meta: 'Loop' },
+  { src: 'sja-004',                         title: 'SJA - Inside the Fellowship', meta: 'Loop' },
+  { src: 'cardi_cut',                       title: 'Spotify - Music School',            meta: 'Loop' },
+  { src: 'spotify_cut',                     title: 'Spotify - Year in Music',            meta: 'Loop' },
+  { src: 'carousel_cut',                    title: 'Philips - Carousel',           meta: 'Loop' },
+  { src: 'casper_cut',                      title: 'Casper - 40000',             meta: 'Loop' },
+  { src: 'googleparks',                     title: 'Google - The Hidden World of the National Parks',       meta: 'Loop' },
+  { src: 'joji_cut',                        title: 'Spotify - RISE x Joji',               meta: 'Loop' },
+  { src: 'letters_illustrators_composite',  title: 'SJA - Letters to a Young Creator',       meta: 'Loop' },
+  { src: 'twenty_one_cut',                  title: 'Spotify - The Bandito Experience',         meta: 'Loop' },
+  { src: 'wrangler_cut',                    title: 'Wrangler - Get Your Edge Back',           meta: 'Loop' }
 ];
 
 /* ─── Builder — no need to edit below ───────────────────────────────── */
