@@ -1341,8 +1341,9 @@ body { background: transparent; }
 /* Reel note ("Please email…") matches the muted lead-in colour of the reviews line */
 #projects .writing-links a { color: var(--muted); border-bottom: 0; }   /* grey, white on hover */
 #projects .writing-links a:hover { color: var(--text); }
-/* Small arrow relative to the body text (matches the mono nav-link arrows). */
-#projects .writing-links .arr { font-size: .68em; margin-left: .25em; vertical-align: baseline; }
+/* Render the arrow in the mono font so it matches the nav-link arrows (the body
+   font draws ↗ much larger/heavier). Kept small relative to the body text. */
+#projects .writing-links .arr { font-family: var(--font-mono); font-size: .8em; margin-left: .22em; vertical-align: baseline; }
 
 /* Delete the divider directly under the CAREER title (keep dividers between jobs) */
 .joblist .jobitem:first-child { border-top: 0; }
