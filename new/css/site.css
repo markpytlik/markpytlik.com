@@ -647,11 +647,11 @@ a { color: inherit; text-decoration: none; }
 
 .footer-row {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 14px;
+  flex-direction: column;     /* stack: LinkedIn/Email, then Testimonials */
+  align-items: flex-start;
+  gap: 12px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;            /* match the LinkedIn / Email links */
   text-transform: uppercase;
   letter-spacing: .06em;
   color: var(--muted);
