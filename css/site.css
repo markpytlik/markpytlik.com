@@ -1353,7 +1353,7 @@ body { background: transparent; }
 #projects .writing-links a:hover { color: var(--text); }
 /* Render the arrow in the mono font so it matches the nav-link arrows (the body
    font draws ↗ much larger/heavier). Kept small relative to the body text. */
-#projects .writing-links .arr { font-family: var(--font-mono); font-size: .8em; margin-left: .22em; vertical-align: baseline; }
+#projects .writing-links .arr { font-family: var(--font-mono); font-size: .8em; margin-left: .22em; vertical-align: .18em; }
 
 /* Delete the divider directly under the CAREER title (keep dividers between jobs) */
 .joblist .jobitem:first-child { border-top: 0; }
