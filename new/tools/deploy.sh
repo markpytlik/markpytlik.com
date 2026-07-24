@@ -17,6 +17,15 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."          # -> new/
 
+# Guard: never deploy JS with a syntax error — a single broken .js can blank a
+# whole section (e.g. an unescaped apostrophe or a missing comma in a list).
+if command -v node >/dev/null 2>&1; then
+  for f in js/*.js; do
+    node -c "$f" 2>/dev/null || { echo "✗ syntax error in $f — aborting, nothing committed or pushed."; exit 1; }
+  done
+  echo "✓ js syntax OK"
+fi
+
 msg="${1:-Update site}"
 ver="$(date +%s)"                # unique + monotonic (seconds since epoch)
 

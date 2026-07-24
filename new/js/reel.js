@@ -24,7 +24,7 @@ window.MP_REEL = [
   { src: 'carousel_cut',    title: 'Philips - Carousel',                meta: 'Interactive, Content',  era: 'old' },
   { src: 'casper_cut',      title: 'Casper - 40,000 Reviews',           meta: 'TVC',                   era: 'recent' },
   { src: 'googleparks',     title: 'Google - National Parks',           meta: 'Interactive, Content',  era: 'old' },
-  { src: 'wrangler_cut',    title: 'Wrangler - Get Your Edge Back',     meta: 'Interactive, Content',  era: 'old' },
+  { src: 'wrangler_cut',    title: 'Wrangler - GYEB',                   meta: 'Interactive, Content',  era: 'old' },
   { src: 'fellowship_cut',  title: 'SJA - Inside the Fellowship',       meta: 'Content',               era: 'recent' },
   { src: 'letters_cut',     title: 'SJA - Letters to a Young Creator',  meta: 'Campaign',              era: 'recent' },
   { src: 'spotify_cut',     title: 'Spotify - Year in Music',           meta: 'Campaign',              era: 'old' },
