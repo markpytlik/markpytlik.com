@@ -369,7 +369,7 @@ a { color: inherit; text-decoration: none; }
   height: 100%;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .6s ease;
+  transition: opacity .34s ease;
 }
 
 /* Visible pixels — bare <img> slides and the <picture> wrapper's own img. */
@@ -1369,35 +1369,35 @@ body { background: transparent; }
   .marquee-text { font-size: 10px; }
   .lately-label { font-size: 11px; }
 
-  /* Lately: the 16px separator margins left big gaps between items at the
-     smaller mobile type — tighten so the row reads as an even rhythm. */
+  /* Lately: bump the item text to 11px, and tighten the separator margins
+     (16px left big gaps at the smaller mobile type) for an even rhythm. */
+  .lately-item { font-size: 11px; }
   .lately .sep { margin: 0 8px; }
 }
 
 /* ---- Mobile headshot: adaptive frame ----
-   The frame takes each photo's own shape — landscape photos get a wide
-   landscape frame, square/portrait ones sit in a square (home.js sets the
-   aspect-ratio per active slide, clamped so it never goes taller than 1:1).
-   Photo 1 swaps to a dedicated landscape crop via <picture>. The 3/2 default
-   here matches that first photo so the first paint is right before JS runs. */
+   Every photo shares one fixed height; home.js sets an explicit px width per
+   photo (landscape wide, square/portrait a centred square, clamped to 1:1).
+   Only the width changes between slides, and it's transitioned, so tapping
+   through morphs smoothly with no height jump. The aspect-ratio here is only
+   a first-paint fallback before JS assigns a concrete width. */
 @media (max-width: 720px) {
-  /* Every photo shares one height; the width follows each photo's shape
-     (home.js sets aspect-ratio per slide, clamped to 1:1). So landscape
-     photos read wide, square/portrait sit as a centred square — but the
-     frame never changes height as you tap through. */
   .shots { align-items: center; }
   #about .shot-frame {
     width: auto;
     max-width: 100%;
     height: 210px;
     aspect-ratio: 3 / 2;
+    transition: width .38s cubic-bezier(.45, 0, .15, 1);
   }
 }
 
 /* ---- Mobile job header: clean, compact, logo anchored ---- */
 @media (max-width: 720px) {
-  .jobrow { grid-template-columns: 1fr; gap: 1px; padding: 14px 0; }
+  .jobrow { grid-template-columns: 1fr; gap: 0.8px; padding: 14px 0; }
   .job-org { gap: 4px; }
+  /* Job title (role): larger and white so it reads as the primary line */
+  .job-org .role { font-size: 15px; color: var(--text); }
   .job-meta { grid-column: auto; flex-direction: row; gap: 10px; margin-top: 0; font-size: 11px; text-align: left; }
   .chev { display: none; }                 /* kill the orphaned chevron */
   .jobitem { align-items: center; gap: 14px; }

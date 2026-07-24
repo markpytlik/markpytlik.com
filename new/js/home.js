@@ -42,12 +42,15 @@
     var paused = false;
     var mq = window.matchMedia('(max-width: 720px)');
 
-    /* Mobile only: shape the frame to the active photo. The height is fixed
-       in CSS, so the aspect-ratio here drives the width — landscape photos
-       read wide, square/portrait clamp to a square (never taller than wide).
-       On desktop we clear it and the CSS 1:1 stands. */
+    /* Mobile only: shape the frame to the active photo. Height is fixed in
+       CSS (210px), so we set an explicit px width — landscape photos read
+       wide, square/portrait clamp to a square (never taller than wide),
+       capped at the column width. Only the width changes between slides and
+       it's CSS-transitioned, so tapping through morphs smoothly. On desktop
+       we clear it and the CSS square frame stands. */
+    var FRAME_H = 210;
     function fitFrame() {
-      if (!mq.matches) { frame.style.aspectRatio = ''; return; }
+      if (!mq.matches) { frame.style.width = ''; frame.style.aspectRatio = ''; return; }
       var slide = slides[index];
       var img = slide.tagName === 'IMG' ? slide : slide.querySelector('img');
       if (!img) return;
@@ -56,7 +59,11 @@
         if (!img.naturalWidth) return;
         var ar = img.naturalWidth / img.naturalHeight;
         if (ar < 1) ar = 1;                     // never taller than square
-        frame.style.aspectRatio = ar.toFixed(4);
+        var host = frame.parentElement;         // .shots column
+        var maxW = (host ? host.clientWidth : frame.clientWidth) || 0;
+        var w = Math.round(FRAME_H * ar);
+        if (maxW) w = Math.min(w, maxW);
+        frame.style.width = w + 'px';
       };
       if (img.complete && img.naturalWidth) apply();
       else img.addEventListener('load', apply, { once: true });
@@ -96,25 +103,52 @@
       dot.addEventListener('click', function () { show(n); });
     });
 
-    /* Tap = next; swipe left = next, swipe right = previous. A mostly-
-       vertical drag is left alone so the page can still scroll. Click
+    /* Tap = next; swipe left = next, right = previous. The active photo
+       tracks the finger during a horizontal drag (damped) and springs back
+       on release, so the swipe feels connected rather than a blind jump. A
+       mostly-vertical drag is left alone so the page can still scroll. Click
        advances on desktop (the post-tap synthetic click is ignored). */
     frame.style.cursor = 'pointer';
-    var sx = null, sy = null, touchAt = 0;
+    var sx = null, sy = null, touchAt = 0, dragging = false, dragImg = null;
+    var SETTLE = 'transform .28s cubic-bezier(.45,0,.15,1), opacity .34s ease';
+
+    function activeImg() {
+      var s = slides[index];
+      return s.tagName === 'IMG' ? s : s.querySelector('img');
+    }
+    function releaseDrag() {
+      if (!dragImg) return;
+      var el = dragImg; dragImg = null;
+      el.style.transition = SETTLE;
+      el.style.transform = 'translateX(0)';
+      setTimeout(function () { el.style.transition = ''; el.style.transform = ''; }, 340);
+    }
+
     frame.addEventListener('touchstart', function (e) {
       sx = e.touches[0].clientX; sy = e.touches[0].clientY; paused = true;
+      dragging = false; dragImg = activeImg();
+    }, { passive: true });
+    frame.addEventListener('touchmove', function (e) {
+      if (sx === null || !dragImg) return;
+      var dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+      if (!dragging && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) dragging = true;
+      if (dragging) {
+        var t = Math.max(-70, Math.min(70, dx * 0.35));
+        dragImg.style.transition = 'none';
+        dragImg.style.transform = 'translateX(' + t.toFixed(1) + 'px)';
+      }
     }, { passive: true });
     frame.addEventListener('touchend', function (e) {
       touchAt = Date.now();
       if (sx === null) return;
-      var dx = e.changedTouches[0].clientX - sx;
-      var dy = e.changedTouches[0].clientY - sy;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      releaseDrag();
       if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
-        show(index + (dx < 0 ? 1 : -1));       // horizontal swipe
+        show(index + (dx < 0 ? 1 : -1));        // horizontal swipe
       } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
-        show(index + 1);                        // tap → next
+        show(index + 1);                         // tap → next
       }
-      sx = sy = null; paused = false;
+      sx = sy = null; paused = false; dragging = false;
     }, { passive: true });
     frame.addEventListener('click', function () {
       if (Date.now() - touchAt < 600) return;   // ignore click synthesized after a tap
