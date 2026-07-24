@@ -725,9 +725,15 @@ a { color: inherit; text-decoration: none; }
 
 .lock-form {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: stretch;   /* input + button match height */
   gap: 12px;
 }
+.lock-form .lock-field { flex: 1 1 180px; min-width: 0; }   /* input takes the row, button beside it */
+.lock-form .lock-error { flex-basis: 100%; }                /* error wraps onto its own line below */
+.lock-form .btn { flex: none; white-space: nowrap; }
+
+.lock-home { display: inline-block; margin-top: 20px; }
 
 .lock-field.is-error { animation: shake .4s ease; }
 
@@ -1192,10 +1198,13 @@ body { background: transparent; }
 .page-card .wrap { padding-left: 40px; padding-right: 40px; }
 
 @media (max-width: 720px) {
-  .page-card { margin: 12px; border-radius: 22px; }
+  /* End the black card higher up so more of the white surround shows below it:
+     trim the big 120px bottom padding inside the card, and add white below it. */
+  .page-card { margin: 12px 12px 56px; border-radius: 22px; }
   .page-card .nav { border-radius: 22px 22px 0 0; }
   .page-card .nav-inner,
   .page-card .wrap { padding-left: 20px; padding-right: 20px; }
+  .page-card .wrap { padding-bottom: 40px; }
 }
 
 /* ============================================================
