@@ -44,10 +44,20 @@ window.MP = window.MP || {};
     return false;
   }
 
+  // Shared playback position per clip file. A reel clip has two copies on the
+  // track (the real one + the seamless-loop duplicate); keying by file makes
+  // the copy that scrolls in next continue where the last one left off, so a
+  // clip plays through across its appearances instead of restarting.
+  var positions = {};
+
   function activate(video) {
     // Reduced motion: don't autoplay — the poster frame stays.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!video.src && video.dataset.src) video.src = video.dataset.src;
+    var key = video.dataset.src;
+    if (key && positions[key] > 0) {
+      try { video.currentTime = positions[key]; } catch (e) { /* not seekable yet */ }
+    }
     var p = video.play();
     if (p && p.catch) p.catch(function () { /* autoplay blocked — leave it */ });
   }
@@ -69,7 +79,14 @@ window.MP = window.MP || {};
       var el = watched[i];
       var isNear = near(el);
       if (isNear && !el.__mpOn) { el.__mpOn = true; activate(el); }
-      else if (!isNear && el.__mpOn) { el.__mpOn = false; if (el.src) el.pause(); }
+      else if (!isNear && el.__mpOn) {
+        el.__mpOn = false;
+        if (el.src) {
+          var k = el.dataset.src;
+          if (k) positions[k] = el.currentTime;   // hand the position to the next copy
+          el.pause();
+        }
+      }
     }
     managePoll();
   }

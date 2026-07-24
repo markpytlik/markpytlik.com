@@ -641,7 +641,7 @@ a { color: inherit; text-decoration: none; }
   padding-top: clamp(48px, 8vh, 90px);
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 12px;
   margin-top: 40px;
 }
 
@@ -657,7 +657,7 @@ a { color: inherit; text-decoration: none; }
 
 .footer-row {
   display: flex;
-  flex-direction: column;     /* stack: LinkedIn/Email, then Testimonials */
+  flex-direction: column;     /* mobile: stack LinkedIn/Email, then Testimonials */
   align-items: flex-start;
   gap: 12px;
   font-family: var(--font-mono);
@@ -667,6 +667,12 @@ a { color: inherit; text-decoration: none; }
   color: var(--muted);
   border-top: 1px solid var(--line);
   padding-top: 22px;
+}
+
+/* Desktop: one line — Testimonials on the left, LinkedIn/Email pinned far
+   right. DOM order is [social, span], so row-reverse puts the span on the left. */
+@media (min-width: 721px) {
+  .footer-row { flex-direction: row-reverse; justify-content: space-between; align-items: baseline; }
 }
 .footer-row .social { display: flex; gap: 22px; }
 
