@@ -1194,7 +1194,10 @@ body { background: transparent; }
 
 /* About: wider gutter to the headshot, larger headshot, smaller+tighter body */
 #about.split           { grid-template-columns: 230px 1fr; gap: 54px; }
-#about .shot-frame     { max-width: 230px; }
+/* Desktop: width is fixed to the column; home.js sets the height per photo
+   (landscape photos stay landscape rather than being cropped square), and
+   the height transition makes that morph smoothly between slides. */
+#about .shot-frame     { max-width: 230px; transition: height .38s cubic-bezier(.45, 0, .15, 1); }
 #about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.3; }
 
 /* Writing: make the Selected-work list much more compact */

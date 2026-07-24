@@ -42,15 +42,14 @@
     var paused = false;
     var mq = window.matchMedia('(max-width: 720px)');
 
-    /* Mobile only: shape the frame to the active photo. Height is fixed in
-       CSS (210px), so we set an explicit px width — landscape photos read
-       wide, square/portrait clamp to a square (never taller than wide),
-       capped at the column width. Only the width changes between slides and
-       it's CSS-transitioned, so tapping through morphs smoothly. On desktop
-       we clear it and the CSS square frame stands. */
+    /* Shape the frame to each photo so landscape shots stay landscape and
+       aren't cropped into a square. The clamp keeps it from ever going taller
+       than a square. Mobile fixes the height (210px) and varies the width;
+       desktop fixes the column width and varies the height. Either way just
+       one dimension changes between slides and it's CSS-transitioned, so
+       tapping through morphs smoothly. */
     var FRAME_H = 210;
     function fitFrame() {
-      if (!mq.matches) { frame.style.width = ''; frame.style.aspectRatio = ''; return; }
       var slide = slides[index];
       var img = slide.tagName === 'IMG' ? slide : slide.querySelector('img');
       if (!img) return;
@@ -59,11 +58,20 @@
         if (!img.naturalWidth) return;
         var ar = img.naturalWidth / img.naturalHeight;
         if (ar < 1) ar = 1;                     // never taller than square
-        var host = frame.parentElement;         // .shots column
-        var maxW = (host ? host.clientWidth : frame.clientWidth) || 0;
-        var w = Math.round(FRAME_H * ar);
-        if (maxW) w = Math.min(w, maxW);
-        frame.style.width = w + 'px';
+        if (mq.matches) {
+          // mobile: fixed height, width follows the photo (capped to column)
+          frame.style.height = '';
+          var host = frame.parentElement;       // .shots column
+          var maxW = (host ? host.clientWidth : frame.clientWidth) || 0;
+          var w = Math.round(FRAME_H * ar);
+          if (maxW) w = Math.min(w, maxW);
+          frame.style.width = w + 'px';
+        } else {
+          // desktop: fixed column width, height follows the photo
+          frame.style.width = '';
+          var cw = Math.round(frame.getBoundingClientRect().width) || 230;
+          frame.style.height = Math.round(cw / ar) + 'px';
+        }
       };
       if (img.complete && img.naturalWidth) apply();
       else img.addEventListener('load', apply, { once: true });
