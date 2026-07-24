@@ -18,12 +18,10 @@
   //  Case keys: casper, nike, sja, stink, hinge. Matched case-insensitively.
   //  `name` shows after "Welcome, ". `note` is the personalized one-line
   //  message under the heading — customise it per invite.
-  var CODES = {
-    'carousel': { name: 'Full Portfolio',     note: 'A private selection prepared for you — please keep these links confidential.', cases: ['casper', 'nike', 'sja', 'stink', 'hinge'] },
-    'airmax21': { name: 'Nike',               note: 'Prepared for the Nike team — please keep these links confidential.',           cases: ['nike', 'casper', 'stink'] },
-    'wildmode': { name: 'Spotify',            note: 'Prepared for the Spotify team — please keep these links confidential.',        cases: ['casper', 'nike', 'hinge'] },
-    'archive':  { name: 'Steve Jobs Archive', note: 'Prepared for the Steve Jobs Archive team — please keep these links confidential.', cases: ['sja', 'stink', 'casper'] }
-  };
+  // Access codes removed from the public source pending a real server-side
+  // gate (Cloudflare). Previous codes are in git history. Empty = no code
+  // unlocks anything for now.
+  var CODES = {};
 
   // ── Visit tracking ──────────────────────────────────────────
   //  Set to a webhook URL (Google Apps Script Web App, serverless
