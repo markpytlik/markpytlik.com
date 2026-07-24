@@ -21,7 +21,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/site.css?v=18">
+<link rel="stylesheet" href="css/site.css?v=1784923420">
 </head>
 
 <body>
@@ -45,6 +45,7 @@
     <div class="about-col">
       <span class="section-title">About</span>
       <div class="shots">
+        <div class="shot-slot">
         <div class="shot-frame" data-shots>
           <img src="assets/headshots/1.webp" alt="Mark Pytlik" data-shot
                data-shot-desktop="assets/headshots/1.webp"
@@ -53,6 +54,7 @@
           <img src="assets/headshots/2.webp?v=2" alt="Mark Pytlik on the Old Spice set" style="object-position:78% center" data-shot width="200" height="200" decoding="async">
           <img src="assets/headshots/3.webp" alt="Mark Pytlik speaking on stage" style="object-position:25% center" data-shot width="200" height="200" decoding="async">
           <img src="assets/headshots/4.webp" alt="Mark Pytlik with his daughter" style="object-position:center 30%" data-shot width="200" height="200" decoding="async">
+        </div>
         </div>
         <div class="shot-dots" role="tablist" aria-label="Headshots">
           <button type="button" data-shot-dot role="tab" aria-label="Show headshot 1"></button>
@@ -144,48 +146,11 @@
       <span class="section-title">Selected work</span>
     </div>
 
-    <div class="reel">
-      <div class="marquee">
-        <div class="marquee-track">
-          <div class="clip">
-            <video data-src="assets/work/loops/nike-006.mp4" poster="assets/work/loops/posters/nike-006.webp" muted loop playsinline preload="none" aria-label="Nike — Air Max"></video>
-            <div class="clip-meta"><span class="label">Nike — Air Max</span><span class="meta">Film · 2021</span></div>
-          </div>
-          <div class="clip">
-            <video data-src="assets/work/loops/hinge-006.mp4" poster="assets/work/loops/posters/hinge-006.webp" muted loop playsinline preload="none" aria-label="Hinge — NFAQ"></video>
-            <div class="clip-meta"><span class="label">Hinge — NFAQ</span><span class="meta">Spot · 2022</span></div>
-          </div>
-          <div class="clip" aria-hidden="true">
-            <video data-src="assets/work/loops/nike-006.mp4" poster="assets/work/loops/posters/nike-006.webp" muted loop playsinline preload="none"></video>
-            <div class="clip-meta"><span class="label">Nike — Air Max</span><span class="meta">Film · 2021</span></div>
-          </div>
-          <div class="clip" aria-hidden="true">
-            <video data-src="assets/work/loops/hinge-006.mp4" poster="assets/work/loops/posters/hinge-006.webp" muted loop playsinline preload="none"></video>
-            <div class="clip-meta"><span class="label">Hinge — NFAQ</span><span class="meta">Spot · 2022</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="marquee">
-        <div class="marquee-track-rev">
-          <div class="clip">
-            <video data-src="assets/work/loops/sja-004.mp4" poster="assets/work/loops/posters/sja-004.webp" muted loop playsinline preload="none" aria-label="Steve Jobs Archive"></video>
-            <div class="clip-meta"><span class="label">Steve Jobs Archive</span><span class="meta">Editorial · 2023</span></div>
-          </div>
-          <div class="clip">
-            <video data-src="assets/work/loops/reel-03.mp4" poster="assets/work/loops/posters/reel-03.webp" muted loop playsinline preload="none" aria-label="Selected Motion"></video>
-            <div class="clip-meta"><span class="label">Selected Motion</span><span class="meta">Loop</span></div>
-          </div>
-          <div class="clip" aria-hidden="true">
-            <video data-src="assets/work/loops/sja-004.mp4" poster="assets/work/loops/posters/sja-004.webp" muted loop playsinline preload="none"></video>
-            <div class="clip-meta"><span class="label">Steve Jobs Archive</span><span class="meta">Editorial · 2023</span></div>
-          </div>
-          <div class="clip" aria-hidden="true">
-            <video data-src="assets/work/loops/reel-03.mp4" poster="assets/work/loops/posters/reel-03.webp" muted loop playsinline preload="none"></video>
-            <div class="clip-meta"><span class="label">Selected Motion</span><span class="meta">Loop</span></div>
-          </div>
-        </div>
-      </div>
+    <!-- Homepage reel. Clips + titles are the editable list in js/reel.js;
+         it shuffles them every load and builds these two scrolling rows. -->
+    <div class="reel" data-reel>
+      <div class="marquee"><div class="marquee-track"></div></div>
+      <div class="marquee"><div class="marquee-track-rev"></div></div>
     </div>
 
     <p class="writing-links"><a href="mailto:hi@markpytlik.com?subject=Case%20studies">Please email for selected case studies</a></p>
@@ -223,11 +188,12 @@
 
 </div><!-- /.page-card -->
 
-<script src="js/media.js?v=18"></script>
-<script src="js/reveal.js?v=18"></script>
-<script src="js/home.js?v=18"></script>
-<script src="js/lately.js?v=18"></script>
-<script src="js/marquee-swipe.js?v=18"></script>
-<script src="js/bg.js?v=18"></script>
+<script src="js/media.js?v=1784923420"></script>
+<script src="js/reel.js?v=1784923420"></script>
+<script src="js/reveal.js?v=1784923420"></script>
+<script src="js/home.js?v=1784923420"></script>
+<script src="js/lately.js?v=1784923420"></script>
+<script src="js/marquee-swipe.js?v=1784923420"></script>
+<script src="js/bg.js?v=1784923420"></script>
 </body>
 </html>
