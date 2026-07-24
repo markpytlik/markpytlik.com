@@ -16,18 +16,18 @@
    ./tools/encode-loops.sh, make a poster, then add a line here.
    ====================================================================== */
 window.MP_REEL = [
-  { src: 'nike-006',                        title: 'Nike — Air Max Day',     meta: 'Loop' },
-  { src: 'hinge-006',                       title: 'Hinge — NFAQ',       meta: 'Loop' },
-  { src: 'sja-004',                         title: 'SJA - Inside the Fellowship', meta: 'Loop' },
-  { src: 'cardi_cut',                       title: 'Spotify - Music School',            meta: 'Loop' },
-  { src: 'spotify_cut',                     title: 'Spotify - Year in Music',            meta: 'Loop' },
-  { src: 'carousel_cut',                    title: 'Philips - Carousel',           meta: 'Loop' },
-  { src: 'casper_cut',                      title: 'Casper - 40000',             meta: 'Loop' },
-  { src: 'googleparks',                     title: 'Google - National Parks',       meta: 'Loop' },
-  { src: 'joji_cut',                        title: 'Spotify - RISE x Joji',               meta: 'Loop' },
-  { src: 'letters_illustrators_composite',  title: 'SJA - Letters to a Young Creator',       meta: 'Loop' },
-  { src: 'twenty_one_cut',                  title: 'Spotify - The Bandito Experience',         meta: 'Loop' },
-  { src: 'wrangler_cut',                    title: 'Wrangler - Get Your Edge Back',           meta: 'Loop' }
+  { src: 'nike-006',                        title: 'Nike — Air Max Day',     meta: 'Campaign' },
+  { src: 'hinge-006',                       title: 'Hinge — NFAQ',       meta: 'Campaign' },
+  { src: 'sja-004',                         title: 'SJA - Inside the Fellowship', meta: 'Content' },
+  { src: 'cardi_cut',                       title: 'Spotify - Music School',            meta: 'TVC' },
+  { src: 'spotify_cut',                     title: 'Spotify - Year in Music',            meta: 'Campaign' },
+  { src: 'carousel_cut',                    title: 'Philips - Carousel',           meta: 'Interactive, Content' },
+  { src: 'casper_cut',                      title: 'Casper - 40000',             meta: 'TVC' },
+  { src: 'googleparks',                     title: 'Google - National Parks',       meta: 'Interactive, Content' },
+  { src: 'joji_cut',                        title: 'Spotify - RISE x Joji',               meta: 'Content' },
+  { src: 'letters_illustrators_composite',  title: 'SJA - Letters to a Young Creator',       meta: 'Print, Interactive' },
+  { src: 'twenty_one_cut',                  title: 'Spotify - The Bandito Experience',         meta: 'Interactive' },
+  { src: 'wrangler_cut',                    title: 'Wrangler - Get Your Edge Back',           meta: 'Interative, Content' }
 ];
 
 /* ─── Builder — no need to edit below ───────────────────────────────── */
@@ -49,7 +49,7 @@ window.MP_REEL = [
   }
 
   var half = Math.ceil(items.length / 2);
-  var PER_CLIP = 32;   // seconds per clip → consistent scroll speed at any count
+  var PER_CLIP = 24.6; // seconds per clip → consistent scroll speed at any count (~30% faster than 32)
 
   function makeClip(it, hidden) {
     var clip = document.createElement('div');
