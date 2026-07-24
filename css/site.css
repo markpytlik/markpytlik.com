@@ -1226,12 +1226,19 @@ body { background: transparent; }
 /* Desktop: width is fixed to the column; home.js sets the height per photo
    (landscape photos stay landscape rather than being cropped square), and
    the height transition makes that morph smoothly between slides. */
-/* Desktop: fixed SQUARE frame — a constant size means switching photos is a
-   clean cross-fade with no resize (object-fit never rescales, so nothing pops
-   or looks lo-fi). Non-square photos are cover-cropped; per-image
-   object-position keeps the subject. */
 #about .shot-frame     { max-width: 230px; height: 230px; }
 #about .about-copy .para { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.3; }
+
+/* Desktop: fixed square photo area, but photos are shown WHOLE — never cropped.
+   A constant size means switching is a clean cross-fade with no resize (nothing
+   pops or looks lo-fi); object-fit: contain shows each photo in full, so a
+   different aspect just sits centred with a little transparent margin (the card
+   shows through — the frame box itself is made transparent, no visible border). */
+@media (min-width: 721px) {
+  #about .shot-frame { background: transparent; border-color: transparent; }
+  #about .shot-frame > img,
+  #about .shot-frame > picture > img { object-fit: contain; border-radius: 12px; }
+}
 
 /* Writing: make the Selected-work list much more compact */
 #writing .writing-copy            { gap: 20px; }
