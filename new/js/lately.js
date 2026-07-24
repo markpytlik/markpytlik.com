@@ -12,20 +12,17 @@
    That's the whole "CMS": edit the array, commit, done.
    ====================================================================== */
 window.MP_LATELY = [
-  { kind: 'Podcast episode', title: 'Ezra Klein × Brian Eno',                           url: 'https://www.nytimes.com/2025/10/03/opinion/ezra-klein-podcast-brian-eno.html' },
-  { kind: 'Album',           title: 'Boards of Canada, Inferno',                       url: 'https://boardsofcanada.bandcamp.com/album/inferno' },
-  { kind: 'Book',            title: 'Patrick Radden Keefe, London Falling',             url: 'https://bookshop.org/p/books/london-falling-a-mysterious-death-in-a-gilded-city-and-a-family-s-search-for-truth-patrick-radden-keefe/3ae558d23df98afa' },
-  { kind: 'Book',            title: 'Vincenzo Latronico, Perfection',                   url: 'https://fitzcarraldoeditions.com/books/perfection/' },
-  { kind: 'Album',           title: 'Hayden Pedigo, I'll Be Waving As You Drive Away', url: 'https://haydenpedigo.bandcamp.com/album/ill-be-waving-as-you-drive-away' },
-  { kind: 'Fun',         title: 'Clipart.Studio',                                   url: 'https://clipart.studio' }
-  { kind: 'Software',         title: 'Flora.AI',                                   url: 'https://flora.ai' }
-  { kind: 'Fun',         title: 'The Password Game',                                   url: 'https://neal.fun/password-game/' }  
-  { kind: 'Album',         title: 'Aldous Harding, Train on the Island',                                   url: 'https://aldousharding.bandcamp.com/album/train-on-the-island' }
-  { kind: 'Browser extension',         title: 'Knockoff',                                   url: 'https://chromewebstore.google.com/detail/knockoff-amazon-brand-fil/pjgickchbiikhdfpmecaabkphmofpdce' }
- { kind: 'Book',            title: 'Emily Witt, Health & Safety',             url: 'https://www.penguinrandomhouse.com/books/718547/health-and-safety-by-emily-witt/' },
- 
-    
-
+  { kind: 'Podcast episode',   title: 'Ezra Klein × Brian Eno',                       url: 'https://www.nytimes.com/2025/10/03/opinion/ezra-klein-podcast-brian-eno.html' },
+  { kind: 'Album',             title: 'Boards of Canada, Inferno',                    url: 'https://boardsofcanada.bandcamp.com/album/inferno' },
+  { kind: 'Book',              title: 'Patrick Radden Keefe, London Falling',         url: 'https://bookshop.org/p/books/london-falling-a-mysterious-death-in-a-gilded-city-and-a-family-s-search-for-truth-patrick-radden-keefe/3ae558d23df98afa' },
+  { kind: 'Book',              title: 'Vincenzo Latronico, Perfection',               url: 'https://fitzcarraldoeditions.com/books/perfection/' },
+  { kind: 'Album',             title: "Hayden Pedigo, I'll Be Waving As You Drive Away", url: 'https://haydenpedigo.bandcamp.com/album/ill-be-waving-as-you-drive-away' },
+  { kind: 'Fun',               title: 'Clipart.Studio',                               url: 'https://clipart.studio' },
+  { kind: 'Software',          title: 'Flora.AI',                                     url: 'https://flora.ai' },
+  { kind: 'Fun',               title: 'The Password Game',                            url: 'https://neal.fun/password-game/' },
+  { kind: 'Album',             title: 'Aldous Harding, Train on the Island',          url: 'https://aldousharding.bandcamp.com/album/train-on-the-island' },
+  { kind: 'Browser extension', title: 'Knockoff',                                     url: 'https://chromewebstore.google.com/detail/knockoff-amazon-brand-fil/pjgickchbiikhdfpmecaabkphmofpdce' },
+  { kind: 'Book',              title: 'Emily Witt, Health & Safety',                  url: 'https://www.penguinrandomhouse.com/books/718547/health-and-safety-by-emily-witt/' }
 ];
 
 
