@@ -45,7 +45,7 @@ window.MP_REEL = [
   var trackB = reel.querySelector('.marquee-track-rev');
   if (!trackA || !trackB) return;
 
-  var PER_CLIP = 24.6; // seconds per clip → consistent scroll speed at any count
+  var PER_CLIP = 18.9; // seconds per clip → consistent scroll speed at any count
   var ASSET_V = '?v=2'; // bump when any loop .mp4 / poster is re-encoded in place
 
   // Fisher–Yates shuffle (in place).
