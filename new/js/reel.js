@@ -23,7 +23,7 @@ window.MP_REEL = [
   { src: 'spotify_cut',                     title: 'Spotify - Year in Music',            meta: 'Loop' },
   { src: 'carousel_cut',                    title: 'Philips - Carousel',           meta: 'Loop' },
   { src: 'casper_cut',                      title: 'Casper - 40000',             meta: 'Loop' },
-  { src: 'googleparks',                     title: 'Google - The Hidden World of the National Parks',       meta: 'Loop' },
+  { src: 'googleparks',                     title: 'Google - National Parks',       meta: 'Loop' },
   { src: 'joji_cut',                        title: 'Spotify - RISE x Joji',               meta: 'Loop' },
   { src: 'letters_illustrators_composite',  title: 'SJA - Letters to a Young Creator',       meta: 'Loop' },
   { src: 'twenty_one_cut',                  title: 'Spotify - The Bandito Experience',         meta: 'Loop' },
