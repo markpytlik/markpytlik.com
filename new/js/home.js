@@ -42,9 +42,10 @@
     var paused = false;
     var mq = window.matchMedia('(max-width: 720px)');
 
-    /* Mobile only: shape the frame to the active photo. Landscape photos
-       keep their wide ratio; square/portrait clamp to a square so the frame
-       never grows taller than it is wide. On desktop the CSS 1:1 stands. */
+    /* Mobile only: shape the frame to the active photo. The height is fixed
+       in CSS, so the aspect-ratio here drives the width — landscape photos
+       read wide, square/portrait clamp to a square (never taller than wide).
+       On desktop we clear it and the CSS 1:1 stands. */
     function fitFrame() {
       if (!mq.matches) { frame.style.aspectRatio = ''; return; }
       var slide = slides[index];
@@ -61,6 +62,21 @@
       else img.addEventListener('load', apply, { once: true });
     }
 
+    /* Photo 1 has a dedicated landscape crop for mobile. Driving the swap in
+       JS (instead of <picture>) means it also switches back to the square
+       crop when the viewport grows to desktop — a <picture> source won't,
+       once the mobile image has been fetched. */
+    var artImg = frame.querySelector('img[data-shot-mobile]');
+    function syncArt() {
+      if (!artImg) return;
+      var want = artImg.getAttribute(mq.matches ? 'data-shot-mobile' : 'data-shot-desktop');
+      if (want && artImg.getAttribute('src') !== want) {
+        artImg.addEventListener('load', fitFrame, { once: true });
+        artImg.setAttribute('src', want);
+      }
+    }
+    syncArt();
+
     function show(i) {
       index = (i + slides.length) % slides.length;
       slides.forEach(function (s, n) { s.classList.toggle('is-active', n === index); });
@@ -68,8 +84,9 @@
       fitFrame();
     }
 
-    if (mq.addEventListener) mq.addEventListener('change', fitFrame);
-    else if (mq.addListener) mq.addListener(fitFrame);
+    function onBreakpoint() { syncArt(); fitFrame(); }
+    if (mq.addEventListener) mq.addEventListener('change', onBreakpoint);
+    else if (mq.addListener) mq.addListener(onBreakpoint);
     window.addEventListener('resize', fitFrame, { passive: true });
 
     frame.addEventListener('mouseenter', function () { paused = true; });

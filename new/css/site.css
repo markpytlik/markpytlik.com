@@ -1368,6 +1368,10 @@ body { background: transparent; }
   /* Marquees: the mono text was too large on phones */
   .marquee-text { font-size: 10px; }
   .lately-label { font-size: 11px; }
+
+  /* Lately: the 16px separator margins left big gaps between items at the
+     smaller mobile type — tighten so the row reads as an even rhythm. */
+  .lately .sep { margin: 0 8px; }
 }
 
 /* ---- Mobile headshot: adaptive frame ----
@@ -1377,8 +1381,15 @@ body { background: transparent; }
    Photo 1 swaps to a dedicated landscape crop via <picture>. The 3/2 default
    here matches that first photo so the first paint is right before JS runs. */
 @media (max-width: 720px) {
+  /* Every photo shares one height; the width follows each photo's shape
+     (home.js sets aspect-ratio per slide, clamped to 1:1). So landscape
+     photos read wide, square/portrait sit as a centred square — but the
+     frame never changes height as you tap through. */
+  .shots { align-items: center; }
   #about .shot-frame {
+    width: auto;
     max-width: 100%;
+    height: 210px;
     aspect-ratio: 3 / 2;
   }
 }
