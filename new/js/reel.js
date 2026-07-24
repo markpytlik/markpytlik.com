@@ -27,7 +27,7 @@ window.MP_REEL = [
   { src: 'joji_cut',                        title: 'Spotify - RISE x Joji',               meta: 'Content' },
   { src: 'letters_illustrators_composite',  title: 'SJA - Letters to a Young Creator',       meta: 'Print, Interactive' },
   { src: 'twenty_one_cut',                  title: 'Spotify - The Bandito Experience',         meta: 'Interactive' },
-  { src: 'wrangler_cut',                    title: 'Wrangler - Get Your Edge Back',           meta: 'Interative, Content' }
+  { src: 'wrangler_cut',                    title: 'Wrangler - Get Your Edge Back',           meta: 'Interactive, Content' }
 ];
 
 /* ─── Builder — no need to edit below ───────────────────────────────── */
