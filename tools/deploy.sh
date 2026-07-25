@@ -16,6 +16,7 @@
 
 set -euo pipefail
 cd "$(dirname "$0")/.."          # -> repo root
+shopt -s nullglob               # unmatched globs (e.g. work/*.html once work/ is gone) expand to nothing
 
 # Guard: never deploy JS with a syntax error — a single broken .js can blank a
 # whole section (e.g. an unescaped apostrophe or a missing comma in a list).
