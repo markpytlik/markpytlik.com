@@ -20,7 +20,6 @@
    ====================================================================== */
 window.MP_REEL = [
   { src: 'nike-006',        title: 'Nike — Air Max Day',                meta: 'Campaign',              era:  'recent' },
-  { src: 'nike-new',        title: 'Nike — Air Max Day',                meta: 'Campaign',              era:  'recent' },
   { src: 'hinge-006',       title: 'Hinge — NFAQ',                      meta: 'Campaign',              era: 'recent' },
   { src: 'carousel_cut',    title: 'Philips - Carousel',                meta: 'Interactive, Content',  era: 'old' },
   { src: 'casper_cut',      title: 'Casper - 40,000 Reviews',           meta: 'TVC',                   era: 'recent' },
