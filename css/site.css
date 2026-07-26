@@ -1400,18 +1400,18 @@ body { background: transparent; }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: .5s;
-  animation-timing-function: cubic-bezier(.45, 0, .15, 1);
+  animation-duration: .55s;
+  animation-timing-function: cubic-bezier(.4, 0, .12, 1);
   animation-fill-mode: both;
 }
-::view-transition-old(root) { animation-name: vt-slide-out; }
-::view-transition-new(root) { animation-name: vt-slide-in; }
+/* Cover: the incoming page sheets up over the outgoing one. The old page stays
+   put and only dims (brightness, never opacity/transform) so the white page
+   surround can't flash through — it's always fully covered by an opaque page. */
+::view-transition-new(root) { animation-name: vt-cover-in; }
+::view-transition-old(root) { animation-name: vt-cover-out; }
 
-/* No opacity fade — a fade lets the white page surround show through the
-   semi-transparent snapshots mid-transition (a white flash). Pages stay fully
-   opaque and just slide, so any uncovered sliver shows the other page, not white. */
-@keyframes vt-slide-in  { from { transform: translateX(40px); } }
-@keyframes vt-slide-out { to   { transform: translateX(-40px); } }
+@keyframes vt-cover-in  { from { transform: translateY(100%); } }
+@keyframes vt-cover-out { from { filter: brightness(1); } to { filter: brightness(.5); } }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
